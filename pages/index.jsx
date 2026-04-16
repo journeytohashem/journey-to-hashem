@@ -419,7 +419,7 @@ function StepDots({total, current}){
   );
 }
 
-function Welcome({onBegin, onSkip}){
+function Welcome({onBegin, onSkip, onTryDemo}){
   // Change 8 — reordered: Live Shiurim first
   const FEATURES = [
     {icon:'🔴', title:'Live Shiurim', text:'Learn directly from rabbis in live sessions and recorded classes'},
@@ -511,6 +511,13 @@ function Welcome({onBegin, onSkip}){
           <div className="welcome-divider-line"/>
         </div>
         <button className="welcome-skip" onClick={()=>scrollTo('rabbi-teacher')}>I'm a rabbi or teacher</button>
+        {/* Change 1 — Try a demo CTA */}
+        <button
+          onClick={onTryDemo}
+          style={{background:'none',border:'1px solid rgba(201,168,76,0.3)',borderRadius:100,padding:'8px 20px',color:'rgba(201,168,76,0.65)',fontSize:12,cursor:'pointer',marginTop:4,letterSpacing:'0.3px',transition:'all 0.2s'}}
+          onMouseOver={e=>{e.currentTarget.style.borderColor='rgba(201,168,76,0.6)';e.currentTarget.style.color='rgba(201,168,76,0.9)';}}
+          onMouseOut={e=>{e.currentTarget.style.borderColor='rgba(201,168,76,0.3)';e.currentTarget.style.color='rgba(201,168,76,0.65)';}}
+        >Try a demo (launching Q3 2026)</button>
       </div>
 
       {/* ── Change 4 — For Rabbis & Teachers ── */}
@@ -1977,6 +1984,7 @@ function App(){
     try{const s=localStorage.getItem('jth-v3');return s?{...DEFAULT_STATE,...JSON.parse(s)}:DEFAULT_STATE;}
     catch{return DEFAULT_STATE;}
   });
+  const [previewMode,setPreviewMode]=useState(false);
   const [currentView,setCurrentView]=useState(null);
   const [showSearch,setShowSearch]=useState(false);
   const [showPitch,setShowPitch]=useState(false);
@@ -2016,7 +2024,20 @@ function App(){
       setCurrentView(null);
       setBadgeToast(null);
       setShowReturning(false);
+      setPreviewMode(false);
     }
+  };
+
+  // Preview mode — session-only, never persisted to localStorage
+  const handleTryDemo=()=>{
+    setPreviewMode(true);
+    update({onboardingComplete:true,activeTab:'home',pathName:"The Seeker's Path"});
+  };
+  const handleBackToLanding=()=>{
+    setPreviewMode(false);
+    setCurrentView(null);
+    setShowReturning(false);
+    update({onboardingComplete:false,onboardingStep:'welcome'});
   };
 
   const handleLessonComplete=lesson=>{
@@ -2121,7 +2142,7 @@ function App(){
         <span className="demo-label">📱 DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset</button>
       </div>}
-      {state.onboardingStep==='welcome'&&<Welcome onBegin={()=>update({onboardingStep:'quiz'})} onSkip={()=>update({onboardingComplete:true,activeTab:'learn',pathName:"The Seeker's Path"})}/>}
+      {state.onboardingStep==='welcome'&&<Welcome onBegin={()=>update({onboardingStep:'quiz'})} onSkip={()=>update({onboardingComplete:true,activeTab:'learn',pathName:"The Seeker's Path"})} onTryDemo={handleTryDemo}/>}
       {state.onboardingStep==='quiz'&&<Quiz onComplete={ans=>{const path=getPathFromAnswers(ans);update({quizAnswers:ans,selectedPath:path,pathName:path.name,onboardingStep:'path-ready'});}}/>}
       {state.onboardingStep==='path-ready'&&<PathReady path={state.selectedPath} answers={state.quizAnswers||[]} onStart={()=>update({onboardingComplete:true,activeTab:'home'})}/>}
     </div>
@@ -2133,6 +2154,12 @@ function App(){
         <span className="demo-label">📱 DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset Demo</button>
       </div>}
+      {previewMode&&(
+        <button
+          onClick={handleBackToLanding}
+          style={{position:'absolute',top:10,right:10,zIndex:200,background:'rgba(13,27,42,0.85)',border:'1px solid rgba(201,168,76,0.25)',borderRadius:100,padding:'5px 12px',color:'rgba(201,168,76,0.7)',fontSize:11,cursor:'pointer',letterSpacing:'0.3px',backdropFilter:'blur(8px)',WebkitBackdropFilter:'blur(8px)'}}
+        >← Landing</button>
+      )}
       {badgeToast&&(
         <div className="badge-toast">
           <span className="badge-toast-icon">{badgeToast.icon}</span>
