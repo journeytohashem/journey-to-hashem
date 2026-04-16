@@ -545,6 +545,30 @@ function PathReady({path, answers, onStart}){
 }
 
 // ── HOME TAB ──────────────────────────────────────────────
+function UserWaitlistCard(){
+  const [form,setForm]=useState({name:'',email:''});
+  const [done,setDone]=useState(false);
+  if(done)return(
+    <div className="home-card" style={{textAlign:'center',padding:'18px 16px'}}>
+      <div style={{fontSize:20,marginBottom:6}}>✅</div>
+      <div style={{fontFamily:'Cormorant Garamond,serif',fontSize:17,color:'var(--gold)'}}>You're on the list!</div>
+      <div style={{fontSize:13,color:'var(--text-dim)',marginTop:4}}>We'll be in touch.</div>
+    </div>
+  );
+  return(
+    <div className="home-card">
+      <div className="home-card-header"><span className="home-card-icon">✉️</span><span className="home-card-title">Join the Waitlist</span></div>
+      <p style={{fontSize:13,color:'var(--text-dim)',margin:'4px 0 12px'}}>Be first to know when we launch.</p>
+      <input className="pitch-input" placeholder="Your name" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} style={{marginBottom:8}}/>
+      <input className="pitch-input" placeholder="Email address" type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} style={{marginBottom:12}}/>
+      <button className={`btn-primary${(!form.name||!form.email)?' btn-disabled':''}`} disabled={!form.name||!form.email} onClick={()=>{
+        fetch('/?no-cache=1',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'user-waitlist',...form}).toString()}).catch(()=>{});
+        setDone(true);
+      }}>Join →</button>
+    </div>
+  );
+}
+
 function HomeTab({state,onOpenLesson,onOpenPrayer,onGoTab,onSearch,onOpenPitch}){
   const {completedLessons,currentStreak,totalXP,userName}=state;
   const [showReminder,setShowReminder]=useState(true);
@@ -616,6 +640,8 @@ function HomeTab({state,onOpenLesson,onOpenPrayer,onGoTab,onSearch,onOpenPitch})
           <div className="parasha-name">Parashat {parasha}</div>
           <div className="parasha-detail">Approximate weekly Torah portion — verify at hebcal.com for your location.</div>
         </div>
+
+        <UserWaitlistCard/>
 
         <div className="home-card">
           <div className="home-card-header"><span className="home-card-icon">🕍</span><span className="home-card-title">Today's Prayer</span></div>
@@ -1429,6 +1455,11 @@ function RabbiPitchScreen({onBack}){
 
   const handleSubmit=()=>{
     if(contactForm.name&&contactForm.email){
+      fetch('/?no-cache=1',{
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body:new URLSearchParams({'form-name':'rabbi-interest',...contactForm}).toString()
+      }).catch(()=>{});
       setSubmitted(true);
       setTimeout(()=>{setShowContact(false);setSubmitted(false);},2000);
     }
