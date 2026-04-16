@@ -548,6 +548,8 @@ function PathReady({path, answers, onStart}){
 function UserWaitlistCard(){
   const [form,setForm]=useState({name:'',email:''});
   const [done,setDone]=useState(false);
+  const [loading,setLoading]=useState(false);
+  const [error,setError]=useState('');
   if(done)return(
     <div className="home-card" style={{textAlign:'center',padding:'18px 16px'}}>
       <div style={{fontSize:20,marginBottom:6}}>✅</div>
@@ -561,10 +563,29 @@ function UserWaitlistCard(){
       <p style={{fontSize:13,color:'var(--text-dim)',margin:'4px 0 12px'}}>Be first to know when we launch.</p>
       <input className="pitch-input" placeholder="Your name" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} style={{marginBottom:8}}/>
       <input className="pitch-input" placeholder="Email address" type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} style={{marginBottom:12}}/>
-      <button className={`btn-primary${(!form.name||!form.email)?' btn-disabled':''}`} disabled={!form.name||!form.email} onClick={()=>{
-        fetch('/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({formName:'user-waitlist',...form})}).catch(()=>{});
-        setDone(true);
-      }}>Join →</button>
+      <button
+        className={`btn-primary${(!form.name||!form.email||loading)?' btn-disabled':''}`}
+        disabled={!form.name||!form.email||loading}
+        onClick={async()=>{
+          setLoading(true);
+          setError('');
+          try{
+            const res=await fetch('/api/submit',{
+              method:'POST',
+              headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({formName:'user-waitlist',...form})
+            });
+            const data=await res.json();
+            if(!res.ok) throw new Error(data.error||'Submission failed');
+            setDone(true);
+          }catch(e){
+            setError(e.message||'Something went wrong. Please try again.');
+          }finally{
+            setLoading(false);
+          }
+        }}
+      >{loading?'Sending…':'Join →'}</button>
+      {error&&<p style={{color:'#e05252',fontSize:12,marginTop:6}}>{error}</p>}
     </div>
   );
 }
