@@ -819,7 +819,7 @@ function AudioPlayer({lessonId, lessonTitle}){
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [elapsed, setElapsed] = useState(0);
-  const intervalRef = React.useRef(null);
+  const intervalRef = useRef(null);
   const voice = RABBI_VOICES[lessonId];
   const totalSecs = voice ? parseInt(voice.duration.split(':')[0])*60+parseInt(voice.duration.split(':')[1]) : 480;
 
@@ -883,7 +883,7 @@ function AudioPlayer({lessonId, lessonTitle}){
 function LessonScreen({lesson,unit,onClose,onComplete,isBookmarked,onToggleBookmark}){
   const [step,setStep]=useState(0);
   const [showAudio,setShowAudio]=useState(false);
-  const contentRef=React.useRef(null);
+  const contentRef=useRef(null);
   const slides=lesson.slides||[];
   const STEPS=slides.length||1;
   const isLast=step===STEPS-1;
@@ -1037,7 +1037,7 @@ function LiveTab(){
   const [remindModal,setRemindModal]=useState(null);
   const [reminded,setReminded]=useState({});
   const [remindTime,setRemindTime]=useState(0);
-  const intervalRef=React.useRef(null);
+  const intervalRef=useRef(null);
 
   const startMini=(title,rabbi)=>{
     setMiniPlayer({title,rabbi,playing:true});
