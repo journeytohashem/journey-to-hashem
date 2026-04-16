@@ -512,12 +512,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
         </div>
         <button className="welcome-skip" onClick={()=>scrollTo('rabbi-teacher')}>I'm a rabbi or teacher</button>
         {/* Change 1 — Try a demo CTA */}
-        <button
-          onClick={onTryDemo}
-          style={{background:'rgba(201,168,76,0.1)',border:'1px solid rgba(201,168,76,0.55)',borderRadius:100,padding:'17px 32px',color:'rgba(201,168,76,0.95)',fontSize:15,fontWeight:700,cursor:'pointer',marginTop:10,letterSpacing:'0.4px',transition:'all 0.2s',fontFamily:"'Inter',sans-serif",width:'100%'}}
-          onMouseOver={e=>{e.currentTarget.style.background='rgba(201,168,76,0.18)';e.currentTarget.style.borderColor='rgba(201,168,76,0.8)';e.currentTarget.style.color='#c9a84c';}}
-          onMouseOut={e=>{e.currentTarget.style.background='rgba(201,168,76,0.1)';e.currentTarget.style.borderColor='rgba(201,168,76,0.55)';e.currentTarget.style.color='rgba(201,168,76,0.95)';}}
-        >Try a demo (launching Q3 2026)</button>
+        <button className="btn-primary btn-large" onClick={onTryDemo} style={{marginTop:10}}>Try a demo (launching Q3 2026)</button>
       </div>
 
       {/* ── Change 4 — For Rabbis & Teachers ── */}
