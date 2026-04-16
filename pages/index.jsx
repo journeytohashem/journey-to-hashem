@@ -78,6 +78,10 @@ function getParasha() {
 }
 
 
+// ── FORMSPREE ENDPOINTS ───────────────────────────────────
+// Replace REPLACE_ME with the real Formspree form ID once created at formspree.io
+const FORMSPREE_TEACHER_ENDPOINT = 'REPLACE_ME';
+
 // ── SHARE UTILITY ─────────────────────────────────────────
 function shareApp(title='Journey to HaShem', text='I\'ve been learning Torah on Journey to HaShem — check it out!') {
   if(navigator.share){
@@ -416,14 +420,71 @@ function StepDots({total, current}){
 }
 
 function Welcome({onBegin, onSkip}){
+  // Change 8 — reordered: Live Shiurim first
   const FEATURES = [
+    {icon:'🔴', title:'Live Shiurim', text:'Learn directly from rabbis in live sessions and recorded classes'},
     {icon:'📚', title:'25 Structured Lessons', text:'Five units covering the foundations of Jewish faith, Shabbat, prayer, holidays, and Torah study'},
     {icon:'📖', title:'Digital Siddur', text:'Daily prayers with Hebrew, transliteration, and English — always in your pocket'},
-    {icon:'🔴', title:'Live Shiurim', text:'Learn directly from rabbis in live sessions and recorded classes'},
     {icon:'💬', title:'Community', text:'Ask questions and share insights with learners and rabbis worldwide'},
   ];
+
+  const FAQ_ITEMS = [
+    {q:'When is Journey to HaShem launching?', a:"We're launching Q3 2026. Join the waitlist to get early access and updates on our progress."},
+    {q:'Who is this for?', a:'Anyone on a path back to Judaism — baalei teshuva, curious beginners, committed learners without access to a consistent teacher, or Jews anywhere in the world who want real Torah in their pocket.'},
+    {q:'What hashkafa is this?', a:"Journey to HaShem is built with traditional Orthodox teachers across Sephardi, Chabad, and Yeshivish backgrounds. It's not tied to one hashkafa — it's built to give learners access to authentic Torah and let them find the teacher who speaks to them."},
+    {q:'Will it be free?', a:'The core learning content will be free. Live shiurim, premium features, and one-on-one access to teachers may be paid. Our goal is accessibility first.'},
+    {q:'Can I teach on the platform?', a:'Yes. We\'re actively looking for serious teachers to build this with us. Use the "Teach on the platform" form above.'},
+  ];
+
+  const [faqOpen,setFaqOpen]=useState(null);
+  const [teacherForm,setTeacherForm]=useState({name:'',email:''});
+  const [teacherDone,setTeacherDone]=useState(false);
+  const [teacherLoading,setTeacherLoading]=useState(false);
+  const [teacherError,setTeacherError]=useState('');
+  const [learnerForm,setLearnerForm]=useState({name:'',email:''});
+  const [learnerDone,setLearnerDone]=useState(false);
+  const [learnerLoading,setLearnerLoading]=useState(false);
+  const [learnerError,setLearnerError]=useState('');
+
+  const scrollTo=(id)=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+
+  const submitTeacher=async()=>{
+    if(!teacherForm.name||!teacherForm.email) return;
+    setTeacherLoading(true); setTeacherError('');
+    try{
+      const res=await fetch(`https://formspree.io/f/${FORMSPREE_TEACHER_ENDPOINT}`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({name:teacherForm.name,email:teacherForm.email}),
+      });
+      if(!res.ok) throw new Error('Submission failed');
+      setTeacherDone(true);
+    }catch(e){
+      setTeacherError(e.message||'Something went wrong. Please try again.');
+    }finally{setTeacherLoading(false);}
+  };
+
+  const submitLearner=async()=>{
+    if(!learnerForm.name||!learnerForm.email) return;
+    setLearnerLoading(true); setLearnerError('');
+    try{
+      const res=await fetch('/api/submit',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({formName:'user-waitlist',...learnerForm}),
+      });
+      const data=await res.json();
+      if(!res.ok) throw new Error(data.error||'Submission failed');
+      setLearnerDone(true);
+    }catch(e){
+      setLearnerError(e.message||'Something went wrong. Please try again.');
+    }finally{setLearnerLoading(false);}
+  };
+
   return(
-    <div className="screen-full onboarding-screen fade-in">
+    <div className="screen-full onboarding-screen fade-in" style={{overflowY:'auto',justifyContent:'flex-start'}}>
+
+      {/* ── Hero + features + CTAs ── */}
       <div className="onboarding-content">
         <div className="logo-area">
           <div className="logo-star">✡️</div>
@@ -442,14 +503,92 @@ function Welcome({onBegin, onSkip}){
             </div>
           ))}
         </div>
-        <button className="btn-primary btn-large" onClick={onBegin}>Begin My Journey →</button>
+        {/* Change 2 — updated CTAs */}
+        <button className="btn-primary btn-large" onClick={()=>scrollTo('learner-waitlist')}>Join the waitlist</button>
         <div className="welcome-divider">
           <div className="welcome-divider-line"/>
-          <span className="welcome-divider-text">Already have a path?</span>
+          <span className="welcome-divider-text">Are you an educator?</span>
           <div className="welcome-divider-line"/>
         </div>
-        <button className="welcome-skip" onClick={onSkip}>Skip intro and go straight to learning</button>
+        <button className="welcome-skip" onClick={()=>scrollTo('rabbi-teacher')}>I'm a rabbi or teacher</button>
       </div>
+
+      {/* ── Change 4 — For Rabbis & Teachers ── */}
+      <section id="rabbi-teacher" style={{padding:'32px 20px',borderTop:'1px solid rgba(201,168,76,0.15)'}}>
+        <div style={{maxWidth:390,margin:'0 auto'}}>
+          <h2 style={{fontFamily:'Cormorant Garamond,serif',fontSize:26,fontWeight:600,color:'var(--gold)',marginBottom:12,letterSpacing:'-0.3px'}}>For Rabbis &amp; Teachers</h2>
+          <p style={{fontSize:14,color:'var(--text-dim)',lineHeight:1.7,marginBottom:20}}>Journey to HaShem is built to give serious Jewish educators a platform to reach learners who don't have a yeshiva or a consistent teacher nearby. If you teach — whether you're a rabbi, a rebbetzin, or a learned community member — we want to build this with you.</p>
+          {teacherDone?(
+            <div style={{textAlign:'center',padding:'18px 0'}}>
+              <div style={{fontSize:24,marginBottom:8}}>✅</div>
+              <div style={{fontFamily:'Cormorant Garamond,serif',fontSize:17,color:'var(--gold)'}}>Thank you — we'll be in touch.</div>
+            </div>
+          ):(
+            <div style={{background:'rgba(201,168,76,0.05)',border:'1px solid rgba(201,168,76,0.18)',borderRadius:'var(--radius-lg)',padding:16}}>
+              <input className="pitch-input" placeholder="Your name" value={teacherForm.name} onChange={e=>setTeacherForm(f=>({...f,name:e.target.value}))} style={{marginBottom:8}}/>
+              <input className="pitch-input" type="email" placeholder="Email address" value={teacherForm.email} onChange={e=>setTeacherForm(f=>({...f,email:e.target.value}))} style={{marginBottom:12}}/>
+              <button
+                className={`btn-primary${(!teacherForm.name||!teacherForm.email||teacherLoading)?' btn-disabled':''}`}
+                disabled={!teacherForm.name||!teacherForm.email||teacherLoading}
+                onClick={submitTeacher}
+              >{teacherLoading?'Sending…':'Teach on the platform'}</button>
+              {teacherError&&<p style={{color:'#e05252',fontSize:12,marginTop:6}}>{teacherError}</p>}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ── Change 5 — FAQ ── */}
+      <section style={{padding:'32px 20px',borderTop:'1px solid rgba(201,168,76,0.15)'}}>
+        <div style={{maxWidth:390,margin:'0 auto'}}>
+          <h2 style={{fontFamily:'Cormorant Garamond,serif',fontSize:26,fontWeight:600,color:'var(--gold)',marginBottom:20,letterSpacing:'-0.3px'}}>Questions</h2>
+          {FAQ_ITEMS.map((item,i)=>(
+            <div key={i} style={{borderBottom:'1px solid rgba(255,255,255,0.06)'}}>
+              <button
+                onClick={()=>setFaqOpen(faqOpen===i?null:i)}
+                style={{width:'100%',textAlign:'left',padding:'14px 0',display:'flex',justifyContent:'space-between',alignItems:'center',background:'none',border:'none',cursor:'pointer',color:'var(--text-body)',fontSize:14,fontWeight:500,lineHeight:1.4}}
+              >
+                <span>{item.q}</span>
+                <span style={{color:'var(--gold)',fontSize:18,marginLeft:12,flexShrink:0,transition:'transform 0.2s',display:'inline-block',transform:faqOpen===i?'rotate(45deg)':'rotate(0deg)'}}>+</span>
+              </button>
+              {faqOpen===i&&<p style={{fontSize:13,color:'var(--text-dim)',lineHeight:1.7,paddingBottom:14,margin:0}}>{item.a}</p>}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Change 6 — Learner waitlist form ── */}
+      <section id="learner-waitlist" style={{padding:'32px 20px',borderTop:'1px solid rgba(201,168,76,0.15)'}}>
+        <div style={{maxWidth:390,margin:'0 auto'}}>
+          <h2 style={{fontFamily:'Cormorant Garamond,serif',fontSize:26,fontWeight:600,color:'var(--gold)',marginBottom:8,letterSpacing:'-0.3px'}}>Join the Waitlist</h2>
+          <p style={{fontSize:14,color:'var(--text-dim)',lineHeight:1.6,marginBottom:20}}>Be first to know when we launch. No spam — just updates on our progress.</p>
+          {learnerDone?(
+            <div style={{textAlign:'center',padding:'18px 0'}}>
+              <div style={{fontSize:24,marginBottom:8}}>✅</div>
+              <div style={{fontFamily:'Cormorant Garamond,serif',fontSize:17,color:'var(--gold)'}}>You're on the list!</div>
+              <div style={{fontSize:13,color:'var(--text-dim)',marginTop:4}}>We'll be in touch.</div>
+            </div>
+          ):(
+            <>
+              <input className="pitch-input" placeholder="Your name" value={learnerForm.name} onChange={e=>setLearnerForm(f=>({...f,name:e.target.value}))} style={{marginBottom:8}}/>
+              <input className="pitch-input" type="email" placeholder="Email address" value={learnerForm.email} onChange={e=>setLearnerForm(f=>({...f,email:e.target.value}))} style={{marginBottom:12}}/>
+              <button
+                className={`btn-primary${(!learnerForm.name||!learnerForm.email||learnerLoading)?' btn-disabled':''}`}
+                disabled={!learnerForm.name||!learnerForm.email||learnerLoading}
+                onClick={submitLearner}
+              >{learnerLoading?'Sending…':'Join the waitlist →'}</button>
+              {learnerError&&<p style={{color:'#e05252',fontSize:12,marginTop:6}}>{learnerError}</p>}
+            </>
+          )}
+        </div>
+      </section>
+
+      {/* ── Change 3 — Footer ── */}
+      <footer style={{padding:'24px 20px 40px',borderTop:'1px solid rgba(255,255,255,0.06)',textAlign:'center'}}>
+        <p style={{fontSize:12,color:'var(--text-dim)',margin:'0 0 4px',letterSpacing:'0.2px'}}>Launching Q3 2026</p>
+        <p style={{fontSize:12,color:'var(--text-dim)',margin:0,letterSpacing:'0.2px'}}>Founded by Salomon Elie · Miami · 2026</p>
+      </footer>
+
     </div>
   );
 }
@@ -1830,6 +1969,10 @@ const DEFAULT_STATE={
 };
 
 function App(){
+  const showDemoBanner = typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search).get('demo') === 'true'
+    : false;
+
   const [state,setState]=useState(()=>{
     try{const s=localStorage.getItem('jth-v3');return s?{...DEFAULT_STATE,...JSON.parse(s)}:DEFAULT_STATE;}
     catch{return DEFAULT_STATE;}
@@ -1923,10 +2066,10 @@ function App(){
   // Returning user screen
   if(showReturning&&state.onboardingComplete) return(
     <div className="app-container">
-      <div className="demo-banner">
+      {showDemoBanner&&<div className="demo-banner">
         <span className="demo-label">📱 DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset</button>
-      </div>
+      </div>}
       <ReturningUserScreen state={state} onContinue={()=>setShowReturning(false)}/>
     </div>
   );
@@ -1974,10 +2117,10 @@ function App(){
 
   if(!state.onboardingComplete) return(
     <div className="app-container">
-      <div className="demo-banner">
+      {showDemoBanner&&<div className="demo-banner">
         <span className="demo-label">📱 DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset</button>
-      </div>
+      </div>}
       {state.onboardingStep==='welcome'&&<Welcome onBegin={()=>update({onboardingStep:'quiz'})} onSkip={()=>update({onboardingComplete:true,activeTab:'learn',pathName:"The Seeker's Path"})}/>}
       {state.onboardingStep==='quiz'&&<Quiz onComplete={ans=>{const path=getPathFromAnswers(ans);update({quizAnswers:ans,selectedPath:path,pathName:path.name,onboardingStep:'path-ready'});}}/>}
       {state.onboardingStep==='path-ready'&&<PathReady path={state.selectedPath} answers={state.quizAnswers||[]} onStart={()=>update({onboardingComplete:true,activeTab:'home'})}/>}
@@ -1986,10 +2129,10 @@ function App(){
 
   return(
     <div className="app-container">
-      <div className="demo-banner">
+      {showDemoBanner&&<div className="demo-banner">
         <span className="demo-label">📱 DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset Demo</button>
-      </div>
+      </div>}
       {badgeToast&&(
         <div className="badge-toast">
           <span className="badge-toast-icon">{badgeToast.icon}</span>
