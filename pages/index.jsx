@@ -1473,16 +1473,27 @@ function RabbiPitchScreen({onBack}){
   const [showContact,setShowContact]=useState(false);
   const [contactForm,setContactForm]=useState({name:'',synagogue:'',email:'',phone:'',message:''});
   const [submitted,setSubmitted]=useState(false);
+  const [submitting,setSubmitting]=useState(false);
+  const [submitError,setSubmitError]=useState('');
 
-  const handleSubmit=()=>{
-    if(contactForm.name&&contactForm.email){
-      fetch('/api/submit',{
+  const handleSubmit=async()=>{
+    if(!contactForm.name||!contactForm.email) return;
+    setSubmitting(true);
+    setSubmitError('');
+    try{
+      const res=await fetch('/api/submit',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({formName:'rabbi-interest',...contactForm})
-      }).catch(()=>{});
+      });
+      const data=await res.json();
+      if(!res.ok) throw new Error(data.error||'Submission failed');
       setSubmitted(true);
       setTimeout(()=>{setShowContact(false);setSubmitted(false);},2000);
+    }catch(e){
+      setSubmitError(e.message||'Something went wrong. Please try again.');
+    }finally{
+      setSubmitting(false);
     }
   };
 
@@ -1680,8 +1691,9 @@ function RabbiPitchScreen({onBack}){
                 </div>
                 <div className="modal-actions" style={{marginTop:14}}>
                   <button className="btn-secondary" style={{flex:1}} onClick={()=>setShowContact(false)}>Cancel</button>
-                  <button className={`btn-primary${(!contactForm.name||!contactForm.email)?' btn-disabled':''}`} style={{flex:2}} onClick={handleSubmit} disabled={!contactForm.name||!contactForm.email}>Submit →</button>
+                  <button className={`btn-primary${(!contactForm.name||!contactForm.email||submitting)?' btn-disabled':''}`} style={{flex:2}} onClick={handleSubmit} disabled={!contactForm.name||!contactForm.email||submitting}>{submitting?'Sending…':'Submit →'}</button>
                 </div>
+                {submitError&&<p style={{color:'#e05252',fontSize:12,marginTop:6,textAlign:'center'}}>{submitError}</p>}
               </>):(
                 <div style={{textAlign:'center',padding:'20px 0'}}>
                   <div style={{fontSize:48,marginBottom:12}}>✅</div>
