@@ -562,7 +562,7 @@ function UserWaitlistCard(){
       <input className="pitch-input" placeholder="Your name" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} style={{marginBottom:8}}/>
       <input className="pitch-input" placeholder="Email address" type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} style={{marginBottom:12}}/>
       <button className={`btn-primary${(!form.name||!form.email)?' btn-disabled':''}`} disabled={!form.name||!form.email} onClick={()=>{
-        fetch('/?no-cache=1',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({'form-name':'user-waitlist',...form}).toString()}).catch(()=>{});
+        fetch('/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({formName:'user-waitlist',...form})}).catch(()=>{});
         setDone(true);
       }}>Join →</button>
     </div>
@@ -1455,10 +1455,10 @@ function RabbiPitchScreen({onBack}){
 
   const handleSubmit=()=>{
     if(contactForm.name&&contactForm.email){
-      fetch('/?no-cache=1',{
+      fetch('/api/submit',{
         method:'POST',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body:new URLSearchParams({'form-name':'rabbi-interest',...contactForm}).toString()
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({formName:'rabbi-interest',...contactForm})
       }).catch(()=>{});
       setSubmitted(true);
       setTimeout(()=>{setShowContact(false);setSubmitted(false);},2000);
