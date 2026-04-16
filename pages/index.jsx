@@ -1046,21 +1046,26 @@ function getUpcomingSessions() {
     { id:3, rabbi:'Rabbi David Shapiro',topic:"Pirkei Avot — Ethics of the Fathers", time: fmt(nextWeekday(4)), hour:21 }, // Thursday 9PM
   ];
 }
-const UPCOMING = getUpcomingSessions();
-const RECORDINGS=[
-  {id:1,rabbi:'Rabbi Moshe Cohen',topic:'The Meaning of Teshuvah',views:'2.4k views'},
-  {id:2,rabbi:'Rabbi Yosef Levi',topic:"Shabbat — A Day Outside of Time",views:'1.8k views'},
-  {id:3,rabbi:'Rabbi Avi Bergman',topic:'Building a Jewish Home',views:'3.1k views'},
-];
+// UPCOMING computed inside component so times stay fresh on each mount
 function LiveTab(){
+  // Compute upcoming sessions fresh on each mount (avoids stale times if page stays open)
+  const UPCOMING = getUpcomingSessions();
+
   const [miniPlayer,setMiniPlayer]=useState(null);
-  const [miniProgress,setMiniProgress]=useState(22);
+  const [miniProgress,setMiniProgress]=useState(0);
   const [remindModal,setRemindModal]=useState(null);
   const [reminded,setReminded]=useState({});
   const [remindTime,setRemindTime]=useState(0);
   const intervalRef=useRef(null);
 
   const startMini=(title,rabbi)=>{
+    // Same track while playing → toggle pause instead of restarting
+    if(miniPlayer?.title===title&&miniPlayer?.playing){
+      toggleMiniPlay();
+      return;
+    }
+    // New track or resuming paused: reset progress and start
+    setMiniProgress(0);
     setMiniPlayer({title,rabbi,playing:true});
     clearInterval(intervalRef.current);
     intervalRef.current=setInterval(()=>setMiniProgress(p=>p>=100?0:p+0.15),100);
@@ -1106,49 +1111,56 @@ function LiveTab(){
     <div className="tab-screen live-tab fade-in" style={{paddingBottom:miniPlayer?140:100}}>
       <div className="tab-header"><h2 className="tab-title">Live Sessions</h2><p className="tab-subtitle">Learn directly from rabbis</p></div>
 
+      {/* Demo notice — remove when real live infrastructure is connected */}
+      <div style={{margin:'8px 20px 0',padding:'7px 12px',background:'rgba(201,168,76,0.08)',border:'1px solid rgba(201,168,76,0.2)',borderRadius:8,fontSize:11,color:'var(--gold)',textAlign:'center',letterSpacing:'0.4px'}}>
+        PREVIEW — Live sessions and audio are demo placeholders
+      </div>
+
       <div style={{padding:'12px 20px 0'}}>
         <div className="live-audio-banner">
           <div className="live-pulse"/>
           <div className="live-audio-text">
             <div className="live-audio-title">Rabbi Cohen is live now</div>
-            <div className="live-audio-sub">Understanding Parashat Hashavua · 127 listening</div>
+            <div className="live-audio-sub">Understanding Parashat Hashavua · demo audio</div>
           </div>
           <button className="live-tune-btn" onClick={()=>startMini('Understanding Parashat Hashavua','Rabbi Moshe Cohen')}>
-            {miniPlayer?.title==='Understanding Parashat Hashavua'?'Listening ✓':'Tune In'}
+            {miniPlayer?.title==='Understanding Parashat Hashavua'
+              ? (miniPlayer?.playing ? 'Listening ✓' : '▶ Resume')
+              : 'Tune In'}
           </button>
         </div>
       </div>
 
       <div className="section section-top">
-        <h3 className="section-title">Live Now</h3>
+        <h3 className="section-title">Live Now <span style={{fontSize:10,fontWeight:500,color:'var(--text-dim)',marginLeft:6,textTransform:'uppercase',letterSpacing:'0.6px'}}>(demo)</span></h3>
         {LIVE_NOW.map(s=>(
           <div key={s.id} className="live-card">
             <div className="live-thumbnail"><span className="live-menorah">🕎</span><span className="live-badge">● LIVE</span></div>
-            <div className="live-info"><p className="live-rabbi">{s.rabbi}</p><p className="live-topic">{s.topic}</p><p className="live-viewers">{s.viewers}</p></div>
+            <div className="live-info"><p className="live-rabbi">{s.rabbi}</p><p className="live-topic">{s.topic}</p><p className="live-viewers" style={{color:'var(--text-dim)'}}>{s.viewers} · demo</p></div>
             <button className="btn-coming-soon" disabled>Coming Soon</button>
           </div>
         ))}
       </div>
 
       <div className="rabbi-voices-section">
-        <div className="rabbi-voices-title">🎙️ Rabbi Audio Library</div>
+        <div className="rabbi-voices-title">🎙️ Rabbi Audio Library <span style={{fontSize:10,fontWeight:400,color:'var(--text-dim)',marginLeft:4}}>(preview)</span></div>
         {VOICE_CARDS.map((v,i)=>(
           <div key={i} className="rabbi-voice-card">
             <div className="rabbi-voice-avatar">{v.emoji}</div>
             <div className="rabbi-voice-info">
               <div className="rabbi-voice-name">{v.rabbi}</div>
               <div className="rabbi-voice-topic">{v.topic}</div>
-              <div className="rabbi-voice-duration">⏱ {v.duration} · {v.views} plays</div>
+              <div className="rabbi-voice-duration">⏱ {v.duration} · demo</div>
             </div>
             <button className="rabbi-voice-play" onClick={()=>startMini(v.topic,v.rabbi)}>
-              {miniPlayer?.title===v.topic?'⏸':'▶'}
+              {miniPlayer?.title===v.topic&&miniPlayer?.playing?'⏸':'▶'}
             </button>
           </div>
         ))}
       </div>
 
       <div className="section section-top">
-        <h3 className="section-title">Upcoming</h3>
+        <h3 className="section-title">Upcoming <span style={{fontSize:10,fontWeight:500,color:'var(--text-dim)',marginLeft:6,textTransform:'uppercase',letterSpacing:'0.6px'}}>(demo)</span></h3>
         {UPCOMING.map(s=>(
           <div key={s.id} className="upcoming-card">
             <div className="upcoming-info"><p className="upcoming-rabbi">{s.rabbi}</p><p className="upcoming-topic">{s.topic}</p><p className="upcoming-time">{s.time}</p></div>
@@ -1193,6 +1205,7 @@ function LiveTab(){
               <button className="btn-secondary" style={{flex:1}} onClick={()=>setRemindModal(null)}>Cancel</button>
               <button className="btn-primary" style={{flex:2}} onClick={confirmRemind}>Set Reminder ✓</button>
             </div>
+            <p style={{fontSize:11,color:'var(--text-dim)',textAlign:'center',marginTop:10}}>Demo only — no real notification will be sent.</p>
           </div>
         </div>
       )}
