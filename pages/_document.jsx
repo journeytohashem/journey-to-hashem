@@ -18,6 +18,18 @@ export default function Document() {
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" crossOrigin="anonymous" />
       </Head>
       <body style={{ margin: 0, background: '#06101a' }}>
+        {/* Netlify Forms detection — hidden, required for static export */}
+        <form name="rabbi-interest" data-netlify="true" hidden>
+          <input type="text" name="name" />
+          <input type="text" name="synagogue" />
+          <input type="email" name="email" />
+          <input type="tel" name="phone" />
+          <textarea name="message"></textarea>
+        </form>
+        <form name="user-waitlist" data-netlify="true" hidden>
+          <input type="text" name="name" />
+          <input type="email" name="email" />
+        </form>
         <Main />
         <NextScript />
       </body>
