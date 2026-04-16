@@ -514,7 +514,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
         {/* Change 1 — Try a demo CTA */}
         <button
           onClick={onTryDemo}
-          style={{background:'rgba(201,168,76,0.1)',border:'1px solid rgba(201,168,76,0.55)',borderRadius:100,padding:'10px 26px',color:'rgba(201,168,76,0.95)',fontSize:14,cursor:'pointer',marginTop:8,letterSpacing:'0.4px',transition:'all 0.2s',fontFamily:'inherit'}}
+          style={{background:'rgba(201,168,76,0.1)',border:'1px solid rgba(201,168,76,0.55)',borderRadius:100,padding:'14px 36px',color:'rgba(201,168,76,0.95)',fontSize:16,cursor:'pointer',marginTop:10,letterSpacing:'0.4px',transition:'all 0.2s',fontFamily:'inherit',width:'100%',maxWidth:320}}
           onMouseOver={e=>{e.currentTarget.style.background='rgba(201,168,76,0.18)';e.currentTarget.style.borderColor='rgba(201,168,76,0.8)';e.currentTarget.style.color='#c9a84c';}}
           onMouseOut={e=>{e.currentTarget.style.background='rgba(201,168,76,0.1)';e.currentTarget.style.borderColor='rgba(201,168,76,0.55)';e.currentTarget.style.color='rgba(201,168,76,0.95)';}}
         >Try a demo (launching Q3 2026)</button>
