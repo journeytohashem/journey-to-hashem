@@ -12,8 +12,9 @@ export default function Document() {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="JtH" />
-        {/* ── Favicon (drop favicon.ico into /public) ── */}
+        {/* ── Favicon & touch icon ── */}
         <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         {/* ── Open Graph ── */}
         <meta property="og:title" content="Journey to HaShem — Find your path home" />
         <meta property="og:description" content="A Jewish learning platform for anyone finding their way back. Launching Q3 2026." />
