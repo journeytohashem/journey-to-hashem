@@ -14,9 +14,9 @@ input,textarea,select{font-size:16px!important;}
     html,body{height:100%;overflow:hidden;}
     button{border:none;cursor:pointer;font-family:inherit;background:none;}
     body{background:#06101a;color:var(--text-body);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
-    #root{height:100%;display:flex;justify-content:center;align-items:stretch;}
+    #root,#__next{height:100%;display:flex;justify-content:center;align-items:stretch;}
     .app-container{width:100%;max-width:430px;height:100%;background:var(--navy);display:flex;flex-direction:column;overflow:hidden;position:relative;box-shadow:0 0 60px rgba(0,0,0,0.8);}
-    .tab-content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;}
+    .tab-content{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;}
     .tab-content::-webkit-scrollbar{width:2px;}
     .tab-content::-webkit-scrollbar-track{background:transparent;}
     .tab-content::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.15);border-radius:2px;}
