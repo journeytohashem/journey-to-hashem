@@ -11,7 +11,8 @@ const REQUIRED = {
 
 // Optional extra fields per form
 const OPTIONAL = {
-  'rabbi-interest': ['synagogue', 'phone', 'message'],
+  'user-waitlist': ['signup_type'],
+  'rabbi-interest': ['synagogue', 'phone', 'message', 'signup_type'],
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -78,9 +78,6 @@ function getParasha() {
 }
 
 
-// ── FORMSPREE ENDPOINTS ───────────────────────────────────
-// Replace REPLACE_ME with the real Formspree form ID once created at formspree.io
-const FORMSPREE_TEACHER_ENDPOINT = 'REPLACE_ME';
 
 // ── SHARE UTILITY ─────────────────────────────────────────
 function shareApp(title='Journey to HaShem', text='I\'ve been learning Torah on Journey to HaShem — check it out!') {
@@ -452,12 +449,13 @@ function Welcome({onBegin, onSkip, onTryDemo}){
     if(!teacherForm.name||!teacherForm.email) return;
     setTeacherLoading(true); setTeacherError('');
     try{
-      const res=await fetch(`https://formspree.io/f/${FORMSPREE_TEACHER_ENDPOINT}`,{
+      const res=await fetch('/api/submit',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({name:teacherForm.name,email:teacherForm.email}),
+        body:JSON.stringify({formName:'rabbi-interest',signup_type:'teacher',...teacherForm}),
       });
-      if(!res.ok) throw new Error('Submission failed');
+      const data=await res.json();
+      if(!res.ok) throw new Error(data.error||'Submission failed');
       setTeacherDone(true);
     }catch(e){
       setTeacherError(e.message||'Something went wrong. Please try again.');
@@ -471,7 +469,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
       const res=await fetch('/api/submit',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({formName:'user-waitlist',...learnerForm}),
+        body:JSON.stringify({formName:'user-waitlist',signup_type:'learner',...learnerForm}),
       });
       const data=await res.json();
       if(!res.ok) throw new Error(data.error||'Submission failed');
@@ -714,7 +712,7 @@ function UserWaitlistCard(){
             const res=await fetch('/api/submit',{
               method:'POST',
               headers:{'Content-Type':'application/json'},
-              body:JSON.stringify({formName:'user-waitlist',...form})
+              body:JSON.stringify({formName:'user-waitlist',signup_type:'learner',...form})
             });
             const data=await res.json();
             if(!res.ok) throw new Error(data.error||'Submission failed');
@@ -1638,7 +1636,7 @@ function RabbiPitchScreen({onBack}){
       const res=await fetch('/api/submit',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({formName:'rabbi-interest',...contactForm})
+        body:JSON.stringify({formName:'rabbi-interest',signup_type:'teacher',...contactForm})
       });
       const data=await res.json();
       if(!res.ok) throw new Error(data.error||'Submission failed');
