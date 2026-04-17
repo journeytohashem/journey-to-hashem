@@ -79,6 +79,16 @@ function getParasha() {
 
 
 
+// ── MAGEN DAVID SVG ───────────────────────────────────────
+function MagenDavid({size=64}){
+  return(
+    <svg viewBox="0 0 100 100" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
+      <polygon points="50,8 92,77 8,77" fill="none" stroke="#C9A252" strokeWidth="4" strokeLinejoin="round"/>
+      <polygon points="50,92 8,23 92,23" fill="none" stroke="#C9A252" strokeWidth="4" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
 // ── SHARE UTILITY ─────────────────────────────────────────
 function shareApp(title='Journey to HaShem', text='I\'ve been learning Torah on Journey to HaShem — check it out!') {
   if(navigator.share){
@@ -485,7 +495,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
       {/* ── Hero + features + CTAs ── */}
       <div className="onboarding-content">
         <div className="logo-area">
-          <div className="logo-star">✡️</div>
+          <div className="logo-star"><MagenDavid size={64}/></div>
           <h1 className="logo-title">Journey to HaShem</h1>
           <p className="logo-tagline">Find your path home</p>
         </div>
@@ -749,7 +759,7 @@ function HomeTab({state,onOpenLesson,onOpenPrayer,onGoTab,onSearch,onOpenPitch})
         <div className="home-top-row">
           <div>
             <p className="home-greeting">{greeting}{userName?`, ${userName}`:''}</p>
-            <h2 className="home-name">{shabbat?'Shabbat Shalom ✡️':'Journey to HaShem'}</h2>
+            <h2 className="home-name">{shabbat?<>Shabbat Shalom <MagenDavid size={18}/></>:'Journey to HaShem'}</h2>
             <p className="home-date">{getHebrewDate()} · {new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</p>
           </div>
           <div style={{display:'flex',gap:8,alignItems:'flex-start'}}>
