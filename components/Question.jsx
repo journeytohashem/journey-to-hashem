@@ -45,6 +45,7 @@ function MultipleChoice({ q, onAnswer }) {
     if (correct) { playCorrect(); hapticLight(); }
     else { playWrong(); setShake(true); setTimeout(() => setShake(false), 400); }
     onAnswer({ correct, typo: false });
+    if (typeof window !== 'undefined') window.dispatchEvent(new Event('jth-question-answered'));
   };
 
   return (
@@ -80,6 +81,7 @@ function TrueFalse({ q, onAnswer }) {
     if (correct) { playCorrect(); hapticLight(); }
     else { playWrong(); setShake(true); setTimeout(() => setShake(false), 400); }
     onAnswer({ correct, typo: false });
+    if (typeof window !== 'undefined') window.dispatchEvent(new Event('jth-question-answered'));
   };
 
   const optClass = (val) => {
@@ -119,6 +121,7 @@ function FillBlank({ q, onAnswer }) {
     if (r.correct) { playCorrect(); hapticLight(); }
     else { playWrong(); setShake(true); setTimeout(() => setShake(false), 400); }
     onAnswer(r);
+    if (typeof window !== 'undefined') window.dispatchEvent(new Event('jth-question-answered'));
   };
 
   const isHeb = containsHebrew(value);
@@ -187,6 +190,7 @@ function MatchPairs({ q, onAnswer }) {
     if (correct) { playCorrect(); hapticLight(); }
     else { playWrong(); setShake(true); setTimeout(() => setShake(false), 400); }
     onAnswer({ correct, typo: false });
+    if (typeof window !== 'undefined') window.dispatchEvent(new Event('jth-question-answered'));
   };
 
   return (
@@ -261,6 +265,7 @@ function OrderSteps({ q, onAnswer }) {
     if (correct) { playCorrect(); hapticLight(); }
     else { playWrong(); setShake(true); setTimeout(() => setShake(false), 400); }
     onAnswer({ correct, typo: false });
+    if (typeof window !== 'undefined') window.dispatchEvent(new Event('jth-question-answered'));
   };
 
   const textFor = (id) => q.steps.find(s => s.id === id).text;
