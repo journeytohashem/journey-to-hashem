@@ -885,43 +885,49 @@ function LessonScreen({lesson,unit,onClose,onComplete,isBookmarked,onToggleBookm
 }
 
 // ── CONGRATS ──────────────────────────────────────────────
-function CongratsScreen({lesson,xpEarned,streak,newBadges,totalXP,replay,onContinue}){
+function CongratsScreen({lesson, xpEarned, streak, newBadges, totalXP, replay, heartsLeft, wrongAnswers, ranOutOfHearts, onContinue}){
   const [visible,setVisible]=useState(false);
   useEffect(()=>{const t=setTimeout(()=>setVisible(true),80);return()=>clearTimeout(t);},[]);
   const level=getLevel(totalXP);
+  const perfect = wrongAnswers === 0 && !ranOutOfHearts && !replay;
+
   return(
-    <div className="screen-full congrats-screen">
-      <div className={`congrats-content${visible?' congrats-visible':''}`}>
-        <div className="congrats-star">{replay?'📖':'⭐'}</div>
-        <h2 className="congrats-title">{replay?'Lesson Reviewed!':'Lesson Complete!'}</h2>
-        <p className="congrats-lesson-name">{lesson.title}</p>
-        {replay?(
-          <div style={{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'var(--radius-lg)',padding:'16px 24px',textAlign:'center'}}>
-            <div style={{fontSize:14,color:'var(--text-dim)',lineHeight:1.6}}>You already completed this lesson — no XP or streak credit for replays. Reviewing is always encouraged.</div>
-          </div>
-        ):(
-          <div className="congrats-rewards">
-            <div className="reward-item"><span className="reward-value">+{xpEarned}</span><span className="reward-label">XP earned</span></div>
-            <div className="reward-divider"/>
-            <div className="reward-item"><span className="reward-value">🔥 {streak}</span><span className="reward-label">Day streak</span></div>
-            <div className="reward-divider"/>
-            <div className="reward-item"><span className="reward-value" style={{fontSize:18}}>{level.name}</span><span className="reward-label">Your level</span></div>
+    <div className="screen-full congrats-screen fade-in">
+      <div className={`congrats-card${visible?' visible':''}`}>
+        <div className="congrats-sparkle">{perfect?'🎉':'✓'}</div>
+        <h2 className="congrats-title">
+          {replay ? 'Reviewed!' : ranOutOfHearts ? 'Lesson complete' : perfect ? 'Perfect Lesson!' : 'Lesson complete'}
+        </h2>
+        <p className="congrats-sub">
+          {replay
+            ? `You've already earned XP for "${lesson.title}".`
+            : ranOutOfHearts
+              ? `You ran out of hearts — no XP this time, but "${lesson.title}" is still marked complete. Hearts refill tomorrow.`
+              : perfect
+                ? `No mistakes on "${lesson.title}" — +${xpEarned} XP including bonuses!`
+                : `+${xpEarned} XP on "${lesson.title}".`}
+        </p>
+        {!replay && !ranOutOfHearts && (
+          <div className="congrats-stats">
+            <div className="pitch-stat"><span className="pitch-stat-value">+{xpEarned}</span><span className="pitch-stat-label">XP</span></div>
+            <div className="pitch-stat"><span className="pitch-stat-value">{streak}</span><span className="pitch-stat-label">Streak</span></div>
+            <div className="pitch-stat"><span className="pitch-stat-value">{heartsLeft}</span><span className="pitch-stat-label">Hearts</span></div>
+            <div className="pitch-stat"><span className="pitch-stat-value" style={{fontSize:14}}>{level.name}</span><span className="pitch-stat-label">Level</span></div>
           </div>
         )}
-        {!replay&&newBadges.length>0&&(
-          <div style={{textAlign:'center'}}>
-            <div style={{fontSize:11,color:'var(--gold)',textTransform:'uppercase',letterSpacing:'0.8px',fontWeight:700,marginBottom:8}}>🏅 Badge{newBadges.length>1?'s':''} Unlocked!</div>
-            <div className="congrats-badges">
+        {newBadges.length>0 && (
+          <div className="congrats-badges">
+            <p className="congrats-badges-label">New badge{newBadges.length>1?'s':''} unlocked!</p>
+            <div className="congrats-badges-row">
               {newBadges.map(b=>(
-                <div key={b.id} className="congrats-badge-pill">
-                  <span className="congrats-badge-pill-icon">{b.icon}</span>
-                  <span className="congrats-badge-pill-name">{b.name}</span>
+                <div key={b.id} className="congrats-badge">
+                  <div className="congrats-badge-icon">{b.icon}</div>
+                  <div className="congrats-badge-name">{b.name}</div>
                 </div>
               ))}
             </div>
           </div>
         )}
-        <p className="congrats-message">{replay?'Keep reviewing to reinforce your learning.':'Keep going — one lesson at a time.'}</p>
         <button className="btn-primary btn-large" onClick={onContinue}>Continue</button>
       </div>
     </div>
