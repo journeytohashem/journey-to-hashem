@@ -90,7 +90,7 @@ function MagenDavid({size=64}){
 }
 
 // ── SHARE UTILITY ─────────────────────────────────────────
-function shareApp(title='Journey to HaShem', text='I\'ve been learning Torah on Journey to HaShem — check it out!') {
+function shareApp(title='Journey to Hashem', text='I\'ve been learning Torah on Journey to Hashem — check it out!') {
   if(navigator.share){
     navigator.share({title, text, url: window.location.href}).catch(()=>{});
   } else {
@@ -101,44 +101,44 @@ function shareApp(title='Journey to HaShem', text='I\'ve been learning Torah on 
 // ── DATA ──────────────────────────────────────────────────
 const LEARNING_PATH = [
   { id:'unit1', title:'Foundations of Faith', level:'Beginner', lessons:[
-    { id:'u1l1', title:'Who is HaShem?', icon:'✡️', slides:[
-      { title:'Who is HaShem?', icon:'✡️', body:`<p>HaShem — literally "The Name" — is how Jewish people refer to G-d in everyday speech. The word reflects a deep truth: G-d's essence is beyond any name we could give Him.</p><p>In Torah, G-d is not a distant force but a personal, present reality — the source of all existence, deeply involved in every human life.</p>`, source:'See Rambam, Mishneh Torah, Hilchot Yesodei HaTorah 1:1' },
-      { title:'Ein Sof — Without End', hebrew:'אֵין סוֹף', transliteration:'Ein Sof', translation:'Without End / Infinite', body:`<p>Jewish mysticism describes G-d as <em>Ein Sof</em> — infinite, boundless, without beginning or end. He is not contained by time or space.</p><p>Yet the Torah teaches that HaShem is also close — closer than your own breath. This paradox is at the heart of Jewish spirituality.</p>`, concept:'G-d is simultaneously transcendent (beyond everything) and immanent (present within everything). This is called "filling all worlds and surrounding all worlds."', source:'Tanya, Iggeret Hakodesh 20; Zohar Vol. 3, 225a' },
+    { id:'u1l1', title:'Who is Hashem?', icon:'✡️', slides:[
+      { title:'Who is Hashem?', icon:'✡️', body:`<p>Hashem — literally "The Name" — is how Jewish people refer to G-d in everyday speech. The word reflects a deep truth: G-d's essence is beyond any name we could give Him.</p><p>In Torah, G-d is not a distant force but a personal, present reality — the source of all existence, deeply involved in every human life.</p>`, source:'See Rambam, Mishneh Torah, Hilchot Yesodei HaTorah 1:1' },
+      { title:'Ein Sof — Without End', hebrew:'אֵין סוֹף', transliteration:'Ein Sof', translation:'Without End / Infinite', body:`<p>Jewish mysticism describes G-d as <em>Ein Sof</em> — infinite, boundless, without beginning or end. He is not contained by time or space.</p><p>Yet the Torah teaches that Hashem is also close — closer than your own breath. This paradox is at the heart of Jewish spirituality.</p>`, concept:'G-d is simultaneously transcendent (beyond everything) and immanent (present within everything). This is called "filling all worlds and surrounding all worlds."', source:'Tanya, Iggeret Hakodesh 20; Zohar Vol. 3, 225a' },
       { title:'The Shema — Our Declaration', hebrew:'שְׁמַע יִשְׂרָאֵל יְהוָה אֱלֹהֵינוּ יְהוָה אֶחָד', transliteration:"Shema Yisrael, Adonai Eloheinu, Adonai Echad", translation:"Hear O Israel, the L-rd is our G-d, the L-rd is One", body:`<p>The Shema is Judaism's most fundamental declaration. Said twice daily, it affirms the absolute unity of G-d.</p><p>The word <em>Echad</em> (One) is not just about number. It means G-d is the singular, unified reality behind all of existence.</p>`, source:'Devarim 6:4; Talmud Berakhot 13b' },
       { title:'Quick Check', exercise:{ question:'The word "Echad" in the Shema means:', options:['First','One','Eternal','Creator'], answer:1, explanation:'Echad means "One" — affirming that G-d is the singular, unified reality behind all existence. Not just numerically first, but uniquely one.' } },
     ]},
     { id:'u1l2', title:'What is the Torah?', icon:'📜', slides:[
-      { title:'What is the Torah?', icon:'📜', body:`<p>The Torah is the foundational text of Judaism — given by HaShem to Moshe at Mount Sinai approximately 3,300 years ago.</p><p>In its most specific sense, Torah refers to the Five Books of Moses: Bereishit, Shemot, Vayikra, Bamidbar, and Devarim.</p>`, source:'Talmud Shabbat 88a; Seder Olam Rabbah' },
+      { title:'What is the Torah?', icon:'📜', body:`<p>The Torah is the foundational text of Judaism — given by Hashem to Moshe at Mount Sinai approximately 3,300 years ago.</p><p>In its most specific sense, Torah refers to the Five Books of Moses: Bereishit, Shemot, Vayikra, Bamidbar, and Devarim.</p>`, source:'Talmud Shabbat 88a; Seder Olam Rabbah' },
       { title:'Written and Oral Torah', body:`<p><strong style="color:var(--gold)">Written Torah (Torah She\'bichtav):</strong> The Five Books, Prophets, and Writings — together the Tanakh.</p><p><strong style="color:var(--gold)">Oral Torah (Torah She\'be\'al Peh):</strong> The explanations transmitted orally from Sinai — written down as the Mishnah (~200 CE) and Talmud (~500 CE).</p>`, concept:'Torah is not just a historical text — it is described as eternally relevant, continuously interpreted by each generation.', source:'Rambam, Introduction to Mishneh Torah' },
-      { title:'Torah as a Blueprint', hebrew:'בְּרֵאשִׁית בָּרָא אֱלֹהִים', transliteration:'Bereishit bara Elokim', translation:'In the beginning, G-d created...', body:`<p>The Midrash teaches that HaShem "looked into the Torah and created the world." Torah is not merely a book of laws — it is the blueprint of existence itself.</p><p>This is why Torah study is considered one of the greatest mitzvot — not just for knowledge, but as connection to divine wisdom underlying all reality.</p>`, source:'Bereishit Rabbah 1:1; Zohar Vol. 2, 161a' },
+      { title:'Torah as a Blueprint', hebrew:'בְּרֵאשִׁית בָּרָא אֱלֹהִים', transliteration:'Bereishit bara Elokim', translation:'In the beginning, G-d created...', body:`<p>The Midrash teaches that Hashem "looked into the Torah and created the world." Torah is not merely a book of laws — it is the blueprint of existence itself.</p><p>This is why Torah study is considered one of the greatest mitzvot — not just for knowledge, but as connection to divine wisdom underlying all reality.</p>`, source:'Bereishit Rabbah 1:1; Zohar Vol. 2, 161a' },
       { title:'Quick Check', exercise:{ question:'When was the Mishnah (Oral Torah) written down?', options:['At Sinai (~1313 BCE)','~200 CE','~500 CE','1000 CE'], answer:1, explanation:'The Oral Torah was transmitted verbally for centuries, then compiled by Rabbi Yehuda HaNasi around 200 CE as the Mishnah, to ensure it would not be forgotten during exile.' } },
     ]},
     { id:'u1l3', title:'The Jewish People', icon:'🕍', slides:[
-      { title:'Am Yisrael — The People of Israel', icon:'🕍', body:`<p>The Jewish people trace their origin to Avraham, called by HaShem to leave his homeland and found a people dedicated to ethical monotheism.</p><p>From Avraham, Yitzchak, and Yaakov — the three Patriarchs — descended the twelve tribes who became Am Yisrael.</p>`, source:'Bereishit 12:1–3; 17:4–8' },
-      { title:'A Kingdom of Priests', hebrew:'מַמְלֶכֶת כֹּהֲנִים וְגוֹי קָדוֹשׁ', transliteration:"Mamlekhet kohanim v'goy kadosh", translation:'A kingdom of priests and a holy nation', body:`<p>At Sinai, HaShem described the Jewish mission: to be a "kingdom of priests and a holy nation" — set apart not for their own benefit, but to bring the light of Torah and ethical living to humanity.</p><p>This concept — <em>Or La\'goyim</em>, a light unto the nations — is central to Jewish purpose.</p>`, concept:'Judaism is not only a religion but a covenant — a relationship between HaShem and the Jewish people, with mutual obligations and a shared destiny.', source:'Shemot 19:6; Yeshayahu 42:6' },
+      { title:'Am Yisrael — The People of Israel', icon:'🕍', body:`<p>The Jewish people trace their origin to Avraham, called by Hashem to leave his homeland and found a people dedicated to ethical monotheism.</p><p>From Avraham, Yitzchak, and Yaakov — the three Patriarchs — descended the twelve tribes who became Am Yisrael.</p>`, source:'Bereishit 12:1–3; 17:4–8' },
+      { title:'A Kingdom of Priests', hebrew:'מַמְלֶכֶת כֹּהֲנִים וְגוֹי קָדוֹשׁ', transliteration:"Mamlekhet kohanim v'goy kadosh", translation:'A kingdom of priests and a holy nation', body:`<p>At Sinai, Hashem described the Jewish mission: to be a "kingdom of priests and a holy nation" — set apart not for their own benefit, but to bring the light of Torah and ethical living to humanity.</p><p>This concept — <em>Or La\'goyim</em>, a light unto the nations — is central to Jewish purpose.</p>`, concept:'Judaism is not only a religion but a covenant — a relationship between Hashem and the Jewish people, with mutual obligations and a shared destiny.', source:'Shemot 19:6; Yeshayahu 42:6' },
       { title:'A People of Memory', body:`<p>Jewish identity is rooted in <em>zachor</em> — memory. The Torah commands remembering the Exodus, the giving of Torah at Sinai, the 40 years in the desert.</p><p>Each generation is meant to see themselves as if they personally left Egypt. This active, living memory connects every Jew across time to the same story.</p>`, source:'Devarim 16:3; Haggadah shel Pesach' },
       { title:'Quick Check', exercise:{ question:'What does "Or La\'goyim" mean?', options:['The Law of the Nations','A Light unto the Nations','The People of G-d','Return to the Land'], answer:1, explanation:'"Or La\'goyim" — a light unto the nations — describes the Jewish mission to bring the ethical and spiritual light of Torah to all humanity.' } },
     ]},
     { id:'u1l4', title:'What is a Mitzvah?', icon:'⭐', slides:[
-      { title:'What is a Mitzvah?', icon:'⭐', body:`<p>A mitzvah (plural: mitzvot) is a divine commandment — one of the 613 commandments in the Torah. The word comes from <em>tzavah</em>, meaning both "to command" and "to connect."</p><p>Every mitzvah is simultaneously an instruction and an opportunity to connect with HaShem.</p>`, source:'Sefer HaChinuch, Introduction; Rambam, Sefer HaMitzvot' },
+      { title:'What is a Mitzvah?', icon:'⭐', body:`<p>A mitzvah (plural: mitzvot) is a divine commandment — one of the 613 commandments in the Torah. The word comes from <em>tzavah</em>, meaning both "to command" and "to connect."</p><p>Every mitzvah is simultaneously an instruction and an opportunity to connect with Hashem.</p>`, source:'Sefer HaChinuch, Introduction; Rambam, Sefer HaMitzvot' },
       { title:'613 Mitzvot', body:`<p>The Torah contains 613 mitzvot — 248 positive ("do this") and 365 prohibitions ("do not do this"). These cover every area of life: prayer, food, relationships, business, and more.</p><p>The Rabbis added further commandments (d\'rabanan) to protect and expand Torah observance.</p>`, concept:'Mitzvot are not arbitrary rules — each is a "recipe" for holiness, shaping a life of awareness, intention, and connection to the divine.', source:'Talmud Makkot 23b; Rambam, Sefer HaMitzvot' },
       { title:'Mitzvot Between People', hebrew:'בֵּין אָדָם לַחֲבֵרוֹ', transliteration:"Bein adam l'chaveiro", translation:'Between a person and their fellow', body:`<p>Mitzvot divide into those between a person and G-d, and those between people. The Talmud teaches that Yom Kippur can only atone for sins against G-d — wrongs against people must be rectified directly with those people first.</p>`, source:'Talmud Yoma 85b; Rambam, Hilchot Teshuva 2:9' },
       { title:'Quick Check', exercise:{ question:'How many mitzvot are in the Torah?', options:['10','248','365','613'], answer:3, explanation:'The Torah contains 613 mitzvot — 248 positive commandments and 365 prohibitions. The Talmud (Makkot 23b) is the source for this count.' } },
     ]},
     { id:'u1l5', title:'Foundations Quiz', icon:'📝', isQuiz:true, slides:[
-      { title:'Unit Quiz — Foundations of Faith', icon:'📝', body:`<p>Test what you've learned about HaShem, Torah, the Jewish people, and mitzvot. Five questions — take your time.</p>` },
-      { title:'Question 1', exercise:{ question:'What does the name "HaShem" literally mean in Hebrew?', options:['G-d Almighty','The Name','The Creator','The Eternal'], answer:1, explanation:'"HaShem" means "The Name" — a way of referring to G-d in everyday speech without using His holy name directly.' } },
+      { title:'Unit Quiz — Foundations of Faith', icon:'📝', body:`<p>Test what you've learned about Hashem, Torah, the Jewish people, and mitzvot. Five questions — take your time.</p>` },
+      { title:'Question 1', exercise:{ question:'What does the name "Hashem" literally mean in Hebrew?', options:['G-d Almighty','The Name','The Creator','The Eternal'], answer:1, explanation:'"Hashem" means "The Name" — a way of referring to G-d in everyday speech without using His holy name directly.' } },
       { title:'Question 2', exercise:{ question:'The Torah was given to Moshe at which mountain?', options:['Mount Moriah','Mount Carmel','Mount Sinai','Mount Nebo'], answer:2, explanation:'The Torah was given at Mount Sinai, approximately 3,300 years ago — the foundational event of Jewish history.' } },
       { title:'Question 3', exercise:{ question:'What does "Ein Sof" mean?', options:['The Infinite One','Without End','The First','Without Form'], answer:1, explanation:'"Ein Sof" means "Without End" — describing G-d as infinite and boundless, beyond all limits of time and space.' } },
       { title:'Question 4', exercise:{ question:'How many mitzvot are contained in the Torah?', options:['248','365','613','1000'], answer:2, explanation:'The Torah contains 613 mitzvot — 248 positive commandments and 365 prohibitions, as counted in the Talmud (Makkot 23b).' } },
       { title:'Question 5', exercise:{ question:'What is the mission described in the phrase "Or La\'goyim"?', options:['To build the Temple','A light unto the nations','To observe all mitzvot','To return to Israel'], answer:1, explanation:'"Or La\'goyim" — a light unto the nations — describes the Jewish mission to bring ethical and spiritual light to all humanity (Yeshayahu 42:6).' } },
-      { title:'Unit Complete! 🏆', icon:'🏆', body:`<p>You've completed the Foundations of Faith unit. You've learned about HaShem, the Torah, Am Yisrael, and what a mitzvah is.</p><p>These are the building blocks of everything else in your Jewish journey.</p>`, concept:'Next: Shabbat — the most observed and beloved practice in all of Judaism.' },
+      { title:'Unit Complete! 🏆', icon:'🏆', body:`<p>You've completed the Foundations of Faith unit. You've learned about Hashem, the Torah, Am Yisrael, and what a mitzvah is.</p><p>These are the building blocks of everything else in your Jewish journey.</p>`, concept:'Next: Shabbat — the most observed and beloved practice in all of Judaism.' },
     ]},
   ]},
   { id:'unit2', title:'Shabbat — The Day of Rest', level:'Beginner', lessons:[
     { id:'u2l1', title:'What is Shabbat?', icon:'🕯️', slides:[
-      { title:'What is Shabbat?', icon:'🕯️', body:`<p>Shabbat is the Jewish day of rest, observed from Friday sundown to Saturday nightfall. It is the only holiday mentioned in the Ten Commandments and a sign of the covenant between HaShem and the Jewish people.</p><p>"Remember the Sabbath day to keep it holy" (Shemot 20:8).</p>`, source:'Shemot 20:8–11; Devarim 5:12–15' },
-      { title:'A Taste of the World to Come', hebrew:'מֵעֵין עוֹלָם הַבָּא', transliteration:"Me'ein olam haba", translation:'A foretaste of the World to Come', body:`<p>The Talmud describes Shabbat as "a foretaste of the World to Come" — a weekly experience of the reality that awaits those who live righteous lives.</p><p>On Shabbat, we cease creating and controlling. We step back from the world we build during the week and simply exist as children of G-d.</p>`, concept:'Shabbat is not about restriction — it is about elevation. The 39 categories of forbidden labor represent human mastery over nature. On Shabbat, we acknowledge that HaShem is the true master.', source:'Talmud Berakhot 57b; Zohar Vol. 2, 88a' },
+      { title:'What is Shabbat?', icon:'🕯️', body:`<p>Shabbat is the Jewish day of rest, observed from Friday sundown to Saturday nightfall. It is the only holiday mentioned in the Ten Commandments and a sign of the covenant between Hashem and the Jewish people.</p><p>"Remember the Sabbath day to keep it holy" (Shemot 20:8).</p>`, source:'Shemot 20:8–11; Devarim 5:12–15' },
+      { title:'A Taste of the World to Come', hebrew:'מֵעֵין עוֹלָם הַבָּא', transliteration:"Me'ein olam haba", translation:'A foretaste of the World to Come', body:`<p>The Talmud describes Shabbat as "a foretaste of the World to Come" — a weekly experience of the reality that awaits those who live righteous lives.</p><p>On Shabbat, we cease creating and controlling. We step back from the world we build during the week and simply exist as children of G-d.</p>`, concept:'Shabbat is not about restriction — it is about elevation. The 39 categories of forbidden labor represent human mastery over nature. On Shabbat, we acknowledge that Hashem is the true master.', source:'Talmud Berakhot 57b; Zohar Vol. 2, 88a' },
       { title:'Shabbat Shalom', hebrew:'שַׁבָּת שָׁלוֹם', transliteration:'Shabbat Shalom', translation:'A Peaceful Sabbath', body:`<p>The traditional greeting is "Shabbat Shalom" — a peaceful Sabbath. Shalom means wholeness, completeness, harmony.</p><p>On Friday night, families gather with candles, wine (kiddush), and two loaves of challah — a scene repeated in Jewish homes worldwide for thousands of years.</p>`, source:'See Rambam, Hilchot Shabbat; Shulchan Aruch, Orach Chaim 271' },
       { title:'Quick Check', exercise:{ question:'When does Shabbat begin?', options:['Friday midnight','Saturday morning','Friday at sundown','Thursday night'], answer:2, explanation:'Shabbat begins at sundown on Friday (18 minutes before, candles are lit) and ends at nightfall on Saturday when three stars appear.' } },
     ]},
@@ -156,7 +156,7 @@ const LEARNING_PATH = [
     ]},
     { id:'u2l4', title:'Havdalah — Ending Shabbat', icon:'🌟', slides:[
       { title:'Havdalah', icon:'🌟', body:`<p>As three stars appear Saturday night, Shabbat ends with Havdalah — a beautiful ritual of separation between the holy and the ordinary, using wine, spices, and a multi-wicked candle.</p>`, source:'Talmud Berakhot 33a; Shulchan Aruch, Orach Chaim 296–299' },
-      { title:'The Four Elements', body:`<p><strong style="color:var(--gold)">Wine:</strong> Marks the transition, as with Kiddush at the start.<br/><strong style="color:var(--gold)">Spices (Besamim):</strong> We smell fragrant spices to revive the soul, which grieves at the departure of the extra Shabbat soul.<br/><strong style="color:var(--gold)">Candle:</strong> A multi-wicked flame — we look at our fingernails in the light, the first use of fire after Shabbat.<br/><strong style="color:var(--gold)">Blessing:</strong> We bless HaShem who "separates between holy and secular."</p>`, source:'Talmud Pesachim 103a–b; Rambam, Hilchot Shabbat 29:1' },
+      { title:'The Four Elements', body:`<p><strong style="color:var(--gold)">Wine:</strong> Marks the transition, as with Kiddush at the start.<br/><strong style="color:var(--gold)">Spices (Besamim):</strong> We smell fragrant spices to revive the soul, which grieves at the departure of the extra Shabbat soul.<br/><strong style="color:var(--gold)">Candle:</strong> A multi-wicked flame — we look at our fingernails in the light, the first use of fire after Shabbat.<br/><strong style="color:var(--gold)">Blessing:</strong> We bless Hashem who "separates between holy and secular."</p>`, source:'Talmud Pesachim 103a–b; Rambam, Hilchot Shabbat 29:1' },
       { title:'Havdalah Blessing', hebrew:'הַמַּבְדִּיל בֵּין קֹדֶשׁ לְחוֹל', transliteration:"HaMavdil bein kodesh l'chol", translation:'Who separates between the holy and the secular', body:`<p>After Havdalah, it is customary to wish "Shavua Tov" — a good week — and begin the week with the spiritual charge of Shabbat still fresh.</p><p>The Zohar teaches that Havdalah brings a "protection" for the entire coming week.</p>`, source:'Shulchan Aruch, Orach Chaim 299; Zohar Vol. 2, 207b' },
       { title:'Quick Check', exercise:{ question:'What does Havdalah mean?', options:['Blessing','Separation','Completion','Rest'], answer:1, explanation:'Havdalah comes from the root "l\'havdil" — to separate or distinguish. It marks the separation between the holy Shabbat and the regular weekdays.' } },
     ]},
@@ -167,10 +167,10 @@ const LEARNING_PATH = [
       { title:'Question 3', exercise:{ question:'Who wrote the poem Lecha Dodi?', options:['Rabbi Akiva','King David','Rabbi Shlomo Alkabetz','The Vilna Gaon'], answer:2, explanation:'Lecha Dodi was written by Rabbi Shlomo Alkabetz in 16th-century Tzfat (Safed), Israel — one of the great centers of Jewish mysticism.' } },
       { title:'Question 4', exercise:{ question:'What are the four elements of Havdalah?', options:['Candle, wine, challah, spices','Wine, spices, candle, blessing','Torah, prayer, charity, rest','Kiddush, Havdalah, Hallel, Amidah'], answer:1, explanation:'Havdalah uses wine, spices (besamim), a multi-wicked candle, and the concluding blessing — each with deep symbolic meaning.' } },
       { title:'Question 5', exercise:{ question:'The Talmud describes Shabbat as a foretaste of what?', options:['The Temple service','Yom Kippur','The World to Come','The giving of the Torah'], answer:2, explanation:'The Talmud (Berakhot 57b) describes Shabbat as "Me\'ein Olam Haba" — a foretaste of the World to Come, a glimpse of ultimate spiritual reality.' } },
-      { title:'Shabbat Unit Complete! ✨', icon:'✨', body:`<p>You've completed the Shabbat unit. From candle lighting to Havdalah — you now understand the full structure of this sacred day.</p>`, concept:'Next: Prayer — learning how to talk to HaShem and build a daily practice.' },
+      { title:'Shabbat Unit Complete! ✨', icon:'✨', body:`<p>You've completed the Shabbat unit. From candle lighting to Havdalah — you now understand the full structure of this sacred day.</p>`, concept:'Next: Prayer — learning how to talk to Hashem and build a daily practice.' },
     ]},
   ]},
-  { id:'unit3', title:'Prayer — Connecting to HaShem', level:'Intermediate', lessons:[
+  { id:'unit3', title:'Prayer — Connecting to Hashem', level:'Intermediate', lessons:[
     { id:'u3l1', title:'Why Do We Pray?', icon:'🙏', slides:[
       { title:'Why Do We Pray?', icon:'🙏', body:`<p>Prayer in Judaism is called <em>Avodah shebalev</em> — "service of the heart." It is not primarily about asking G-d for things. It is about cultivating awareness of the divine and aligning ourselves with what truly matters.</p><p>The Hebrew word for prayer, <em>hitpalel</em>, is reflexive — it literally means "to judge oneself."</p>`, source:'Talmud Ta\'anit 2a; Rambam, Hilchot Tefillah 1:1' },
       { title:'Three Times a Day', body:`<p>Three daily prayer services correspond to the three Patriarchs and Temple sacrifices:</p><p><strong style="color:var(--gold)">Shacharit</strong> (Morning) — instituted by Avraham<br/><strong style="color:var(--gold)">Mincha</strong> (Afternoon) — instituted by Yitzchak<br/><strong style="color:var(--gold)">Maariv</strong> (Evening) — instituted by Yaakov</p>`, concept:'Prayer times connect to the natural transitions of the day — morning light, the turning of midday, the coming of night. Judaism sanctifies time itself.', source:'Talmud Berakhot 26b' },
@@ -179,7 +179,7 @@ const LEARNING_PATH = [
     ]},
     { id:'u3l2', title:'The Structure of the Siddur', icon:'📚', slides:[
       { title:'The Siddur', icon:'📚', body:`<p>The Siddur (from <em>seder</em>, "order") is the Jewish prayer book — a carefully ordered sequence of prayers, Psalms, and blessings for daily use.</p><p>The Siddur was compiled primarily during the Geonic period (6th–11th centuries), though many prayers date back to the Temple period.</p>`, source:'Talmud Berakhot 28b; Rav Amram Gaon\'s Siddur, ~870 CE' },
-      { title:'The Core: The Amidah', hebrew:'עֲמִידָה', transliteration:'Amidah', translation:'Standing', body:`<p>The centerpiece of every prayer service is the <em>Amidah</em> — "standing" — recited while standing, feet together, facing Jerusalem.</p><p>The Amidah contains blessings of praise, personal requests (health, livelihood, wisdom, redemption), and thanksgiving. It is said silently, as a private conversation with G-d.</p>`, concept:'The Amidah is the closest thing in Judaism to a direct conversation with HaShem. Every word is addressed personally, and many add private prayers at the end.', source:'Talmud Berakhot 28b–29a; Rambam, Hilchot Tefillah 4:1' },
+      { title:'The Core: The Amidah', hebrew:'עֲמִידָה', transliteration:'Amidah', translation:'Standing', body:`<p>The centerpiece of every prayer service is the <em>Amidah</em> — "standing" — recited while standing, feet together, facing Jerusalem.</p><p>The Amidah contains blessings of praise, personal requests (health, livelihood, wisdom, redemption), and thanksgiving. It is said silently, as a private conversation with G-d.</p>`, concept:'The Amidah is the closest thing in Judaism to a direct conversation with Hashem. Every word is addressed personally, and many add private prayers at the end.', source:'Talmud Berakhot 28b–29a; Rambam, Hilchot Tefillah 4:1' },
       { title:'Shacharit Structure', body:`<p>The morning service follows a deliberate progression — like gradually approaching a king:</p><p><strong style="color:var(--gold)">1. Morning Blessings</strong> — gratitude for waking up<br/><strong style="color:var(--gold)">2. Pesukei D\'Zimra</strong> — Psalms to warm the heart<br/><strong style="color:var(--gold)">3. Shema & Blessings</strong> — declaration of faith<br/><strong style="color:var(--gold)">4. Amidah</strong> — the core prayer<br/><strong style="color:var(--gold)">5. Concluding Prayers</strong> — Aleinu and Kaddish</p>`, source:'Rambam, Hilchot Tefillah 7; Shulchan Aruch, Orach Chaim 51–132' },
       { title:'Quick Check', exercise:{ question:'What is the centerpiece of every Jewish prayer service?', options:['The Shema','The Amidah','The Kaddish','The Aleinu'], answer:1, explanation:'The Amidah (meaning "standing") is the core of every prayer service — a silent, private prayer recited standing while facing Jerusalem, containing 19 blessings.' } },
     ]},
@@ -190,17 +190,17 @@ const LEARNING_PATH = [
       { title:'Quick Check', exercise:{ question:'Why does Modeh Ani not contain the name of G-d?', options:['It was added later by the Rabbis','We say it before washing our hands','It is a private prayer','G-d\'s name is only in the Amidah'], answer:1, explanation:'Modeh Ani is said immediately upon waking, before washing hands. Since Jewish law restricts speaking G-d\'s name in an impure state, the Rabbis crafted the prayer without it.' } },
     ]},
     { id:'u3l4', title:'Mincha and Maariv', icon:'🌙', slides:[
-      { title:'Mincha — Afternoon Prayer', icon:'🌙', body:`<p>Mincha, the afternoon prayer, is recited between midday and sunset. Despite being the shortest service, the Talmud gives it special significance — it requires the greatest intentional effort to pause from the busy workday.</p><p>The Zohar says Mincha is especially beloved by HaShem because it requires the most sacrifice of time and attention.</p>`, source:'Talmud Berakhot 6b; Zohar Vol. 1, 132b' },
+      { title:'Mincha — Afternoon Prayer', icon:'🌙', body:`<p>Mincha, the afternoon prayer, is recited between midday and sunset. Despite being the shortest service, the Talmud gives it special significance — it requires the greatest intentional effort to pause from the busy workday.</p><p>The Zohar says Mincha is especially beloved by Hashem because it requires the most sacrifice of time and attention.</p>`, source:'Talmud Berakhot 6b; Zohar Vol. 1, 132b' },
       { title:'Maariv — Evening Prayer', hebrew:'מַעֲרִיב עֲרָבִים', transliteration:"Ma'ariv aravim", translation:'Who brings on evenings', body:`<p>Maariv, the evening prayer, begins after nightfall and includes the Shema and the Amidah. The opening blessing praises G-d as "Ma\'ariv Aravim" — the One who orchestrates the rotation of day and night with wisdom.</p>`, concept:'Maariv was technically optional in Talmudic times but has become universally accepted as obligatory — an example of the Jewish people voluntarily taking on a higher standard of practice.', source:'Talmud Berakhot 27b; Rambam, Hilchot Tefillah 1:6' },
       { title:'Building a Practice', body:`<p>For someone beginning, the path to full daily prayer is gradual. Common entry points:</p><p><strong style="color:var(--gold)">Start with Modeh Ani</strong> — 10 seconds each morning<br/><strong style="color:var(--gold)">Add the Shema</strong> — morning and night<br/><strong style="color:var(--gold)">Learn Shacharit</strong> — with a siddur and transliteration<br/><strong style="color:var(--gold)">Join a minyan</strong> — community strengthens the practice</p>`, source:'See Rabbi Aryeh Kaplan, "Jewish Meditation"; Rambam, Hilchot Tefillah 1:1' },
-      { title:'Quick Check', exercise:{ question:'Which prayer service is described as especially beloved because it requires the most sacrifice?', options:['Shacharit','Kabbalat Shabbat','Mincha','Maariv'], answer:2, explanation:'Mincha — the afternoon prayer — is described in the Zohar as especially beloved by HaShem because it requires pausing from the middle of a busy workday to pray.' } },
+      { title:'Quick Check', exercise:{ question:'Which prayer service is described as especially beloved because it requires the most sacrifice?', options:['Shacharit','Kabbalat Shabbat','Mincha','Maariv'], answer:2, explanation:'Mincha — the afternoon prayer — is described in the Zohar as especially beloved by Hashem because it requires pausing from the middle of a busy workday to pray.' } },
     ]},
     { id:'u3l5', title:'Prayer Quiz', icon:'📝', isQuiz:true, slides:[
-      { title:'Unit Quiz — Prayer', icon:'🙏', body:`<p>Test your knowledge of Jewish prayer — the Siddur, the three daily services, and how to connect with HaShem. Five questions.</p>` },
+      { title:'Unit Quiz — Prayer', icon:'🙏', body:`<p>Test your knowledge of Jewish prayer — the Siddur, the three daily services, and how to connect with Hashem. Five questions.</p>` },
       { title:'Question 1', exercise:{ question:'What does the Hebrew word "hitpalel" (to pray) literally mean?', options:['To speak to G-d','To judge oneself','To ask for things','To give thanks'], answer:1, explanation:'"Hitpalel" is a reflexive verb meaning "to judge oneself" — prayer in Judaism is fundamentally an act of self-examination and alignment, not just petition.' } },
       { title:'Question 2', exercise:{ question:'Which Patriarch instituted the Shacharit (morning) prayer?', options:['Moshe','Yaakov','Yitzchak','Avraham'], answer:3, explanation:'The Talmud (Berakhot 26b) teaches that Shacharit was instituted by Avraham, Mincha by Yitzchak, and Maariv by Yaakov.' } },
       { title:'Question 3', exercise:{ question:'What is the Amidah also called?', options:['The Shema','Shemoneh Esreh','Kaddish','Hallel'], answer:1, explanation:'The Amidah is also called "Shemoneh Esreh" — the Eighteen Blessings. It is the core prayer of every service, recited while standing, facing Jerusalem.' } },
-      { title:'Question 4', exercise:{ question:'The first words said upon waking each morning are:', options:['Baruch HaShem','Shema Yisrael','Modeh Ani','Ashrei'], answer:2, explanation:'"Modeh Ani" is recited immediately upon waking — before getting out of bed. It expresses gratitude to G-d for returning the soul with compassion.' } },
+      { title:'Question 4', exercise:{ question:'The first words said upon waking each morning are:', options:['Baruch Hashem','Shema Yisrael','Modeh Ani','Ashrei'], answer:2, explanation:'"Modeh Ani" is recited immediately upon waking — before getting out of bed. It expresses gratitude to G-d for returning the soul with compassion.' } },
       { title:'Question 5', exercise:{ question:'According to the Zohar, which prayer is especially beloved because it requires the most sacrifice?', options:['Shacharit','Maariv','Kabbalat Shabbat','Mincha'], answer:3, explanation:'The Zohar says Mincha is especially beloved because it requires pausing from a busy workday — demanding the greatest act of intention and sacrifice.' } },
       { title:'Prayer Unit Complete! 🙏', icon:'🙏', body:`<p>You've completed the Prayer unit. You understand why Jews pray, the structure of the Siddur, and the three daily services.</p>`, concept:'Next: Jewish Holidays — the full cycle of the Jewish year and its spiritual meaning.' },
     ]},
@@ -261,7 +261,7 @@ const LEARNING_PATH = [
     { id:'u5l4', title:'Applying Torah to Daily Life', icon:'💫', slides:[
       { title:'Torah is a Living Document', icon:'💫', body:`<p>"It is not in heaven" (Devarim 30:12) — the Torah itself teaches that it must be interpreted and applied by human beings, in every generation and circumstance. This is the entire project of halacha.</p>`, source:'Devarim 30:12; Talmud Bava Metzia 59b' },
       { title:'Mussar — Ethics of the Soul', hebrew:'מוּסַר', transliteration:'Mussar', translation:'Ethics / Discipline', body:`<p>Mussar is a Jewish ethical discipline developed in 19th-century Lithuania by Rabbi Yisrael Salanter. It focuses on systematic character development — identifying dominant negative traits and working to correct them.</p><p>Traits studied in Mussar: humility, patience, trust in G-d, order, silence, and love of Torah.</p>`, concept:'Mussar bridges knowing Torah intellectually and actually living it. It gives Judaism a personal, psychological dimension that many find transformative.', source:'R\' Yisrael Salanter; Mesillat Yesharim by R\' Moshe Chaim Luzzatto' },
-      { title:'Your Path Forward', body:`<p>You have completed the Journey to HaShem foundational curriculum!</p><p>Next steps:<br/><strong style="color:var(--gold)">Find a chevruta</strong> — a study partner<br/><strong style="color:var(--gold)">Attend a shiur</strong> — join a regular class<br/><strong style="color:var(--gold)">Start keeping Shabbat</strong> — even partially<br/><strong style="color:var(--gold)">Learn the daily prayers</strong> — with understanding</p>`, source:'"Find yourself a teacher, and acquire a study partner." — Pirkei Avot 1:6' },
+      { title:'Your Path Forward', body:`<p>You have completed the Journey to Hashem foundational curriculum!</p><p>Next steps:<br/><strong style="color:var(--gold)">Find a chevruta</strong> — a study partner<br/><strong style="color:var(--gold)">Attend a shiur</strong> — join a regular class<br/><strong style="color:var(--gold)">Start keeping Shabbat</strong> — even partially<br/><strong style="color:var(--gold)">Learn the daily prayers</strong> — with understanding</p>`, source:'"Find yourself a teacher, and acquire a study partner." — Pirkei Avot 1:6' },
       { title:'Quick Check', exercise:{ question:'Who founded the Mussar movement?', options:['Rabbi Akiva','Rabbi Yisrael Salanter','The Vilna Gaon','Rabbi Moshe Chaim Luzzatto'], answer:1, explanation:'Rabbi Yisrael Salanter (1809–1883) founded the Mussar movement in 19th-century Lithuania, focusing on systematic ethical self-improvement as a Jewish practice.' } },
     ]},
     { id:'u5l5', title:'Torah Study Quiz', icon:'📝', isQuiz:true, slides:[
@@ -271,7 +271,7 @@ const LEARNING_PATH = [
       { title:'Question 3', exercise:{ question:'In which century did Rashi write his Torah commentary?', options:['8th century','11th century','14th century','16th century'], answer:1, explanation:'Rashi (Rabbi Shlomo Yitzchaki) lived from 1040–1105 CE in Troyes, France. His commentary remains the most widely studied Torah commentary to this day.' } },
       { title:'Question 4', exercise:{ question:'What does "aliyah" mean in the context of the Torah reading?', options:['Reading from the Torah','Going up to the Torah','The weekly portion','The cantor\'s melody'], answer:1, explanation:'"Aliyah" (going up) refers to being called to the Torah to recite blessings before and after a section is read — considered a great honor.' } },
       { title:'Question 5', exercise:{ question:'Who founded the Mussar movement of Jewish ethics?', options:['The Vilna Gaon','Rabbi Akiva','Rabbi Yisrael Salanter','Rabbi Moshe Chaim Luzzatto'], answer:2, explanation:'Rabbi Yisrael Salanter (1809–1883) founded the Mussar movement in Lithuania, focusing on systematic ethical self-improvement as a central Jewish practice.' } },
-      { title:'Course Complete! 🎓', icon:'🎓', body:`<p>You have completed the full Journey to HaShem foundational curriculum — five units covering the core pillars of Jewish life and learning.</p><p>This is just the beginning. The ocean of Torah is infinite, and every drop you learn brings you closer to HaShem and to your truest self.</p>`, concept:'"It is not upon you to finish the work, nor are you free to desist from it." — Pirkei Avot 2:16' },
+      { title:'Course Complete! 🎓', icon:'🎓', body:`<p>You have completed the full Journey to Hashem foundational curriculum — five units covering the core pillars of Jewish life and learning.</p><p>This is just the beginning. The ocean of Torah is infinite, and every drop you learn brings you closer to Hashem and to your truest self.</p>`, concept:'"It is not upon you to finish the work, nor are you free to desist from it." — Pirkei Avot 2:16' },
     ]},
   ]},
 ];
@@ -378,9 +378,9 @@ function Welcome({onBegin, onSkip, onTryDemo}){
   ];
 
   const FAQ_ITEMS = [
-    {q:'When is Journey to HaShem launching?', a:"We're launching Q3 2026. Join the waitlist to get early access and updates on our progress."},
+    {q:'When is Journey to Hashem launching?', a:"We're launching Q3 2026. Join the waitlist to get early access and updates on our progress."},
     {q:'Who is this for?', a:'Anyone on a path back to Judaism — baalei teshuva, curious beginners, committed learners without access to a consistent teacher, or Jews anywhere in the world who want real Torah in their pocket.'},
-    {q:'What hashkafa is this?', a:"Journey to HaShem is built with traditional Orthodox teachers across Sephardi, Chabad, and Yeshivish backgrounds. It's not tied to one hashkafa — it's built to give learners access to authentic Torah and let them find the teacher who speaks to them."},
+    {q:'What hashkafa is this?', a:"Journey to Hashem is built with traditional Orthodox teachers across Sephardi, Chabad, and Yeshivish backgrounds. It's not tied to one hashkafa — it's built to give learners access to authentic Torah and let them find the teacher who speaks to them."},
     {q:'Will it be free?', a:'The core learning content will be free. Advanced units, premium features, and one-on-one access to teachers may be paid. Our goal is accessibility first.'},
     {q:'Can I teach on the platform?', a:'Yes. We\'re actively looking for serious teachers to build this with us. Use the "Teach on the platform" form above.'},
   ];
@@ -438,7 +438,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
       <div className="onboarding-content">
         <div className="logo-area">
           <div className="logo-star"><MagenDavid size={64}/></div>
-          <h1 className="logo-title">Journey to HaShem</h1>
+          <h1 className="logo-title">Journey to Hashem</h1>
           <p className="logo-tagline">Find your path home</p>
         </div>
         <p className="welcome-subtext">Built by someone on his own journey —<br/>for everyone still finding theirs.</p>
@@ -469,7 +469,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
       <section id="rabbi-teacher" style={{padding:'32px 20px',borderTop:'1px solid rgba(201,168,76,0.15)'}}>
         <div style={{maxWidth:390,margin:'0 auto'}}>
           <h2 style={{fontFamily:'Cormorant Garamond,serif',fontSize:26,fontWeight:600,color:'var(--gold)',marginBottom:12,letterSpacing:'-0.3px'}}>For Rabbis &amp; Teachers</h2>
-          <p style={{fontSize:14,color:'var(--text-dim)',lineHeight:1.7,marginBottom:20}}>Journey to HaShem is built to give serious Jewish educators a platform to reach learners who don't have a yeshiva or a consistent teacher nearby. If you teach — whether you're a rabbi, a rebbetzin, or a learned community member — we want to build this with you.</p>
+          <p style={{fontSize:14,color:'var(--text-dim)',lineHeight:1.7,marginBottom:20}}>Journey to Hashem is built to give serious Jewish educators a platform to reach learners who don't have a yeshiva or a consistent teacher nearby. If you teach — whether you're a rabbi, a rebbetzin, or a learned community member — we want to build this with you.</p>
           {teacherDone?(
             <div style={{textAlign:'center',padding:'18px 0'}}>
               <div style={{fontSize:24,marginBottom:8}}>✅</div>
@@ -700,7 +700,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
         <div className="home-top-row">
           <div>
             <p className="home-greeting">{greeting}{userName?`, ${userName}`:''}</p>
-            <h2 className="home-name">{shabbat?<>Shabbat Shalom <MagenDavid size={18}/></>:'Journey to HaShem'}</h2>
+            <h2 className="home-name">{shabbat?<>Shabbat Shalom <MagenDavid size={18}/></>:'Journey to Hashem'}</h2>
             <p className="home-date">{getHebrewDate()} · {new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</p>
           </div>
           <div style={{display:'flex',gap:8,alignItems:'flex-start'}}>
@@ -773,7 +773,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
           <span className="pitch-home-btn-icon">🕍</span>
           <div className="pitch-home-btn-text">
             <div className="pitch-home-btn-title">Are you a Rabbi or Educator?</div>
-            <div className="pitch-home-btn-sub">Partner with Journey to HaShem →</div>
+            <div className="pitch-home-btn-sub">Partner with Journey to Hashem →</div>
           </div>
         </button>
       </div>
@@ -907,7 +907,7 @@ function Exercise({exercise}){
 
 // ── AUDIO DATA ────────────────────────────────────────────
 const RABBI_VOICES = {
-  'u1l1': { rabbi:'Rabbi Moshe Cohen', title:'Who is HaShem?', duration:'8:24', emoji:'👨‍🏫' },
+  'u1l1': { rabbi:'Rabbi Moshe Cohen', title:'Who is Hashem?', duration:'8:24', emoji:'👨‍🏫' },
   'u1l2': { rabbi:'Rabbi Yosef Levi',  title:'Understanding the Torah', duration:'11:02', emoji:'📜' },
   'u1l3': { rabbi:'Rabbi David Shapiro',title:'Am Yisrael — Our People', duration:'9:45', emoji:'✡️' },
   'u1l4': { rabbi:'Rabbi Avi Bergman', title:'The Meaning of Mitzvot', duration:'7:18', emoji:'⭐' },
@@ -952,7 +952,7 @@ function AudioPlayer({lessonId, lessonTitle}){
         <div className="audio-rabbi-avatar">{voice?.emoji||'🎙️'}</div>
         <div className="audio-rabbi-info">
           <div className="audio-rabbi-name">{voice?.rabbi||'Rabbi Moshe Cohen'}</div>
-          <div className="audio-rabbi-title">Featured Rabbi · Journey to HaShem</div>
+          <div className="audio-rabbi-title">Featured Rabbi · Journey to Hashem</div>
         </div>
         <span className="audio-coming-soon-tag">AUDIO PREVIEW</span>
       </div>
@@ -1223,7 +1223,7 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
           :<h2 className="profile-name" onClick={()=>setEditing(true)} style={{cursor:'pointer'}}>{nameVal||'Tap to set name'} ✏️</h2>
         }
         <p className="profile-path-label">{pathName||'Learning Path'}</p>
-        <button className="share-btn" style={{marginTop:8}} onClick={()=>shareApp(`${nameVal||'I'} am on Journey to HaShem`,`I've completed ${completedLessons.length} lessons on @JourneyToHaShem — join me!`)}>
+        <button className="share-btn" style={{marginTop:8}} onClick={()=>shareApp(`${nameVal||'I'} am on Journey to Hashem`,`I've completed ${completedLessons.length} lessons on @JourneyToHashem — join me!`)}>
           🔗 Share My Progress
         </button>
       </div>
@@ -1387,7 +1387,7 @@ function RabbiPitchScreen({onBack}){
           <button className="pitch-back" onClick={onBack}>← Back to App</button>
           <div className="pitch-hero-tag"><span className="pitch-hero-tag-dot"/>For Rabbis & Jewish Educators</div>
           <h1 className="pitch-hero-title">Bring your teachings<br/>to <span>every Jew</span>,<br/>everywhere.</h1>
-          <p className="pitch-hero-sub">Journey to HaShem is building the world's most accessible Jewish learning platform — and we're looking for founding rabbi partners to shape it.</p>
+          <p className="pitch-hero-sub">Journey to Hashem is building the world's most accessible Jewish learning platform — and we're looking for founding rabbi partners to shape it.</p>
           <div className="pitch-hero-stats">
             <div className="pitch-stat"><span className="pitch-stat-value">3.2M</span><span className="pitch-stat-label">Unaffiliated US Jews</span></div>
             <div className="pitch-stat"><span className="pitch-stat-value">85%</span><span className="pitch-stat-label">Never attended a shiur</span></div>
@@ -1510,7 +1510,7 @@ function RabbiPitchScreen({onBack}){
           <p className="pitch-section-sub">We're not asking for money. We're asking for your partnership, your content, and your endorsement.</p>
           {[
             {icon:'🎙️', title:'Record 3–5 Audio Shiurim', body:'Short commentaries (8–15 min) tied to our existing lesson units. One recording session, permanent impact.'},
-            {icon:'📣', title:'Share With Your Community', body:'Introduce Journey to HaShem to your congregation. Help us reach the Jews who aren\'t in the pews yet.'},
+            {icon:'📣', title:'Share With Your Community', body:'Introduce Journey to Hashem to your congregation. Help us reach the Jews who aren\'t in the pews yet.'},
             {icon:'💡', title:'Shape the Curriculum', body:'Founding rabbi partners review and guide our content — ensuring halachic accuracy and pedagogical quality.'},
           ].map((c,i)=>(
             <div key={i} className="pitch-card">
@@ -1842,7 +1842,7 @@ function App(){
       {previewMode&&(
         <button
           onClick={handleBackToLanding}
-          style={{position:'absolute',top:10,right:10,zIndex:200,background:'rgba(13,27,42,0.85)',border:'1px solid rgba(201,168,76,0.25)',borderRadius:100,padding:'5px 12px',color:'rgba(201,168,76,0.7)',fontSize:11,cursor:'pointer',letterSpacing:'0.3px',backdropFilter:'blur(8px)',WebkitBackdropFilter:'blur(8px)'}}
+          style={{position:'absolute',top:10,left:10,zIndex:200,background:'rgba(13,27,42,0.85)',border:'1px solid rgba(201,168,76,0.25)',borderRadius:100,padding:'5px 12px',color:'rgba(201,168,76,0.7)',fontSize:11,cursor:'pointer',letterSpacing:'0.3px',backdropFilter:'blur(8px)',WebkitBackdropFilter:'blur(8px)'}}
         >← Landing</button>
       )}
       {badgeToast&&(

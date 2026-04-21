@@ -4,9 +4,9 @@ export default function Document() {
     <Html lang="en">
       <Head>
         {/* ── Primary ── */}
-        <title>Journey to HaShem — Find your path home</title>
+        <title>Journey to Hashem — Find your path home</title>
         <meta name="description" content="A Jewish learning platform for anyone finding their way back. 25 structured lessons, daily progress, and a community of learners and teachers. Launching Q3 2026." />
-        <meta name="application-name" content="Journey to HaShem" />
+        <meta name="application-name" content="Journey to Hashem" />
         <meta name="theme-color" content="#0d1b2a" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -16,14 +16,14 @@ export default function Document() {
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         {/* ── Open Graph ── */}
-        <meta property="og:title" content="Journey to HaShem — Find your path home" />
+        <meta property="og:title" content="Journey to Hashem — Find your path home" />
         <meta property="og:description" content="A Jewish learning platform for anyone finding their way back. Launching Q3 2026." />
         <meta property="og:image" content="/og-image.png" />
         <meta property="og:url" content="https://journey-to-hashem.netlify.app" />
         <meta property="og:type" content="website" />
         {/* ── Twitter ── */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Journey to HaShem" />
+        <meta name="twitter:title" content="Journey to Hashem" />
         <meta name="twitter:description" content="Find your path home. Launching Q3 2026." />
         <meta name="twitter:image" content="/og-image.png" />
         {/* ── Fonts ── */}

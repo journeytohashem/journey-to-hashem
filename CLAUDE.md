@@ -1,4 +1,4 @@
-# Journey to HaShem
+# Journey to Hashem
 
 ## Skill routing
 

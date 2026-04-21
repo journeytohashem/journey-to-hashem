@@ -1,4 +1,4 @@
-# Journey to HaShem — Next.js App
+# Journey to Hashem — Next.js App
 
 ## Deploy to Netlify in 2 minutes (free, real URL)
 

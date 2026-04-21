@@ -16,6 +16,7 @@ input,textarea,select{font-size:16px!important;}
     body{background:#06101a;color:var(--text-body);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
     #root,#__next{height:100%;display:flex;justify-content:center;align-items:stretch;}
     .app-container{width:100%;max-width:430px;height:100%;background:var(--navy);display:flex;flex-direction:column;overflow:hidden;position:relative;box-shadow:0 0 60px rgba(0,0,0,0.8);}
+    .bh-badge{position:fixed;top:6px;right:max(10px,calc(50vw - 215px + 10px));z-index:9999;color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;letter-spacing:0.5px;line-height:1;pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,0.55),0 0 12px rgba(201,168,76,0.25);padding:4px 6px;}
     .tab-content{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;}
     .tab-content::-webkit-scrollbar{width:2px;}
     .tab-content::-webkit-scrollbar-track{background:transparent;}
