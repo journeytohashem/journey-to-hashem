@@ -13,7 +13,7 @@ export default function Question({ question, onAnswer }) {
     case 'fill_blank': return <FillBlank q={question} onAnswer={onAnswer} />;
     case 'typed_translation': return <FillBlank q={question} onAnswer={onAnswer} />;
     case 'match_pairs': return <MatchPairs q={question} onAnswer={onAnswer} />;
-    // order_steps added in later tasks
+    case 'order_steps': return <OrderSteps q={question} onAnswer={onAnswer} />;
     default: return <div>Unsupported question type: {question.type}</div>;
   }
 }
@@ -225,6 +225,71 @@ function MatchPairs({ q, onAnswer }) {
       {answered && (
         <Feedback correct={gradeMatchPairs(pairs, q.correct)} explanation={q.explanation} />
       )}
+    </div>
+  );
+}
+
+function shuffle(array) {
+  const a = array.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function OrderSteps({ q, onAnswer }) {
+  const [order, setOrder] = useState(() => shuffle(q.steps.map(s => s.id)));
+  const [answered, setAnswered] = useState(false);
+  const [shake, setShake] = useState(false);
+
+  useEffect(() => { setOrder(shuffle(q.steps.map(s => s.id))); setAnswered(false); }, [q]);
+
+  const move = (idx, dir) => {
+    if (answered) return;
+    const next = order.slice();
+    const target = idx + dir;
+    if (target < 0 || target >= next.length) return;
+    [next[idx], next[target]] = [next[target], next[idx]];
+    setOrder(next);
+  };
+
+  const submit = () => {
+    if (answered) return;
+    const correct = gradeOrderSteps(order, q.correctOrder);
+    setAnswered(true);
+    if (correct) { playCorrect(); hapticLight(); }
+    else { playWrong(); setShake(true); setTimeout(() => setShake(false), 400); }
+    onAnswer({ correct, typo: false });
+  };
+
+  const textFor = (id) => q.steps.find(s => s.id === id).text;
+  const correct = answered ? gradeOrderSteps(order, q.correctOrder) : null;
+
+  return (
+    <div>
+      <div style={{ marginBottom: 12, fontSize: 18 }}>{q.prompt}</div>
+      <div className={`q-order-list ${shake ? 'q-shake' : ''}`}>
+        {order.map((id, idx) => (
+          <div key={id} className="q-order-item">
+            <span>{idx + 1}. {textFor(id)}</span>
+            {!answered && (
+              <span className="q-order-controls">
+                <button aria-label="Move up" onClick={() => move(idx, -1)} disabled={idx === 0}>↑</button>
+                <button aria-label="Move down" onClick={() => move(idx, +1)} disabled={idx === order.length - 1}>↓</button>
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+      {answered && !correct && (
+        <div style={{ fontSize: 13, color: '#8fa0b4', marginTop: 10 }}>
+          Correct order: {q.correctOrder.map(id => textFor(id)).join(' → ')}
+        </div>
+      )}
+      {!answered
+        ? <button className="btn-primary" style={{ marginTop: 12 }} onClick={submit}>Check</button>
+        : <Feedback correct={correct} explanation={q.explanation} />}
     </div>
   );
 }
