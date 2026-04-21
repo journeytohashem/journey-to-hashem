@@ -12,7 +12,8 @@ export default function Question({ question, onAnswer }) {
     case 'true_false': return <TrueFalse q={question} onAnswer={onAnswer} />;
     case 'fill_blank': return <FillBlank q={question} onAnswer={onAnswer} />;
     case 'typed_translation': return <FillBlank q={question} onAnswer={onAnswer} />;
-    // match_pairs / order_steps added in later tasks
+    case 'match_pairs': return <MatchPairs q={question} onAnswer={onAnswer} />;
+    // order_steps added in later tasks
     default: return <div>Unsupported question type: {question.type}</div>;
   }
 }
@@ -155,6 +156,76 @@ function FillBlank({ q, onAnswer }) {
         />
       )}
     </form>
+  );
+}
+
+function MatchPairs({ q, onAnswer }) {
+  const [pairs, setPairs] = useState({});
+  const [selectedLeft, setSelectedLeft] = useState(null);
+  const [answered, setAnswered] = useState(false);
+  const [shake, setShake] = useState(false);
+
+  useEffect(() => { setPairs({}); setSelectedLeft(null); setAnswered(false); }, [q]);
+
+  const allPaired = Object.keys(pairs).length === q.left.length;
+
+  const onLeft = (id) => {
+    if (answered || pairs[id]) return;
+    setSelectedLeft(id === selectedLeft ? null : id);
+  };
+  const onRight = (rid) => {
+    if (answered || !selectedLeft) return;
+    if (Object.values(pairs).includes(rid)) return;
+    setPairs(p => ({ ...p, [selectedLeft]: rid }));
+    setSelectedLeft(null);
+  };
+
+  const submit = () => {
+    if (answered || !allPaired) return;
+    const correct = gradeMatchPairs(pairs, q.correct);
+    setAnswered(true);
+    if (correct) { playCorrect(); hapticLight(); }
+    else { playWrong(); setShake(true); setTimeout(() => setShake(false), 400); }
+    onAnswer({ correct, typo: false });
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: 12, fontSize: 18 }}>{q.prompt}</div>
+      <div className={`q-pair-row ${shake ? 'q-shake' : ''}`}>
+        <div className="q-pair-col">
+          {q.left.map(item => {
+            const paired = !!pairs[item.id];
+            const selected = selectedLeft === item.id;
+            return (
+              <button key={item.id}
+                className={`q-pair-item${selected ? ' selected' : ''}${paired ? ' paired' : ''}`}
+                onClick={() => onLeft(item.id)}>
+                {item.text}{paired && ` → ${q.right.find(r => r.id === pairs[item.id]).text}`}
+              </button>
+            );
+          })}
+        </div>
+        <div className="q-pair-col">
+          {q.right.map(item => {
+            const usedBy = Object.entries(pairs).find(([_, rid]) => rid === item.id);
+            return (
+              <button key={item.id}
+                className={`q-pair-item${usedBy ? ' paired' : ''}`}
+                onClick={() => onRight(item.id)}>
+                {item.text}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      {!answered && (
+        <button className="btn-primary" style={{ marginTop: 12 }} disabled={!allPaired} onClick={submit}>Check</button>
+      )}
+      {answered && (
+        <Feedback correct={gradeMatchPairs(pairs, q.correct)} explanation={q.explanation} />
+      )}
+    </div>
   );
 }
 
