@@ -10,7 +10,8 @@ export default function Question({ question, onAnswer }) {
   switch (question.type) {
     case 'multiple_choice': return <MultipleChoice q={question} onAnswer={onAnswer} />;
     case 'true_false': return <TrueFalse q={question} onAnswer={onAnswer} />;
-    // fill_blank / typed_translation / match_pairs / order_steps added in later tasks
+    case 'fill_blank': return <FillBlank q={question} onAnswer={onAnswer} />;
+    // typed_translation / match_pairs / order_steps added in later tasks
     default: return <div>Unsupported question type: {question.type}</div>;
   }
 }
@@ -95,6 +96,64 @@ function TrueFalse({ q, onAnswer }) {
       </div>
       {answered && <Feedback correct={selected === q.correct} explanation={q.explanation} />}
     </div>
+  );
+}
+
+function FillBlank({ q, onAnswer }) {
+  const [value, setValue] = useState('');
+  const [answered, setAnswered] = useState(false);
+  const [result, setResult] = useState({ correct: false, typo: false });
+  const [shake, setShake] = useState(false);
+  const inputRef = useRef(null);
+
+  useEffect(() => { setValue(''); setAnswered(false); }, [q]);
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (answered || !value.trim()) return;
+    const r = gradeTyped(value, q.answer_variants, q.answer_variants_he);
+    setResult(r);
+    setAnswered(true);
+    if (r.correct) { playCorrect(); hapticLight(); }
+    else { playWrong(); setShake(true); setTimeout(() => setShake(false), 400); }
+    onAnswer(r);
+  };
+
+  const isHeb = containsHebrew(value);
+  const inputDir = isHeb ? 'rtl' : 'ltr';
+
+  return (
+    <form onSubmit={submit}>
+      <div style={{ marginBottom: 12, fontSize: 18 }}>{q.prompt}</div>
+      <div className={shake ? 'q-shake' : ''}>
+        <input
+          ref={inputRef}
+          className={`q-input ${answered ? (result.correct ? 'correct' : 'wrong') : ''}`}
+          value={value}
+          onChange={e => setValue(e.target.value)}
+          disabled={answered}
+          dir={inputDir}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+        />
+      </div>
+      {!answered && (
+        <button type="submit" className="btn-primary" style={{ marginTop: 12 }} disabled={!value.trim()}>
+          Check
+        </button>
+      )}
+      {answered && (
+        <Feedback
+          correct={result.correct}
+          typo={result.typo}
+          userTyped={value}
+          answer={q.answer_variants[0]}
+          explanation={q.explanation}
+        />
+      )}
+    </form>
   );
 }
 
