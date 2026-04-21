@@ -5,7 +5,7 @@ export default function Document() {
       <Head>
         {/* ── Primary ── */}
         <title>Journey to HaShem — Find your path home</title>
-        <meta name="description" content="A Jewish learning platform for anyone finding their way back. 25 lessons, live shiurim, daily prayer, and a community of learners and teachers. Launching Q3 2026." />
+        <meta name="description" content="A Jewish learning platform for anyone finding their way back. 25 structured lessons, daily progress, and a community of learners and teachers. Launching Q3 2026." />
         <meta name="application-name" content="Journey to HaShem" />
         <meta name="theme-color" content="#0d1b2a" />
         <meta name="mobile-web-app-capable" content="yes" />

@@ -284,58 +284,6 @@ const QUIZ_QUESTIONS = [
   { id:'q5', question:"How much time can you dedicate daily?", options:["5 minutes","10–15 minutes","30 minutes","1 hour or more"] },
 ];
 
-const SIDDUR_DATA = {
-  daily: [
-    { id:'shacharit', name:'Shacharit', hebrew:'שַׁחֲרִית', description:'Morning Prayer', lines:[
-      { hebrew:'מוֹדֶה אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם', transliteration:"Modeh ani lefanecha Melech chai v'kayam", english:'I give thanks before You, living and eternal King' },
-      { hebrew:'שֶׁהֶחֱזַרְתָּ בִּי נִשְׁמָתִי בְּחֶמְלָה', transliteration:"shehechezarta bi nishmati b'chemla", english:'who has returned my soul to me with compassion' },
-      { hebrew:'רַבָּה אֱמוּנָתֶךָ', transliteration:'rabbah emunatecha', english:'How great is Your faithfulness' },
-    ]},
-    { id:'shema', name:'Shema Yisrael', hebrew:'שְׁמַע יִשְׂרָאֵל', description:'Declaration of Faith', lines:[
-      { hebrew:'שְׁמַע יִשְׂרָאֵל יְהוָה אֱלֹהֵינוּ', transliteration:'Shema Yisrael Adonai Eloheinu', english:'Hear O Israel, the L-rd is our G-d' },
-      { hebrew:'יְהוָה אֶחָד', transliteration:'Adonai Echad', english:'The L-rd is One' },
-      { hebrew:'בָּרוּךְ שֵׁם כְּבוֹד מַלְכוּתוֹ לְעוֹלָם וָעֶד', transliteration:"Baruch shem k'vod malchuto l'olam va'ed", english:'Blessed is the name of His glorious kingdom forever and ever' },
-    ]},
-    { id:'mincha', name:'Mincha', hebrew:'מִנְחָה', description:'Afternoon Prayer', lines:[
-      { hebrew:'אַשְׁרֵי יוֹשְׁבֵי בֵיתֶךָ', transliteration:"Ashrei yoshvei veitecha", english:'Happy are those who dwell in Your house' },
-      { hebrew:'עוֹד יְהַלְלוּךָ סֶּלָה', transliteration:"od y'hal'lucha selah", english:'they will praise You forever, Selah' },
-      { hebrew:'אַשְׁרֵי הָעָם שֶׁכָּכָה לּוֹ', transliteration:"Ashrei ha'am shekachah lo", english:'Happy is the people for whom this is so' },
-    ]},
-    { id:'maariv', name:'Maariv', hebrew:'מַעֲרִיב', description:'Evening Prayer', lines:[
-      { hebrew:'בָּרוּךְ אַתָּה יְהֹוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם', transliteration:"Baruch Atah Adonai Eloheinu Melech haolam", english:'Blessed are You, L-rd our G-d, King of the universe' },
-      { hebrew:'אֲשֶׁר בִּדְבָרוֹ מַעֲרִיב עֲרָבִים', transliteration:"asher bidvaro ma'ariv aravim", english:'who by His word brings on evenings' },
-      { hebrew:'בְּחָכְמָה פּוֹתֵחַ שְׁעָרִים', transliteration:"b'chochmah pote'ach she'arim", english:'in wisdom opens the gates' },
-    ]},
-  ],
-  shabbat: [
-    { id:'kabbalat_shabbat', name:'Kabbalat Shabbat', hebrew:'קַבָּלַת שַׁבָּת', description:'Welcoming Shabbat', lines:[
-      { hebrew:'לְכָה דוֹדִי לִקְרַאת כַּלָּה', transliteration:"L'cha dodi likrat kallah", english:'Come my beloved, to meet the bride' },
-      { hebrew:'פְּנֵי שַׁבָּת נְקַבְּלָה', transliteration:"p'nei Shabbat nekabelah", english:'let us welcome the Shabbat presence' },
-      { hebrew:'שָׁמוֹר וְזָכוֹר בְּדִבּוּר אֶחָד', transliteration:"Shamor v'zachor b'dibur echad", english:'Observe and remember in one utterance' },
-    ]},
-    { id:'shabbat_shacharit', name:'Shabbat Shacharit', hebrew:'שַׁחֲרִית שֶׁל שַׁבָּת', description:'Shabbat Morning Prayer', lines:[
-      { hebrew:'אֵל אָדוֹן עַל כָּל הַמַּעֲשִׂים', transliteration:"El Adon al kol hama'asim", english:"G-d is Master over all His works" },
-      { hebrew:'בָּרוּךְ וּמְבֹרָךְ בְּפִי כָּל נְשָׁמָה', transliteration:"baruch um'vorach b'fi kol neshama", english:'blessed and praised by the mouth of every soul' },
-    ]},
-    { id:'havdalah', name:'Havdalah', hebrew:'הַבְדָּלָה', description:'Ending Shabbat', lines:[
-      { hebrew:'הַמַּבְדִּיל בֵּין קֹדֶשׁ לְחוֹל', transliteration:"HaMavdil bein kodesh l'chol", english:'Who separates between holy and secular' },
-      { hebrew:'בֵּין אוֹר לְחֹשֶׁךְ', transliteration:"bein or l'choshech", english:'between light and darkness' },
-      { hebrew:'בֵּין יִשְׂרָאֵל לָעַמִּים', transliteration:"bein Yisrael la'amim", english:'between Israel and the nations' },
-    ]},
-  ],
-  holidays: [
-    { id:'musaf', name:'Musaf', hebrew:'מוּסָף', description:'Additional Prayer Service', lines:[
-      { hebrew:'תִּקַּנְתָּ שַׁבָּת רָצִיתָ קָרְבְּנוֹתֶיהָ', transliteration:"Tikanta Shabbat ratzita korb'noteha", english:'You established Shabbat, desired its offerings' },
-      { hebrew:'צִוִּיתָ פֵרוּשֶׁיהָ עִם סִדּוּרֵי נְסָכֶיהָ', transliteration:"tzivita perusheiha im siddurei nesacheiha", english:'commanded its portions with its arrangements of libations' },
-    ]},
-    { id:'holiday_prayers', name:'Holiday Prayers', hebrew:'תְּפִלַּת יוֹם טוֹב', description:'Yom Tov Prayers', lines:[
-      { hebrew:'יַעֲלֶה וְיָבֹא', transliteration:"Ya'aleh v'yavo", english:'May there rise and come' },
-      { hebrew:'וְיַגִּיעַ וְיֵרָאֶה וְיֵרָצֶה', transliteration:"v'yagia v'yera'eh v'yeratzeh", english:'and arrive and be seen and be accepted' },
-      { hebrew:'וְיִשָּׁמַע וְיִפָּקֵד וְיִזָּכֵר', transliteration:"v'yishama v'yipaked v'yizacher", english:'and be heard and counted and remembered' },
-    ]},
-  ],
-};
-
 const COMMUNITY_POSTS = [
   { id:1, initials:'RY', name:'Rabbi Yosef', badge:'Rabbi', time:'2 hours ago', text:"Beautiful thought for this week's parasha: the Torah begins with the letter Bet (ב) not Aleph (א) to teach us that the world was created for the sake of blessing (bracha). Everything begins with blessing.", likes:24 },
   { id:2, initials:'MG', name:'Miriam G.', badge:'', time:'5 hours ago', text:'First time doing Havdalah on my own last night. I cried. Something about the spices and the candle flame... I finally understood why people say Shabbat is a taste of the next world.', likes:41 },
@@ -360,31 +308,28 @@ function getPathFromAnswers(a) {
   if(q1===2) return {name:"The Returner's Path",weeks:6,description:"A meaningful journey back to your roots, bridging modern life with timeless Jewish wisdom."};
   return {name:"The Scholar's Path",weeks:4,description:"An immersive deep-dive into Torah study and halacha for the dedicated learner."};
 }
-function getTodayPrayer(){const h=new Date().getHours();if(h<12)return{name:'Shacharit',time:'Morning Prayer',id:'shacharit'};if(h<17)return{name:'Mincha',time:'Afternoon Prayer',id:'mincha'};return{name:'Maariv',time:'Evening Prayer',id:'maariv'};}
 function getDailyInsight(){return DAILY_INSIGHTS[new Date().getDay()%DAILY_INSIGHTS.length];}
 
 // ── SEARCH ────────────────────────────────────────────────
-function SearchOverlay({ onClose, onOpenLesson, onOpenPrayer }) {
+function SearchOverlay({ onClose, onOpenLesson }) {
   const [q, setQ] = useState('');
   const allLessons = LEARNING_PATH.flatMap(u => u.lessons.map(l => ({...l, unitTitle:u.title})));
-  const allPrayers = [...SIDDUR_DATA.daily, ...SIDDUR_DATA.shabbat, ...SIDDUR_DATA.holidays];
-  const results = q.length < 2 ? [] : [
-    ...allLessons.filter(l => l.title.toLowerCase().includes(q.toLowerCase())).map(l => ({type:'lesson', item:l})),
-    ...allPrayers.filter(p => p.name.toLowerCase().includes(q.toLowerCase()) || p.description.toLowerCase().includes(q.toLowerCase())).map(p => ({type:'prayer', item:p})),
-  ];
+  const results = q.length < 2 ? [] : allLessons
+    .filter(l => l.title.toLowerCase().includes(q.toLowerCase()))
+    .map(l => ({type:'lesson', item:l}));
   return (
     <div className="search-overlay fade-in">
       <div className="search-header">
-        <input className="search-input" placeholder="Search lessons, prayers..." autoFocus value={q} onChange={e=>setQ(e.target.value)}/>
+        <input className="search-input" placeholder="Search lessons..." autoFocus value={q} onChange={e=>setQ(e.target.value)}/>
         <button className="btn-back-text" onClick={onClose}>Cancel</button>
       </div>
       <div className="search-results">
-        {q.length < 2 && <div className="search-empty" style={{paddingTop:60}}><div style={{fontSize:32,marginBottom:12}}>🔍</div>Search lessons and prayers</div>}
+        {q.length < 2 && <div className="search-empty" style={{paddingTop:60}}><div style={{fontSize:32,marginBottom:12}}>🔍</div>Search lessons</div>}
         {q.length >= 2 && results.length === 0 && <div className="search-empty">No results for "{q}"</div>}
         {results.map((r, i) => (
-          <button key={i} className="search-result-item" style={{width:'100%',textAlign:'left'}} onClick={() => { if(r.type==='lesson'){const unit=LEARNING_PATH.find(u=>u.lessons.some(l=>l.id===r.item.id));onOpenLesson(r.item,unit);}else{onOpenPrayer(r.item);}onClose();}}>
-            <span className="search-result-icon">{r.type==='lesson'?r.item.icon:'📖'}</span>
-            <div><div className="search-result-title">{r.item.name||r.item.title}</div><div className="search-result-sub">{r.type==='lesson'?r.item.unitTitle:'Siddur'}</div></div>
+          <button key={i} className="search-result-item" style={{width:'100%',textAlign:'left'}} onClick={() => {const unit=LEARNING_PATH.find(u=>u.lessons.some(l=>l.id===r.item.id));onOpenLesson(r.item,unit);onClose();}}>
+            <span className="search-result-icon">{r.item.icon}</span>
+            <div><div className="search-result-title">{r.item.title}</div><div className="search-result-sub">{r.item.unitTitle}</div></div>
           </button>
         ))}
       </div>
@@ -396,8 +341,6 @@ function SearchOverlay({ onClose, onOpenLesson, onOpenPrayer }) {
 const TABS = [
   {id:'home',icon:'🏠',label:'Home'},
   {id:'learn',icon:'📚',label:'Learn'},
-  {id:'live',icon:'🔴',label:'Live'},
-  {id:'siddur',icon:'📖',label:'Siddur'},
   {id:'community',icon:'💬',label:'Community'},
   {id:'profile',icon:'👤',label:'Profile'},
 ];
@@ -427,11 +370,10 @@ function StepDots({total, current}){
 }
 
 function Welcome({onBegin, onSkip, onTryDemo}){
-  // Change 8 — reordered: Live Shiurim first
   const FEATURES = [
-    {icon:'🔴', title:'Live Shiurim', text:'Learn directly from rabbis in live sessions and recorded classes'},
     {icon:'📚', title:'25 Structured Lessons', text:'Five units covering the foundations of Jewish faith, Shabbat, prayer, holidays, and Torah study'},
-    {icon:'📖', title:'Digital Siddur', text:'Daily prayers with Hebrew, transliteration, and English — always in your pocket'},
+    {icon:'🎯', title:'Personalized Path', text:'Answer a few questions and get a learning path matched to where you are right now'},
+    {icon:'🔥', title:'Streaks & Badges', text:'Daily progress, XP, and milestones to keep you coming back — one lesson at a time'},
     {icon:'💬', title:'Community', text:'Ask questions and share insights with learners and rabbis worldwide'},
   ];
 
@@ -439,7 +381,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
     {q:'When is Journey to HaShem launching?', a:"We're launching Q3 2026. Join the waitlist to get early access and updates on our progress."},
     {q:'Who is this for?', a:'Anyone on a path back to Judaism — baalei teshuva, curious beginners, committed learners without access to a consistent teacher, or Jews anywhere in the world who want real Torah in their pocket.'},
     {q:'What hashkafa is this?', a:"Journey to HaShem is built with traditional Orthodox teachers across Sephardi, Chabad, and Yeshivish backgrounds. It's not tied to one hashkafa — it's built to give learners access to authentic Torah and let them find the teacher who speaks to them."},
-    {q:'Will it be free?', a:'The core learning content will be free. Live shiurim, premium features, and one-on-one access to teachers may be paid. Our goal is accessibility first.'},
+    {q:'Will it be free?', a:'The core learning content will be free. Advanced units, premium features, and one-on-one access to teachers may be paid. Our goal is accessibility first.'},
     {q:'Can I teach on the platform?', a:'Yes. We\'re actively looking for serious teachers to build this with us. Use the "Teach on the platform" form above.'},
   ];
 
@@ -739,14 +681,13 @@ function UserWaitlistCard(){
   );
 }
 
-function HomeTab({state,onOpenLesson,onOpenPrayer,onGoTab,onSearch,onOpenPitch}){
+function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
   const {completedLessons,currentStreak,totalXP,userName}=state;
   const [showReminder,setShowReminder]=useState(true);
   const allLessons=LEARNING_PATH.flatMap(u=>u.lessons);
   const curIdx=allLessons.findIndex(l=>!completedLessons.includes(l.id));
   const curLesson=curIdx>=0?allLessons[curIdx]:null;
   const curUnit=curLesson?LEARNING_PATH.find(u=>u.lessons.some(l=>l.id===curLesson.id)):null;
-  const todayPrayer=getTodayPrayer();
   const insight=getDailyInsight();
   const shabbat=isShabbat();
   const parasha=getParasha();
@@ -812,13 +753,6 @@ function HomeTab({state,onOpenLesson,onOpenPrayer,onGoTab,onSearch,onOpenPitch})
         </div>
 
         <UserWaitlistCard/>
-
-        <div className="home-card">
-          <div className="home-card-header"><span className="home-card-icon">🕍</span><span className="home-card-title">Today's Prayer</span></div>
-          <div className="home-prayer-time">{todayPrayer.time}</div>
-          <div className="home-prayer-name">{todayPrayer.name}</div>
-          <button className="home-prayer-btn" onClick={()=>{const p=SIDDUR_DATA.daily.find(x=>x.id===todayPrayer.id);if(p)onOpenPrayer(p);}}>Open in Siddur →</button>
-        </div>
 
         <div className="home-card">
           <div className="home-card-header"><span className="home-card-icon">✨</span><span className="home-card-title">Daily Insight</span></div>
@@ -1169,245 +1103,6 @@ function CongratsScreen({lesson,xpEarned,streak,newBadges,totalXP,replay,onConti
   );
 }
 
-// ── LIVE TAB ──────────────────────────────────────────────
-const LIVE_NOW=[{id:1,rabbi:'Rabbi Moshe Cohen',topic:'Understanding Parashat Hashavua',viewers:'127 watching'}];
-// UPCOMING sessions — times are relative to the current week so they never become stale
-function getUpcomingSessions() {
-  const now = new Date();
-  const dayOfWeek = now.getDay(); // 0=Sun ... 6=Sat
-  // Find the next occurrence of each weekday (Sun=0, Mon=1, ... Sat=6)
-  const nextWeekday = (target) => {
-    const diff = (target - dayOfWeek + 7) % 7 || 7; // 0 → next week same day
-    const d = new Date(now);
-    d.setDate(now.getDate() + diff);
-    return d;
-  };
-  const fmt = (d) => {
-    const diff = Math.round((d - now) / 86400000);
-    const dayLabel = diff === 1 ? 'Tomorrow'
-      : diff === 0 ? 'Today'
-      : d.toLocaleDateString('en-US', { weekday: 'long' });
-    return `${dayLabel}, ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
-  };
-  return [
-    { id:1, rabbi:'Rabbi Yosef Levi',   topic:'Introduction to Kabbalah',          time: fmt(nextWeekday(0)), hour:20 }, // Sunday 8PM
-    { id:2, rabbi:'Rabbi Avi Bergman',  topic:'Halacha in the Modern World',       time: fmt(nextWeekday(3)), hour:19 }, // Wednesday 7PM
-    { id:3, rabbi:'Rabbi David Shapiro',topic:"Pirkei Avot — Ethics of the Fathers", time: fmt(nextWeekday(4)), hour:21 }, // Thursday 9PM
-  ];
-}
-// UPCOMING computed inside component so times stay fresh on each mount
-function LiveTab(){
-  // Compute upcoming sessions fresh on each mount (avoids stale times if page stays open)
-  const UPCOMING = getUpcomingSessions();
-
-  const [miniPlayer,setMiniPlayer]=useState(null);
-  const [miniProgress,setMiniProgress]=useState(0);
-  const [remindModal,setRemindModal]=useState(null);
-  const [reminded,setReminded]=useState({});
-  const [remindTime,setRemindTime]=useState(0);
-  const intervalRef=useRef(null);
-
-  const startMini=(title,rabbi)=>{
-    // Same track while playing → toggle pause instead of restarting
-    if(miniPlayer?.title===title&&miniPlayer?.playing){
-      toggleMiniPlay();
-      return;
-    }
-    // New track or resuming paused: reset progress and start
-    setMiniProgress(0);
-    setMiniPlayer({title,rabbi,playing:true});
-    clearInterval(intervalRef.current);
-    intervalRef.current=setInterval(()=>setMiniProgress(p=>p>=100?0:p+0.15),100);
-  };
-
-  // Pause/resume: clear or restart the interval based on playing state
-  const toggleMiniPlay=()=>{
-    setMiniPlayer(p=>{
-      if(!p) return p;
-      const nowPlaying=!p.playing;
-      if(nowPlaying){
-        // Resume — restart interval from current miniProgress
-        clearInterval(intervalRef.current);
-        intervalRef.current=setInterval(()=>setMiniProgress(prog=>prog>=100?0:prog+0.15),100);
-      } else {
-        // Pause — stop the interval
-        clearInterval(intervalRef.current);
-      }
-      return {...p,playing:nowPlaying};
-    });
-  };
-
-  useEffect(()=>()=>clearInterval(intervalRef.current),[]);
-
-  const handleRemind=(session)=>{
-    setRemindModal(session);
-    setRemindTime(0);
-  };
-
-  const confirmRemind=()=>{
-    setReminded(r=>({...r,[remindModal.id]:true}));
-    setRemindModal(null);
-  };
-
-  const VOICE_CARDS=[
-    {emoji:'👨‍🏫',rabbi:'Rabbi Moshe Cohen',topic:'The Deeper Meaning of Shabbat',duration:'18:24',views:'2.4k'},
-    {emoji:'📜',rabbi:'Rabbi Yosef Levi',topic:'Introduction to Jewish Prayer',duration:'22:10',views:'1.8k'},
-    {emoji:'✡️',rabbi:'Rabbi David Shapiro',topic:"Pirkei Avot — Ethics of the Fathers",duration:'14:55',views:'3.1k'},
-    {emoji:'🕯️',rabbi:'Rabbi Avi Bergman',topic:'Building a Jewish Home',duration:'19:30',views:'1.2k'},
-  ];
-
-  return(
-    <div className="tab-screen live-tab fade-in" style={{paddingBottom:miniPlayer?140:100}}>
-      <div className="tab-header"><h2 className="tab-title">Live Sessions</h2><p className="tab-subtitle">Learn directly from rabbis</p></div>
-
-      {/* Demo notice — remove when real live infrastructure is connected */}
-      <div style={{margin:'8px 20px 0',padding:'7px 12px',background:'rgba(201,168,76,0.08)',border:'1px solid rgba(201,168,76,0.2)',borderRadius:8,fontSize:11,color:'var(--gold)',textAlign:'center',letterSpacing:'0.4px'}}>
-        PREVIEW — Live sessions and audio are demo placeholders
-      </div>
-
-      <div style={{padding:'12px 20px 0'}}>
-        <div className="live-audio-banner">
-          <div className="live-pulse"/>
-          <div className="live-audio-text">
-            <div className="live-audio-title">Rabbi Cohen is live now</div>
-            <div className="live-audio-sub">Understanding Parashat Hashavua · demo audio</div>
-          </div>
-          <button className="live-tune-btn" onClick={()=>startMini('Understanding Parashat Hashavua','Rabbi Moshe Cohen')}>
-            {miniPlayer?.title==='Understanding Parashat Hashavua'
-              ? (miniPlayer?.playing ? 'Listening ✓' : '▶ Resume')
-              : 'Tune In'}
-          </button>
-        </div>
-      </div>
-
-      <div className="section section-top">
-        <h3 className="section-title">Live Now <span style={{fontSize:10,fontWeight:500,color:'var(--text-dim)',marginLeft:6,textTransform:'uppercase',letterSpacing:'0.6px'}}>(demo)</span></h3>
-        {LIVE_NOW.map(s=>(
-          <div key={s.id} className="live-card">
-            <div className="live-thumbnail"><span className="live-menorah">🕎</span><span className="live-badge">● LIVE</span></div>
-            <div className="live-info"><p className="live-rabbi">{s.rabbi}</p><p className="live-topic">{s.topic}</p><p className="live-viewers" style={{color:'var(--text-dim)'}}>{s.viewers} · demo</p></div>
-            <button className="btn-coming-soon" disabled>Coming Soon</button>
-          </div>
-        ))}
-      </div>
-
-      <div className="rabbi-voices-section">
-        <div className="rabbi-voices-title">🎙️ Rabbi Audio Library <span style={{fontSize:10,fontWeight:400,color:'var(--text-dim)',marginLeft:4}}>(preview)</span></div>
-        {VOICE_CARDS.map((v,i)=>(
-          <div key={i} className="rabbi-voice-card">
-            <div className="rabbi-voice-avatar">{v.emoji}</div>
-            <div className="rabbi-voice-info">
-              <div className="rabbi-voice-name">{v.rabbi}</div>
-              <div className="rabbi-voice-topic">{v.topic}</div>
-              <div className="rabbi-voice-duration">⏱ {v.duration} · demo</div>
-            </div>
-            <button className="rabbi-voice-play" onClick={()=>startMini(v.topic,v.rabbi)}>
-              {miniPlayer?.title===v.topic&&miniPlayer?.playing?'⏸':'▶'}
-            </button>
-          </div>
-        ))}
-      </div>
-
-      <div className="section section-top">
-        <h3 className="section-title">Upcoming <span style={{fontSize:10,fontWeight:500,color:'var(--text-dim)',marginLeft:6,textTransform:'uppercase',letterSpacing:'0.6px'}}>(demo)</span></h3>
-        {UPCOMING.map(s=>(
-          <div key={s.id} className="upcoming-card">
-            <div className="upcoming-info"><p className="upcoming-rabbi">{s.rabbi}</p><p className="upcoming-topic">{s.topic}</p><p className="upcoming-time">{s.time}</p></div>
-            {reminded[s.id]
-              ? <span style={{fontSize:11,color:'var(--gold)',fontWeight:700,background:'rgba(201,168,76,0.12)',padding:'6px 12px',borderRadius:100,border:'1px solid rgba(201,168,76,0.2)'}}>✓ Set</span>
-              : <button className="btn-outline" style={{opacity:1,cursor:'pointer'}} onClick={()=>handleRemind(s)}>Remind Me</button>
-            }
-          </div>
-        ))}
-      </div>
-
-      {miniPlayer&&(
-        <div className="mini-player">
-          <span className="mini-player-icon">🎙️</span>
-          <div className="mini-player-info">
-            <div className="mini-player-title">{miniPlayer.title}</div>
-            <div className="mini-player-rabbi">{miniPlayer.rabbi}</div>
-            <div className="mini-player-bar"><div className="mini-player-fill" style={{width:`${miniProgress}%`}}/></div>
-          </div>
-          <button className="mini-player-btn" onClick={toggleMiniPlay}>
-            {miniPlayer.playing?'⏸':'▶'}
-          </button>
-          <button className="mini-player-close" onClick={()=>{setMiniPlayer(null);clearInterval(intervalRef.current);}}>✕</button>
-        </div>
-      )}
-
-      {remindModal&&(
-        <div className="modal-overlay" onClick={e=>{if(e.target===e.currentTarget)setRemindModal(null);}}>
-          <div className="modal-sheet">
-            <div className="modal-handle"/>
-            <h3 className="modal-title">Set Reminder</h3>
-            <p style={{fontSize:14,color:'var(--text-dim)',marginBottom:16,lineHeight:1.6}}><strong style={{color:'var(--text-body)'}}>{remindModal.rabbi}</strong><br/>{remindModal.topic}<br/><span style={{color:'var(--gold)'}}>{remindModal.time}</span></p>
-            <div className="remind-options">
-              {['30 minutes before','1 hour before','Day before','Morning of'].map((opt,i)=>(
-                <div key={i} className={`remind-option${remindTime===i?' selected':''}`} onClick={()=>setRemindTime(i)}>
-                  <div className="remind-option-check">{remindTime===i?'✓':''}</div>
-                  <span style={{fontSize:14,color:'var(--text-body)'}}>{opt}</span>
-                </div>
-              ))}
-            </div>
-            <div style={{display:'flex',gap:10,marginTop:16}}>
-              <button className="btn-secondary" style={{flex:1}} onClick={()=>setRemindModal(null)}>Cancel</button>
-              <button className="btn-primary" style={{flex:2}} onClick={confirmRemind}>Set Reminder ✓</button>
-            </div>
-            <p style={{fontSize:11,color:'var(--text-dim)',textAlign:'center',marginTop:10}}>Demo only — no real notification will be sent.</p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ── SIDDUR TAB ────────────────────────────────────────────
-function SiddurTab({onOpenPrayer}){
-  const h=new Date().getHours();
-  const ctx=h<12?{greeting:'Good morning',prayer:'time for Shacharit'}:h<17?{greeting:'Good afternoon',prayer:'time for Mincha'}:{greeting:'Good evening',prayer:'time for Maariv'};
-  const PCard=({p})=>(
-    <button className="prayer-card" onClick={()=>onOpenPrayer(p)}>
-      <div className="prayer-card-body"><p className="prayer-hebrew">{p.hebrew}</p><p className="prayer-name">{p.name}</p><p className="prayer-desc">{p.description}</p></div>
-      <span className="prayer-arrow">›</span>
-    </button>
-  );
-  return(
-    <div className="tab-screen siddur-tab fade-in">
-      <div className="tab-header"><h2 className="tab-title">Siddur</h2><p className="tab-subtitle">Daily Prayers</p></div>
-      <div className="siddur-time-banner"><span className="time-icon">🕍</span><p className="time-text">{ctx.greeting} — {ctx.prayer}</p></div>
-      <div className="section section-top"><h3 className="section-title">Daily Prayers</h3>{SIDDUR_DATA.daily.map(p=><PCard key={p.id} p={p}/>)}</div>
-      <div className="section"><h3 className="section-title">Shabbat</h3>{SIDDUR_DATA.shabbat.map(p=><PCard key={p.id} p={p}/>)}</div>
-      <div className="section"><h3 className="section-title">Holidays</h3>{SIDDUR_DATA.holidays.map(p=><PCard key={p.id} p={p}/>)}</div>
-    </div>
-  );
-}
-
-// ── PRAYER VIEW ───────────────────────────────────────────
-function PrayerView({prayer,onBack}){
-  return(
-    <div className="screen-full prayer-screen fade-in">
-      <div className="prayer-header"><button className="btn-back-text" onClick={onBack}>← Back</button></div>
-      <div className="prayer-body">
-        <div className="prayer-view-hebrew-title">{prayer.hebrew}</div>
-        <h2 className="prayer-view-name">{prayer.name}</h2>
-        <p className="prayer-view-desc">{prayer.description}</p>
-        {prayer.lines&&prayer.lines.length>0&&(
-          <div className="prayer-section">
-            <div className="prayer-section-label">Hebrew · Transliteration · English</div>
-            {prayer.lines.map((line,i)=>(
-              <div key={i} className="prayer-line">
-                <div className="prayer-line-hebrew">{line.hebrew}</div>
-                <div className="prayer-line-transliteration">{line.transliteration}</div>
-                <div className="prayer-line-english">{line.english}</div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
 // ── COMMUNITY TAB ─────────────────────────────────────────
 function CommunityTab({state}){
@@ -1507,7 +1202,7 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
   const [editing,setEditing]=useState(false);
   const [nameVal,setNameVal]=useState(userName||'');
   const [showNotifs,setShowNotifs]=useState(false);
-  const [notifs,setNotifs]=useState({daily:true,streak:true,live:false,shabbat:true});
+  const [notifs,setNotifs]=useState({daily:true,streak:true,shabbat:true});
   const bookmarkedLessons=LEARNING_PATH.flatMap(u=>u.lessons).filter(l=>(state.bookmarks||[]).includes(l.id));
   const level=getLevel(totalXP);
   const nextLevel=XP_LEVELS[XP_LEVELS.indexOf(level)+1];
@@ -1608,7 +1303,6 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
               {[
                 {key:'daily',icon:'📚',title:'Daily Learning Reminder',sub:'Remind me to complete my daily lesson'},
                 {key:'streak',icon:'🔥',title:'Streak Protection',sub:'Alert me before my streak is about to break'},
-                {key:'live',icon:'🔴',title:'Live Session Alerts',sub:'Notify me when a rabbi goes live'},
                 {key:'shabbat',icon:'🕯️',title:'Shabbat Times',sub:'Friday candle lighting reminder'},
               ].map(n=>(
                 <div key={n.key} className="notif-row">
@@ -1670,8 +1364,8 @@ function RabbiPitchScreen({onBack}){
   ];
 
   const REVENUE_MODELS=[
-    {icon:'🆓', title:'Free Tier', desc:'Full access to foundational lessons, daily Siddur, and community feed', price:'Free forever'},
-    {icon:'✨', title:'Premium — $9.99/mo', desc:'Advanced units, full audio library, live session access, offline mode', price:'$9.99 / month'},
+    {icon:'🆓', title:'Free Tier', desc:'Full access to foundational lessons and community feed', price:'Free forever'},
+    {icon:'✨', title:'Premium — $9.99/mo', desc:'Advanced units, full audio library, offline mode', price:'$9.99 / month'},
     {icon:'🕍', title:'Synagogue Plan', desc:'Branded community hub, congregation analytics, custom content tools', price:'$149 / month'},
     {icon:'🎓', title:'Yeshiva / School', desc:'Full curriculum integration, student progress dashboards, bulk licensing', price:'Custom pricing'},
   ];
@@ -1679,7 +1373,7 @@ function RabbiPitchScreen({onBack}){
   // Timeline uses relative phase labels — no hardcoded calendar dates that expire
   const TIMELINE=[
     {phase:'Phase 1 — Now',   future:false, title:'Prototype & Rabbi Partnerships',  desc:'Onboarding founding rabbis, building content pipeline, finalizing curriculum structure'},
-    {phase:'Phase 2 — ~3 mo', future:true,  title:'Soft Launch — 500 Users',         desc:'iOS & Android apps, core learning path, audio library with 20+ shiurim, live session infrastructure'},
+    {phase:'Phase 2 — ~3 mo', future:true,  title:'Soft Launch — 500 Users',         desc:'iOS & Android apps, core learning path, audio library with 20+ shiurim, community Q&A'},
     {phase:'Phase 3 — ~6 mo', future:true,  title:'Community & Monetization',        desc:'Synagogue plans, leaderboards, push notifications, Stripe integration, rabbi revenue share'},
     {phase:'Phase 4 — ~12 mo',future:true,  title:'Scale — 50,000 Users',            desc:'Hebrew content track, Sephardic curriculum, Spanish localization, partnerships with major organizations'},
     {phase:'Phase 5 — ~24 mo',future:true,  title:'Global Platform',                 desc:'The Duolingo of Jewish learning — 500k+ users across 40+ countries'},
@@ -1728,7 +1422,7 @@ function RabbiPitchScreen({onBack}){
           {[
             {icon:'📚', title:'Structured Learning Path', body:'25+ lessons across 5 units covering foundations of faith, Shabbat, prayer, holidays, and Torah study — with XP, streaks, and badges to keep learners engaged.'},
             {icon:'🎙️', title:'Rabbi Audio Integration', body:'Every lesson includes a rabbi voice commentary. Your shiurim become permanent, searchable, shareable assets — not one-time Saturday morning talks.'},
-            {icon:'💬', title:'Live & Community', body:'Live shiurim, Q&A sessions, and a moderated community feed where learners ask questions and rabbis answer — building real relationships at scale.'},
+            {icon:'💬', title:'Community & Q&A', body:'A moderated community feed where learners ask questions and rabbis answer — building real relationships at scale.'},
             {icon:'📊', title:'Analytics Dashboard', body:'See exactly which topics resonate, where learners drop off, and which of your congregants are engaging — data you\'ve never had before.'},
           ].map((c,i)=>(
             <div key={i} className="pitch-card pitch-card-gold">
@@ -1794,7 +1488,7 @@ function RabbiPitchScreen({onBack}){
           {[
             {initials:'RD',name:'Rabbi Daniel Feldman',role:'Educator · Teaneck, NJ',quote:"This is exactly what our community's young adults need. Most of them aren't coming to shul — but they ARE on their phones. Meet them where they are."},
             {initials:'SA',name:'Sarah A.',role:'Beta User · Miami, FL',quote:"I grew up culturally Jewish but knew almost nothing about actual practice. I've completed 8 lessons in two weeks and finally feel connected to my heritage."},
-            {initials:'MB',name:'Michael B.',role:'Beta User · New York, NY',quote:"The Siddur feature alone is worth it. I've been going to services for years without understanding what I was saying. Now I actually follow along."},
+            {initials:'MB',name:'Michael B.',role:'Beta User · New York, NY',quote:"The daily structure got me from zero to actually understanding what I'm saying in services. For the first time in my life, it feels like mine."},
           ].map((t,i)=>(
             <div key={i} className="testimonial-card">
               <div className="stars">★★★★★</div>
@@ -1895,7 +1589,6 @@ const ALL_BADGES = [
   { id:'half_path',     icon:'📚', name:'Halfway There',    desc:'Complete 12 lessons',              check:(s)=>s.completedLessons.length>=12 },
   { id:'full_path',     icon:'🏆', name:'Path Complete',    desc:'Complete all 25 lessons',          check:(s)=>s.completedLessons.length>=25 },
   { id:'bookmarker',    icon:'🔖', name:'Bookworm',         desc:'Bookmark 3 lessons',               check:(s)=>(s.bookmarks||[]).length>=3 },
-  { id:'prayer_start',  icon:'🙏', name:'Man of Prayer',    desc:'Open the Siddur',                  check:(s)=>s.openedSiddur||false },
   { id:'foundations',   icon:'✡️', name:'Foundation Stone', desc:'Complete Foundations of Faith',    check:(s)=>['u1l1','u1l2','u1l3','u1l4','u1l5'].every(id=>s.completedLessons.includes(id)) },
   { id:'daily_3',       icon:'📅', name:'Daily 3',          desc:'Complete 3 lessons in one day',    check:(s)=>s.dailyLessonsCompleted>=3 },
 ];
@@ -1975,7 +1668,7 @@ const DEFAULT_STATE={
   completedLessons:[],currentStreak:0,totalXP:0,
   dailyLessonsCompleted:0,lastActiveDate:null,
   activeTab:'home',bookmarks:[],userName:'',
-  earnedBadges:[],openedSiddur:false,
+  earnedBadges:[],
 };
 
 function App(){
@@ -2082,11 +1775,6 @@ function App(){
 
   const handleUpdateName=name=>update({userName:name});
 
-  const handleOpenSiddur=p=>{
-    if(!state.openedSiddur) updateWithBadgeCheck({openedSiddur:true});
-    setCurrentView({type:'prayer',prayer:p});
-  };
-
   // Returning user screen
   if(showReturning&&state.onboardingComplete) return(
     <div className="app-container">
@@ -2111,7 +1799,6 @@ function App(){
       <SearchOverlay
         onClose={()=>setShowSearch(false)}
         onOpenLesson={(l,u)=>{setShowSearch(false);setCurrentView({type:'lesson',lesson:l,unit:u});}}
-        onOpenPrayer={p=>{setShowSearch(false);handleOpenSiddur(p);}}
       />
     </div>
   );
@@ -2130,11 +1817,6 @@ function App(){
     if(currentView.type==='congrats') return(
       <div className="app-container">
         <CongratsScreen lesson={currentView.lesson} xpEarned={currentView.xpEarned} streak={currentView.streak} newBadges={currentView.newBadges||[]} totalXP={state.totalXP} replay={currentView.replay||false} onContinue={()=>setCurrentView(null)}/>
-      </div>
-    );
-    if(currentView.type==='prayer') return(
-      <div className="app-container">
-        <PrayerView prayer={currentView.prayer} onBack={()=>setCurrentView(null)}/>
       </div>
     );
   }
@@ -2174,10 +1856,8 @@ function App(){
       )}
       <div className="tab-content">
         <div key={state.activeTab} className="tab-view">
-          {state.activeTab==='home'&&<HomeTab state={state} onOpenLesson={(l,u)=>setCurrentView({type:'lesson',lesson:l,unit:u})} onOpenPrayer={p=>handleOpenSiddur(p)} onGoTab={t=>update({activeTab:t})} onSearch={()=>setShowSearch(true)} onOpenPitch={()=>setShowPitch(true)}/>}
+          {state.activeTab==='home'&&<HomeTab state={state} onOpenLesson={(l,u)=>setCurrentView({type:'lesson',lesson:l,unit:u})} onGoTab={t=>update({activeTab:t})} onSearch={()=>setShowSearch(true)} onOpenPitch={()=>setShowPitch(true)}/>}
           {state.activeTab==='learn'&&<LearnTab state={state} onOpenLesson={(l,u)=>setCurrentView({type:'lesson',lesson:l,unit:u})}/>}
-          {state.activeTab==='live'&&<LiveTab/>}
-          {state.activeTab==='siddur'&&<SiddurTab onOpenPrayer={p=>handleOpenSiddur(p)}/>}
           {state.activeTab==='community'&&<CommunityTab state={state}/>}
           {state.activeTab==='profile'&&<ProfileTab state={state} onReset={handleReset} onOpenPitch={()=>setShowPitch(true)} onUpdateName={handleUpdateName}/>}
         </div>
