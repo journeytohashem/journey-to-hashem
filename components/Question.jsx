@@ -11,7 +11,8 @@ export default function Question({ question, onAnswer }) {
     case 'multiple_choice': return <MultipleChoice q={question} onAnswer={onAnswer} />;
     case 'true_false': return <TrueFalse q={question} onAnswer={onAnswer} />;
     case 'fill_blank': return <FillBlank q={question} onAnswer={onAnswer} />;
-    // typed_translation / match_pairs / order_steps added in later tasks
+    case 'typed_translation': return <FillBlank q={question} onAnswer={onAnswer} />;
+    // match_pairs / order_steps added in later tasks
     default: return <div>Unsupported question type: {question.type}</div>;
   }
 }
