@@ -9,7 +9,8 @@ import { playCorrect, playWrong, hapticLight } from '../lib/celebrations';
 export default function Question({ question, onAnswer }) {
   switch (question.type) {
     case 'multiple_choice': return <MultipleChoice q={question} onAnswer={onAnswer} />;
-    // true_false / fill_blank / typed_translation / match_pairs / order_steps added in later tasks
+    case 'true_false': return <TrueFalse q={question} onAnswer={onAnswer} />;
+    // fill_blank / typed_translation / match_pairs / order_steps added in later tasks
     default: return <div>Unsupported question type: {question.type}</div>;
   }
 }
@@ -56,6 +57,41 @@ function MultipleChoice({ q, onAnswer }) {
           }
           return <button key={i} className={cls} onClick={() => submit(i)}>{opt}</button>;
         })}
+      </div>
+      {answered && <Feedback correct={selected === q.correct} explanation={q.explanation} />}
+    </div>
+  );
+}
+
+function TrueFalse({ q, onAnswer }) {
+  const [selected, setSelected] = useState(null);
+  const [answered, setAnswered] = useState(false);
+  const [shake, setShake] = useState(false);
+  useEffect(() => { setSelected(null); setAnswered(false); }, [q]);
+
+  const submit = (val) => {
+    if (answered) return;
+    const correct = val === q.correct;
+    setSelected(val);
+    setAnswered(true);
+    if (correct) { playCorrect(); hapticLight(); }
+    else { playWrong(); setShake(true); setTimeout(() => setShake(false), 400); }
+    onAnswer({ correct, typo: false });
+  };
+
+  const optClass = (val) => {
+    if (!answered) return 'q-option';
+    if (val === q.correct) return 'q-option correct disabled';
+    if (val === selected)  return 'q-option wrong disabled';
+    return 'q-option disabled';
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: 12, fontSize: 18 }}>{q.prompt}</div>
+      <div className={`q-tf-row ${shake ? 'q-shake' : ''}`}>
+        <button className={optClass(true)}  onClick={() => submit(true)}>True</button>
+        <button className={optClass(false)} onClick={() => submit(false)}>False</button>
       </div>
       {answered && <Feedback correct={selected === q.correct} explanation={q.explanation} />}
     </div>
