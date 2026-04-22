@@ -548,6 +548,32 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
             <div className="home-streak-label">learning streak · {totalXP} XP total</div>
           </div>
         </div>
+        {state.streakFreezeAvailable && (
+          <div style={{
+            display:'flex', alignItems:'center', gap:10,
+            padding:'10px 14px', marginTop:10,
+            background:'rgba(120, 180, 220, 0.08)',
+            border:'1px solid rgba(120, 180, 220, 0.2)',
+            borderRadius:'var(--radius-lg)',
+            fontSize:13, color:'var(--text-body)',
+          }}>
+            <span style={{fontSize:18}}>🧊</span>
+            <span><strong>Streak freeze ready.</strong> We'll auto-apply it if you miss a day.</span>
+          </div>
+        )}
+        {!state.streakFreezeAvailable && state.streakFreezeUsedAt && (
+          <div style={{
+            display:'flex', alignItems:'center', gap:10,
+            padding:'10px 14px', marginTop:10,
+            background:'rgba(255,255,255,0.03)',
+            border:'1px solid rgba(255,255,255,0.08)',
+            borderRadius:'var(--radius-lg)',
+            fontSize:12, color:'var(--text-dim)',
+          }}>
+            <span style={{fontSize:16}}>🧊</span>
+            <span>Streak freeze used on {state.streakFreezeUsedAt}. Refreshes Sunday.</span>
+          </div>
+        )}
       </div>
 
       {shabbat&&(
