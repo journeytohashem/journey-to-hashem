@@ -1,4 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
+import { LEARNING_PATH } from '../data/lessons';
+import LessonPlayer from '../components/LessonPlayer';
+import { migrate, CURRENT_SCHEMA, DEFAULT_V4_STATE } from '../lib/migrate';
+import {
+  MAX_HEARTS, regenerateHearts, consumeHeart, computeLessonXP,
+  shouldAutoFreeze, applyStreakFreeze, maybeRefreshWeeklyFreeze,
+  getTodayKey, isNewDay,
+} from '../lib/gameplay';
+import Icon from '../components/Icon';
 
 
 
@@ -99,182 +108,6 @@ function shareApp(title='Journey to Hashem', text='I\'ve been learning Torah on 
 }
 
 // ── DATA ──────────────────────────────────────────────────
-const LEARNING_PATH = [
-  { id:'unit1', title:'Foundations of Faith', level:'Beginner', lessons:[
-    { id:'u1l1', title:'Who is Hashem?', icon:'✡️', slides:[
-      { title:'Who is Hashem?', icon:'✡️', body:`<p>Hashem — literally "The Name" — is how Jewish people refer to G-d in everyday speech. The word reflects a deep truth: G-d's essence is beyond any name we could give Him.</p><p>In Torah, G-d is not a distant force but a personal, present reality — the source of all existence, deeply involved in every human life.</p>`, source:'See Rambam, Mishneh Torah, Hilchot Yesodei HaTorah 1:1' },
-      { title:'Ein Sof — Without End', hebrew:'אֵין סוֹף', transliteration:'Ein Sof', translation:'Without End / Infinite', body:`<p>Jewish mysticism describes G-d as <em>Ein Sof</em> — infinite, boundless, without beginning or end. He is not contained by time or space.</p><p>Yet the Torah teaches that Hashem is also close — closer than your own breath. This paradox is at the heart of Jewish spirituality.</p>`, concept:'G-d is simultaneously transcendent (beyond everything) and immanent (present within everything). This is called "filling all worlds and surrounding all worlds."', source:'Tanya, Iggeret Hakodesh 20; Zohar Vol. 3, 225a' },
-      { title:'The Shema — Our Declaration', hebrew:'שְׁמַע יִשְׂרָאֵל יְהוָה אֱלֹהֵינוּ יְהוָה אֶחָד', transliteration:"Shema Yisrael, Adonai Eloheinu, Adonai Echad", translation:"Hear O Israel, the L-rd is our G-d, the L-rd is One", body:`<p>The Shema is Judaism's most fundamental declaration. Said twice daily, it affirms the absolute unity of G-d.</p><p>The word <em>Echad</em> (One) is not just about number. It means G-d is the singular, unified reality behind all of existence.</p>`, source:'Devarim 6:4; Talmud Berakhot 13b' },
-      { title:'Quick Check', exercise:{ question:'The word "Echad" in the Shema means:', options:['First','One','Eternal','Creator'], answer:1, explanation:'Echad means "One" — affirming that G-d is the singular, unified reality behind all existence. Not just numerically first, but uniquely one.' } },
-    ]},
-    { id:'u1l2', title:'What is the Torah?', icon:'📜', slides:[
-      { title:'What is the Torah?', icon:'📜', body:`<p>The Torah is the foundational text of Judaism — given by Hashem to Moshe at Mount Sinai approximately 3,300 years ago.</p><p>In its most specific sense, Torah refers to the Five Books of Moses: Bereishit, Shemot, Vayikra, Bamidbar, and Devarim.</p>`, source:'Talmud Shabbat 88a; Seder Olam Rabbah' },
-      { title:'Written and Oral Torah', body:`<p><strong style="color:var(--gold)">Written Torah (Torah She\'bichtav):</strong> The Five Books, Prophets, and Writings — together the Tanakh.</p><p><strong style="color:var(--gold)">Oral Torah (Torah She\'be\'al Peh):</strong> The explanations transmitted orally from Sinai — written down as the Mishnah (~200 CE) and Talmud (~500 CE).</p>`, concept:'Torah is not just a historical text — it is described as eternally relevant, continuously interpreted by each generation.', source:'Rambam, Introduction to Mishneh Torah' },
-      { title:'Torah as a Blueprint', hebrew:'בְּרֵאשִׁית בָּרָא אֱלֹהִים', transliteration:'Bereishit bara Elokim', translation:'In the beginning, G-d created...', body:`<p>The Midrash teaches that Hashem "looked into the Torah and created the world." Torah is not merely a book of laws — it is the blueprint of existence itself.</p><p>This is why Torah study is considered one of the greatest mitzvot — not just for knowledge, but as connection to divine wisdom underlying all reality.</p>`, source:'Bereishit Rabbah 1:1; Zohar Vol. 2, 161a' },
-      { title:'Quick Check', exercise:{ question:'When was the Mishnah (Oral Torah) written down?', options:['At Sinai (~1313 BCE)','~200 CE','~500 CE','1000 CE'], answer:1, explanation:'The Oral Torah was transmitted verbally for centuries, then compiled by Rabbi Yehuda HaNasi around 200 CE as the Mishnah, to ensure it would not be forgotten during exile.' } },
-    ]},
-    { id:'u1l3', title:'The Jewish People', icon:'🕍', slides:[
-      { title:'Am Yisrael — The People of Israel', icon:'🕍', body:`<p>The Jewish people trace their origin to Avraham, called by Hashem to leave his homeland and found a people dedicated to ethical monotheism.</p><p>From Avraham, Yitzchak, and Yaakov — the three Patriarchs — descended the twelve tribes who became Am Yisrael.</p>`, source:'Bereishit 12:1–3; 17:4–8' },
-      { title:'A Kingdom of Priests', hebrew:'מַמְלֶכֶת כֹּהֲנִים וְגוֹי קָדוֹשׁ', transliteration:"Mamlekhet kohanim v'goy kadosh", translation:'A kingdom of priests and a holy nation', body:`<p>At Sinai, Hashem described the Jewish mission: to be a "kingdom of priests and a holy nation" — set apart not for their own benefit, but to bring the light of Torah and ethical living to humanity.</p><p>This concept — <em>Or La\'goyim</em>, a light unto the nations — is central to Jewish purpose.</p>`, concept:'Judaism is not only a religion but a covenant — a relationship between Hashem and the Jewish people, with mutual obligations and a shared destiny.', source:'Shemot 19:6; Yeshayahu 42:6' },
-      { title:'A People of Memory', body:`<p>Jewish identity is rooted in <em>zachor</em> — memory. The Torah commands remembering the Exodus, the giving of Torah at Sinai, the 40 years in the desert.</p><p>Each generation is meant to see themselves as if they personally left Egypt. This active, living memory connects every Jew across time to the same story.</p>`, source:'Devarim 16:3; Haggadah shel Pesach' },
-      { title:'Quick Check', exercise:{ question:'What does "Or La\'goyim" mean?', options:['The Law of the Nations','A Light unto the Nations','The People of G-d','Return to the Land'], answer:1, explanation:'"Or La\'goyim" — a light unto the nations — describes the Jewish mission to bring the ethical and spiritual light of Torah to all humanity.' } },
-    ]},
-    { id:'u1l4', title:'What is a Mitzvah?', icon:'⭐', slides:[
-      { title:'What is a Mitzvah?', icon:'⭐', body:`<p>A mitzvah (plural: mitzvot) is a divine commandment — one of the 613 commandments in the Torah. The word comes from <em>tzavah</em>, meaning both "to command" and "to connect."</p><p>Every mitzvah is simultaneously an instruction and an opportunity to connect with Hashem.</p>`, source:'Sefer HaChinuch, Introduction; Rambam, Sefer HaMitzvot' },
-      { title:'613 Mitzvot', body:`<p>The Torah contains 613 mitzvot — 248 positive ("do this") and 365 prohibitions ("do not do this"). These cover every area of life: prayer, food, relationships, business, and more.</p><p>The Rabbis added further commandments (d\'rabanan) to protect and expand Torah observance.</p>`, concept:'Mitzvot are not arbitrary rules — each is a "recipe" for holiness, shaping a life of awareness, intention, and connection to the divine.', source:'Talmud Makkot 23b; Rambam, Sefer HaMitzvot' },
-      { title:'Mitzvot Between People', hebrew:'בֵּין אָדָם לַחֲבֵרוֹ', transliteration:"Bein adam l'chaveiro", translation:'Between a person and their fellow', body:`<p>Mitzvot divide into those between a person and G-d, and those between people. The Talmud teaches that Yom Kippur can only atone for sins against G-d — wrongs against people must be rectified directly with those people first.</p>`, source:'Talmud Yoma 85b; Rambam, Hilchot Teshuva 2:9' },
-      { title:'Quick Check', exercise:{ question:'How many mitzvot are in the Torah?', options:['10','248','365','613'], answer:3, explanation:'The Torah contains 613 mitzvot — 248 positive commandments and 365 prohibitions. The Talmud (Makkot 23b) is the source for this count.' } },
-    ]},
-    { id:'u1l5', title:'Foundations Quiz', icon:'📝', isQuiz:true, slides:[
-      { title:'Unit Quiz — Foundations of Faith', icon:'📝', body:`<p>Test what you've learned about Hashem, Torah, the Jewish people, and mitzvot. Five questions — take your time.</p>` },
-      { title:'Question 1', exercise:{ question:'What does the name "Hashem" literally mean in Hebrew?', options:['G-d Almighty','The Name','The Creator','The Eternal'], answer:1, explanation:'"Hashem" means "The Name" — a way of referring to G-d in everyday speech without using His holy name directly.' } },
-      { title:'Question 2', exercise:{ question:'The Torah was given to Moshe at which mountain?', options:['Mount Moriah','Mount Carmel','Mount Sinai','Mount Nebo'], answer:2, explanation:'The Torah was given at Mount Sinai, approximately 3,300 years ago — the foundational event of Jewish history.' } },
-      { title:'Question 3', exercise:{ question:'What does "Ein Sof" mean?', options:['The Infinite One','Without End','The First','Without Form'], answer:1, explanation:'"Ein Sof" means "Without End" — describing G-d as infinite and boundless, beyond all limits of time and space.' } },
-      { title:'Question 4', exercise:{ question:'How many mitzvot are contained in the Torah?', options:['248','365','613','1000'], answer:2, explanation:'The Torah contains 613 mitzvot — 248 positive commandments and 365 prohibitions, as counted in the Talmud (Makkot 23b).' } },
-      { title:'Question 5', exercise:{ question:'What is the mission described in the phrase "Or La\'goyim"?', options:['To build the Temple','A light unto the nations','To observe all mitzvot','To return to Israel'], answer:1, explanation:'"Or La\'goyim" — a light unto the nations — describes the Jewish mission to bring ethical and spiritual light to all humanity (Yeshayahu 42:6).' } },
-      { title:'Unit Complete! 🏆', icon:'🏆', body:`<p>You've completed the Foundations of Faith unit. You've learned about Hashem, the Torah, Am Yisrael, and what a mitzvah is.</p><p>These are the building blocks of everything else in your Jewish journey.</p>`, concept:'Next: Shabbat — the most observed and beloved practice in all of Judaism.' },
-    ]},
-  ]},
-  { id:'unit2', title:'Shabbat — The Day of Rest', level:'Beginner', lessons:[
-    { id:'u2l1', title:'What is Shabbat?', icon:'🕯️', slides:[
-      { title:'What is Shabbat?', icon:'🕯️', body:`<p>Shabbat is the Jewish day of rest, observed from Friday sundown to Saturday nightfall. It is the only holiday mentioned in the Ten Commandments and a sign of the covenant between Hashem and the Jewish people.</p><p>"Remember the Sabbath day to keep it holy" (Shemot 20:8).</p>`, source:'Shemot 20:8–11; Devarim 5:12–15' },
-      { title:'A Taste of the World to Come', hebrew:'מֵעֵין עוֹלָם הַבָּא', transliteration:"Me'ein olam haba", translation:'A foretaste of the World to Come', body:`<p>The Talmud describes Shabbat as "a foretaste of the World to Come" — a weekly experience of the reality that awaits those who live righteous lives.</p><p>On Shabbat, we cease creating and controlling. We step back from the world we build during the week and simply exist as children of G-d.</p>`, concept:'Shabbat is not about restriction — it is about elevation. The 39 categories of forbidden labor represent human mastery over nature. On Shabbat, we acknowledge that Hashem is the true master.', source:'Talmud Berakhot 57b; Zohar Vol. 2, 88a' },
-      { title:'Shabbat Shalom', hebrew:'שַׁבָּת שָׁלוֹם', transliteration:'Shabbat Shalom', translation:'A Peaceful Sabbath', body:`<p>The traditional greeting is "Shabbat Shalom" — a peaceful Sabbath. Shalom means wholeness, completeness, harmony.</p><p>On Friday night, families gather with candles, wine (kiddush), and two loaves of challah — a scene repeated in Jewish homes worldwide for thousands of years.</p>`, source:'See Rambam, Hilchot Shabbat; Shulchan Aruch, Orach Chaim 271' },
-      { title:'Quick Check', exercise:{ question:'When does Shabbat begin?', options:['Friday midnight','Saturday morning','Friday at sundown','Thursday night'], answer:2, explanation:'Shabbat begins at sundown on Friday (18 minutes before, candles are lit) and ends at nightfall on Saturday when three stars appear.' } },
-    ]},
-    { id:'u2l2', title:'Friday Night — Kabbalat Shabbat', icon:'✨', slides:[
-      { title:'Welcoming Shabbat', icon:'✨', body:`<p>Shabbat begins 18 minutes before sunset on Friday. The woman of the house lights at least two candles and recites a blessing, ushering in the holy day.</p><p>In synagogue, the community recites <em>Kabbalat Shabbat</em> — Psalms and songs welcoming Shabbat like a queen or bride.</p>`, source:'Shulchan Aruch, Orach Chaim 263:2–5' },
-      { title:'Candle Lighting Blessing', hebrew:'בָּרוּךְ אַתָּה יְהֹוָה אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ לְהַדְלִיק נֵר שֶׁל שַׁבָּת', transliteration:"Baruch Atah Adonai, Eloheinu Melech haolam, asher kid'shanu b'mitzvotav v'tzivanu l'hadlik ner shel Shabbat", translation:'Blessed are You, L-rd our G-d, King of the universe, who has sanctified us with His commandments and commanded us to kindle the Sabbath light.', body:`<p>As the flames are kindled, many women circle their hands over the candles three times then cover their eyes — bringing the light inward before opening their eyes to see Shabbat for the first time.</p>`, source:'Talmud Shabbat 25b; Rambam, Hilchot Shabbat 5:1' },
-      { title:'Lecha Dodi', hebrew:'לְכָה דוֹדִי לִקְרַאת כַּלָּה', transliteration:'Lecha dodi likrat kallah', translation:'Come my beloved, to meet the bride', body:`<p>Lecha Dodi is a 16th-century poem by Rabbi Shlomo Alkabetz, sung at the start of Friday night services. It speaks of welcoming Shabbat as a bride.</p><p>At the last verse, the congregation turns to face the door and bows — symbolically welcoming the Shabbat queen.</p>`, source:'Rabbi Shlomo Alkabetz, 16th century, Tzfat (Safed)' },
-      { title:'Quick Check', exercise:{ question:'What is the Friday night synagogue service called?', options:['Havdalah','Maariv','Kabbalat Shabbat','Mincha'], answer:2, explanation:'Kabbalat Shabbat — "Receiving the Sabbath" — is the Friday evening service that welcomes Shabbat with Psalms and the poem Lecha Dodi.' } },
-    ]},
-    { id:'u2l3', title:'Shabbat Day', icon:'📖', slides:[
-      { title:'Shabbat Morning', icon:'📖', body:`<p>Shabbat morning centers on the synagogue service and Torah reading. The weekly portion (parasha) is read aloud from a handwritten scroll, and congregants are called up for the honor of reciting blessings.</p><p>After services, families return home for Shabbat lunch — a festive meal filled with Torah discussion, singing, and rest.</p>`, source:'Mishnah Megillah 3:4–6; Shulchan Aruch, Orach Chaim 285' },
-      { title:'The Parasha System', body:`<p>The Torah is divided into 54 weekly portions, called <em>parashiyot</em>. Each week, the entire Jewish world reads the same portion — creating a shared rhythm unifying the Jewish people for over a millennium.</p><p>The cycle ends and immediately restarts each fall on <em>Simchat Torah</em> — the celebration of the Torah.</p>`, concept:'Walking into any synagogue in the world on any given Shabbat, you will hear the exact same portion being read. This shared rhythm is one of the great unifying forces in Jewish life.', source:'Talmud Megillah 29b; Rambam, Hilchot Tefillah 12:1' },
-      { title:'Shabbat Afternoon', body:`<p>Shabbat afternoon is for rest, study, and walking. Many take long walks, visit friends, or learn Torah informally.</p><p>In the late afternoon, Mincha (afternoon prayer) is held, often followed by Seudah Shlishit — the "third meal" — a light gathering before the day ends.</p>`, source:'Shulchan Aruch, Orach Chaim 291–292' },
-      { title:'Quick Check', exercise:{ question:'How many weekly Torah portions (parashiyot) are there?', options:['12','24','54','613'], answer:2, explanation:'There are 54 parashiyot — one for each Shabbat, with some combined in shorter years. The entire Torah is read in a one-year cycle.' } },
-    ]},
-    { id:'u2l4', title:'Havdalah — Ending Shabbat', icon:'🌟', slides:[
-      { title:'Havdalah', icon:'🌟', body:`<p>As three stars appear Saturday night, Shabbat ends with Havdalah — a beautiful ritual of separation between the holy and the ordinary, using wine, spices, and a multi-wicked candle.</p>`, source:'Talmud Berakhot 33a; Shulchan Aruch, Orach Chaim 296–299' },
-      { title:'The Four Elements', body:`<p><strong style="color:var(--gold)">Wine:</strong> Marks the transition, as with Kiddush at the start.<br/><strong style="color:var(--gold)">Spices (Besamim):</strong> We smell fragrant spices to revive the soul, which grieves at the departure of the extra Shabbat soul.<br/><strong style="color:var(--gold)">Candle:</strong> A multi-wicked flame — we look at our fingernails in the light, the first use of fire after Shabbat.<br/><strong style="color:var(--gold)">Blessing:</strong> We bless Hashem who "separates between holy and secular."</p>`, source:'Talmud Pesachim 103a–b; Rambam, Hilchot Shabbat 29:1' },
-      { title:'Havdalah Blessing', hebrew:'הַמַּבְדִּיל בֵּין קֹדֶשׁ לְחוֹל', transliteration:"HaMavdil bein kodesh l'chol", translation:'Who separates between the holy and the secular', body:`<p>After Havdalah, it is customary to wish "Shavua Tov" — a good week — and begin the week with the spiritual charge of Shabbat still fresh.</p><p>The Zohar teaches that Havdalah brings a "protection" for the entire coming week.</p>`, source:'Shulchan Aruch, Orach Chaim 299; Zohar Vol. 2, 207b' },
-      { title:'Quick Check', exercise:{ question:'What does Havdalah mean?', options:['Blessing','Separation','Completion','Rest'], answer:1, explanation:'Havdalah comes from the root "l\'havdil" — to separate or distinguish. It marks the separation between the holy Shabbat and the regular weekdays.' } },
-    ]},
-    { id:'u2l5', title:'Shabbat Quiz', icon:'📝', isQuiz:true, slides:[
-      { title:'Unit Quiz — Shabbat', icon:'🕯️', body:`<p>Test your knowledge of Shabbat — from candle lighting Friday night to Havdalah on Saturday. Five questions.</p>` },
-      { title:'Question 1', exercise:{ question:'How many minutes before sunset does Shabbat begin?', options:['10 minutes','18 minutes','30 minutes','At sunset exactly'], answer:1, explanation:'Shabbat begins 18 minutes before sunset on Friday, when candles are lit. This buffer provides a margin to ensure Shabbat is not violated.' } },
-      { title:'Question 2', exercise:{ question:'What does "Kabbalat Shabbat" mean?', options:['The Shabbat Prayer','Receiving the Sabbath','Ending the Sabbath','The Shabbat Candles'], answer:1, explanation:'"Kabbalat Shabbat" means "Receiving the Sabbath" — the Friday night service that welcomes Shabbat with Psalms and the poem Lecha Dodi.' } },
-      { title:'Question 3', exercise:{ question:'Who wrote the poem Lecha Dodi?', options:['Rabbi Akiva','King David','Rabbi Shlomo Alkabetz','The Vilna Gaon'], answer:2, explanation:'Lecha Dodi was written by Rabbi Shlomo Alkabetz in 16th-century Tzfat (Safed), Israel — one of the great centers of Jewish mysticism.' } },
-      { title:'Question 4', exercise:{ question:'What are the four elements of Havdalah?', options:['Candle, wine, challah, spices','Wine, spices, candle, blessing','Torah, prayer, charity, rest','Kiddush, Havdalah, Hallel, Amidah'], answer:1, explanation:'Havdalah uses wine, spices (besamim), a multi-wicked candle, and the concluding blessing — each with deep symbolic meaning.' } },
-      { title:'Question 5', exercise:{ question:'The Talmud describes Shabbat as a foretaste of what?', options:['The Temple service','Yom Kippur','The World to Come','The giving of the Torah'], answer:2, explanation:'The Talmud (Berakhot 57b) describes Shabbat as "Me\'ein Olam Haba" — a foretaste of the World to Come, a glimpse of ultimate spiritual reality.' } },
-      { title:'Shabbat Unit Complete! ✨', icon:'✨', body:`<p>You've completed the Shabbat unit. From candle lighting to Havdalah — you now understand the full structure of this sacred day.</p>`, concept:'Next: Prayer — learning how to talk to Hashem and build a daily practice.' },
-    ]},
-  ]},
-  { id:'unit3', title:'Prayer — Connecting to Hashem', level:'Intermediate', lessons:[
-    { id:'u3l1', title:'Why Do We Pray?', icon:'🙏', slides:[
-      { title:'Why Do We Pray?', icon:'🙏', body:`<p>Prayer in Judaism is called <em>Avodah shebalev</em> — "service of the heart." It is not primarily about asking G-d for things. It is about cultivating awareness of the divine and aligning ourselves with what truly matters.</p><p>The Hebrew word for prayer, <em>hitpalel</em>, is reflexive — it literally means "to judge oneself."</p>`, source:'Talmud Ta\'anit 2a; Rambam, Hilchot Tefillah 1:1' },
-      { title:'Three Times a Day', body:`<p>Three daily prayer services correspond to the three Patriarchs and Temple sacrifices:</p><p><strong style="color:var(--gold)">Shacharit</strong> (Morning) — instituted by Avraham<br/><strong style="color:var(--gold)">Mincha</strong> (Afternoon) — instituted by Yitzchak<br/><strong style="color:var(--gold)">Maariv</strong> (Evening) — instituted by Yaakov</p>`, concept:'Prayer times connect to the natural transitions of the day — morning light, the turning of midday, the coming of night. Judaism sanctifies time itself.', source:'Talmud Berakhot 26b' },
-      { title:'Prayer and the Heart', hebrew:'וְעָבַדְתֶּם אֵת יְהוָה אֱלֹהֵיכֶם', transliteration:"V'avadtem et Adonai Eloheichem", translation:'You shall serve the L-rd your G-d', body:`<p>The Talmud asks: what does it mean to "serve" G-d with your heart? The answer: prayer. Not just recitation of words, but genuine engagement — speaking to G-d with intention (<em>kavanah</em>).</p><p>Even a simple sincere prayer in your own language, from the heart, fulfills this mitzvah.</p>`, source:'Talmud Ta\'anit 2a; Devarim 11:13' },
-      { title:'Quick Check', exercise:{ question:'What does the word "hitpalel" (to pray) literally mean?', options:['To speak to G-d','To judge oneself','To ask for things','To give thanks'], answer:1, explanation:'"Hitpalel" is a reflexive verb meaning "to judge oneself" — prayer in Judaism is fundamentally an act of self-examination and alignment, not just petition.' } },
-    ]},
-    { id:'u3l2', title:'The Structure of the Siddur', icon:'📚', slides:[
-      { title:'The Siddur', icon:'📚', body:`<p>The Siddur (from <em>seder</em>, "order") is the Jewish prayer book — a carefully ordered sequence of prayers, Psalms, and blessings for daily use.</p><p>The Siddur was compiled primarily during the Geonic period (6th–11th centuries), though many prayers date back to the Temple period.</p>`, source:'Talmud Berakhot 28b; Rav Amram Gaon\'s Siddur, ~870 CE' },
-      { title:'The Core: The Amidah', hebrew:'עֲמִידָה', transliteration:'Amidah', translation:'Standing', body:`<p>The centerpiece of every prayer service is the <em>Amidah</em> — "standing" — recited while standing, feet together, facing Jerusalem.</p><p>The Amidah contains blessings of praise, personal requests (health, livelihood, wisdom, redemption), and thanksgiving. It is said silently, as a private conversation with G-d.</p>`, concept:'The Amidah is the closest thing in Judaism to a direct conversation with Hashem. Every word is addressed personally, and many add private prayers at the end.', source:'Talmud Berakhot 28b–29a; Rambam, Hilchot Tefillah 4:1' },
-      { title:'Shacharit Structure', body:`<p>The morning service follows a deliberate progression — like gradually approaching a king:</p><p><strong style="color:var(--gold)">1. Morning Blessings</strong> — gratitude for waking up<br/><strong style="color:var(--gold)">2. Pesukei D\'Zimra</strong> — Psalms to warm the heart<br/><strong style="color:var(--gold)">3. Shema & Blessings</strong> — declaration of faith<br/><strong style="color:var(--gold)">4. Amidah</strong> — the core prayer<br/><strong style="color:var(--gold)">5. Concluding Prayers</strong> — Aleinu and Kaddish</p>`, source:'Rambam, Hilchot Tefillah 7; Shulchan Aruch, Orach Chaim 51–132' },
-      { title:'Quick Check', exercise:{ question:'What is the centerpiece of every Jewish prayer service?', options:['The Shema','The Amidah','The Kaddish','The Aleinu'], answer:1, explanation:'The Amidah (meaning "standing") is the core of every prayer service — a silent, private prayer recited standing while facing Jerusalem, containing 19 blessings.' } },
-    ]},
-    { id:'u3l3', title:'Shacharit — Morning Prayer', icon:'🌅', slides:[
-      { title:'Beginning the Day', icon:'🌅', body:`<p>The first words a Jew says upon waking — before even getting out of bed — are <em>Modeh Ani</em>: "I give thanks before You, living and eternal King, who has returned my soul to me with compassion."</p><p>This simple declaration sets the tone for the entire day: gratitude before anything else.</p>`, source:'Siddur; Mishnah Berurah 1:8' },
-      { title:'Modeh Ani', hebrew:'מוֹדֶה אֲנִי לְפָנֶיךָ מֶלֶךְ חַי וְקַיָּם שֶׁהֶחֱזַרְתָּ בִּי נִשְׁמָתִי בְּחֶמְלָה רַבָּה אֱמוּנָתֶךָ', transliteration:"Modeh ani lefanecha Melech chai v'kayam, shehechezarta bi nishmati b'chemla. Rabbah emunatecha.", translation:'I give thanks before You, living and eternal King, who has returned my soul with compassion. How great is Your faithfulness.', body:`<p>Modeh Ani notably does NOT contain the name of G-d — intentional, because we speak to G-d before even washing our hands. The Rabbis crafted the prayer to express thanks without the divine name.</p>`, source:'Siddur; Kitzur Shulchan Aruch 1:3' },
-      { title:'The Shema in Shacharit', body:`<p>The Shema is recited in Shacharit — once in the early blessings, and once in its formal context with surrounding blessings.</p><p>Before the Shema, we recite blessings about G-d\'s daily renewal of creation and His love for Israel. After, we transition directly into the Amidah — from declaration of faith into prayer.</p>`, source:'Talmud Berakhot 11b–12a; Shulchan Aruch, Orach Chaim 59–70' },
-      { title:'Quick Check', exercise:{ question:'Why does Modeh Ani not contain the name of G-d?', options:['It was added later by the Rabbis','We say it before washing our hands','It is a private prayer','G-d\'s name is only in the Amidah'], answer:1, explanation:'Modeh Ani is said immediately upon waking, before washing hands. Since Jewish law restricts speaking G-d\'s name in an impure state, the Rabbis crafted the prayer without it.' } },
-    ]},
-    { id:'u3l4', title:'Mincha and Maariv', icon:'🌙', slides:[
-      { title:'Mincha — Afternoon Prayer', icon:'🌙', body:`<p>Mincha, the afternoon prayer, is recited between midday and sunset. Despite being the shortest service, the Talmud gives it special significance — it requires the greatest intentional effort to pause from the busy workday.</p><p>The Zohar says Mincha is especially beloved by Hashem because it requires the most sacrifice of time and attention.</p>`, source:'Talmud Berakhot 6b; Zohar Vol. 1, 132b' },
-      { title:'Maariv — Evening Prayer', hebrew:'מַעֲרִיב עֲרָבִים', transliteration:"Ma'ariv aravim", translation:'Who brings on evenings', body:`<p>Maariv, the evening prayer, begins after nightfall and includes the Shema and the Amidah. The opening blessing praises G-d as "Ma\'ariv Aravim" — the One who orchestrates the rotation of day and night with wisdom.</p>`, concept:'Maariv was technically optional in Talmudic times but has become universally accepted as obligatory — an example of the Jewish people voluntarily taking on a higher standard of practice.', source:'Talmud Berakhot 27b; Rambam, Hilchot Tefillah 1:6' },
-      { title:'Building a Practice', body:`<p>For someone beginning, the path to full daily prayer is gradual. Common entry points:</p><p><strong style="color:var(--gold)">Start with Modeh Ani</strong> — 10 seconds each morning<br/><strong style="color:var(--gold)">Add the Shema</strong> — morning and night<br/><strong style="color:var(--gold)">Learn Shacharit</strong> — with a siddur and transliteration<br/><strong style="color:var(--gold)">Join a minyan</strong> — community strengthens the practice</p>`, source:'See Rabbi Aryeh Kaplan, "Jewish Meditation"; Rambam, Hilchot Tefillah 1:1' },
-      { title:'Quick Check', exercise:{ question:'Which prayer service is described as especially beloved because it requires the most sacrifice?', options:['Shacharit','Kabbalat Shabbat','Mincha','Maariv'], answer:2, explanation:'Mincha — the afternoon prayer — is described in the Zohar as especially beloved by Hashem because it requires pausing from the middle of a busy workday to pray.' } },
-    ]},
-    { id:'u3l5', title:'Prayer Quiz', icon:'📝', isQuiz:true, slides:[
-      { title:'Unit Quiz — Prayer', icon:'🙏', body:`<p>Test your knowledge of Jewish prayer — the Siddur, the three daily services, and how to connect with Hashem. Five questions.</p>` },
-      { title:'Question 1', exercise:{ question:'What does the Hebrew word "hitpalel" (to pray) literally mean?', options:['To speak to G-d','To judge oneself','To ask for things','To give thanks'], answer:1, explanation:'"Hitpalel" is a reflexive verb meaning "to judge oneself" — prayer in Judaism is fundamentally an act of self-examination and alignment, not just petition.' } },
-      { title:'Question 2', exercise:{ question:'Which Patriarch instituted the Shacharit (morning) prayer?', options:['Moshe','Yaakov','Yitzchak','Avraham'], answer:3, explanation:'The Talmud (Berakhot 26b) teaches that Shacharit was instituted by Avraham, Mincha by Yitzchak, and Maariv by Yaakov.' } },
-      { title:'Question 3', exercise:{ question:'What is the Amidah also called?', options:['The Shema','Shemoneh Esreh','Kaddish','Hallel'], answer:1, explanation:'The Amidah is also called "Shemoneh Esreh" — the Eighteen Blessings. It is the core prayer of every service, recited while standing, facing Jerusalem.' } },
-      { title:'Question 4', exercise:{ question:'The first words said upon waking each morning are:', options:['Baruch Hashem','Shema Yisrael','Modeh Ani','Ashrei'], answer:2, explanation:'"Modeh Ani" is recited immediately upon waking — before getting out of bed. It expresses gratitude to G-d for returning the soul with compassion.' } },
-      { title:'Question 5', exercise:{ question:'According to the Zohar, which prayer is especially beloved because it requires the most sacrifice?', options:['Shacharit','Maariv','Kabbalat Shabbat','Mincha'], answer:3, explanation:'The Zohar says Mincha is especially beloved because it requires pausing from a busy workday — demanding the greatest act of intention and sacrifice.' } },
-      { title:'Prayer Unit Complete! 🙏', icon:'🙏', body:`<p>You've completed the Prayer unit. You understand why Jews pray, the structure of the Siddur, and the three daily services.</p>`, concept:'Next: Jewish Holidays — the full cycle of the Jewish year and its spiritual meaning.' },
-    ]},
-  ]},
-  { id:'unit4', title:'Jewish Holidays', level:'Intermediate', lessons:[
-    { id:'u4l1', title:'The Jewish Calendar', icon:'📅', slides:[
-      { title:'The Jewish Calendar', icon:'📅', body:`<p>The Jewish calendar is lunisolar — it follows the lunar cycle for months but adjusts with the solar cycle to keep holidays in their proper seasons. The Jewish year begins in the fall with Rosh Hashana.</p>`, source:'Rambam, Hilchot Kiddush HaChodesh; Talmud Rosh Hashana 25a' },
-      { title:'The Cycle of the Year', body:`<p><strong style="color:var(--gold)">Tishrei</strong> (Fall): Rosh Hashana, Yom Kippur, Sukkot<br/><strong style="color:var(--gold)">Kislev</strong> (Winter): Chanukah<br/><strong style="color:var(--gold)">Adar</strong> (Winter/Spring): Purim<br/><strong style="color:var(--gold)">Nissan</strong> (Spring): Pesach<br/><strong style="color:var(--gold)">Sivan</strong> (Early Summer): Shavuot</p>`, concept:'Each holiday is not just historical commemoration — it is a recurring spiritual opportunity. The same "energy" of Pesach is available every year at the same point in the cosmic cycle.', source:'See Sefer HaTanya, Iggeret HaKodesh; Ramban on Vayikra 23' },
-      { title:'Quick Check', exercise:{ question:'Which month does the Jewish year begin in?', options:['Nissan (Spring)','Sivan (Summer)','Tishrei (Fall)','Shevat (Winter)'], answer:2, explanation:'The Jewish New Year — Rosh Hashana — falls in Tishrei, corresponding to September/October. However, Nissan is called the "first month" in the Torah, reflecting that Pesach marks the birth of the Jewish people.' } },
-    ]},
-    { id:'u4l2', title:'Rosh Hashana & Yom Kippur', icon:'🍎', slides:[
-      { title:'Rosh Hashana', icon:'🍎', body:`<p>Rosh Hashana (literally "Head of the Year") is the Jewish New Year, observed on the 1st–2nd of Tishrei. Unlike secular celebrations, it is a day of solemnity and self-reflection — the day the world stands in judgment before G-d. The central mitzvah is hearing the shofar (ram\'s horn) — 100 blasts across the day.</p>`, source:'Talmud Rosh Hashana 16a; Rambam, Hilchot Teshuva 3:1–4' },
-      { title:'The Shofar', hebrew:'תְּקִיעָה שְׁבָרִים תְּרוּעָה', transliteration:'Tekiah, Shevarim, Teruah', translation:'One long blast, three medium, nine staccato', body:`<p>The shofar is one of the oldest instruments in human history. Maimonides wrote: "Wake up, sleepers, from your sleep! Arise from your slumber! Examine your deeds, return to G-d, and remember your Creator."</p>`, concept:'The Ten Days between Rosh Hashana and Yom Kippur — "Aseret Yemei Teshuva" — are the most spiritually intense period of the Jewish year.', source:'Rambam, Hilchot Teshuva 3:4; Talmud Rosh Hashana 26b' },
-      { title:'Yom Kippur', body:`<p>Yom Kippur is the holiest day in the Jewish calendar — a 25-hour fast during which Jews abstain from food, water, bathing, leather shoes, and marital relations.</p><p>The day is spent in synagogue, confessing sins collectively, praying for forgiveness. The final prayer, <em>Neilah</em> — "the closing" — ends with a single long shofar blast as the "gates of heaven" close at nightfall.</p>`, source:'Vayikra 16:29–34; 23:26–32; Talmud Yoma' },
-      { title:'Quick Check', exercise:{ question:'What is the central mitzvah of Rosh Hashana?', options:['Fasting for 25 hours','Eating apples and honey','Hearing the shofar','Reciting Hallel'], answer:2, explanation:'The central mitzvah of Rosh Hashana is hearing the shofar — 100 blasts across the day. The fast and intensive prayer is associated with Yom Kippur, 10 days later.' } },
-    ]},
-    { id:'u4l3', title:'Sukkot, Pesach & Shavuot', icon:'🌿', slides:[
-      { title:'The Three Pilgrimage Festivals', icon:'🌿', body:`<p>Three times a year, when the Temple stood, every Jewish male was commanded to make a pilgrimage to Jerusalem. These <em>Shalosh Regalim</em> combine historical memory with agricultural meaning and spiritual themes.</p>`, source:'Shemot 23:14–17; Devarim 16:16; Talmud Chagigah' },
-      { title:'Pesach — Passover', hebrew:'פֶּסַח', transliteration:'Pesach', translation:'Passover', body:`<p>Pesach commemorates the Exodus from Egypt. For 7-8 days, Jews remove all leavened bread (chametz) and eat matzah — reliving the rushed departure from Egypt.</p><p>The central ritual is the Seder — a family gathering with specific foods, songs, and the retelling of the Exodus story.</p>`, source:'Shemot 12–13; Haggadah shel Pesach; Talmud Pesachim' },
-      { title:'Shavuot & Sukkot', body:`<p><strong style="color:var(--gold)">Shavuot</strong> (50 days after Pesach): Commemorates the giving of the Torah at Sinai. Many stay up all night studying Torah (<em>tikkun leil Shavuot</em>).</p><p><strong style="color:var(--gold)">Sukkot</strong> (7 days after Yom Kippur): Jews build and eat in temporary outdoor booths (sukkot), recalling 40 years in the desert. The most joyful time of the Jewish year.</p>`, concept:"The Vilna Gaon taught that Sukkot's joy is so great it is called simply 'The Festival' (HaChag) — the holiday par excellence.", source:'Vayikra 23:33–43; Talmud Sukkah; Vilna Gaon on Shir HaShirim' },
-      { title:'Quick Check', exercise:{ question:'What is eaten on Pesach instead of bread?', options:['Challah','Matza','Pita','Crackers'], answer:1, explanation:'On Pesach, all chametz (leavened products) are removed and matzah — unleavened bread — is eaten to recall the bread the Israelites baked in haste when leaving Egypt.' } },
-    ]},
-    { id:'u4l4', title:'Chanukah and Purim', icon:'🕎', slides:[
-      { title:'Chanukah', icon:'🕎', body:`<p>Chanukah commemorates the Maccabees\' victory over the Greek-Syrian empire in 165 BCE and the miracle of a single day\'s worth of pure olive oil lasting eight days in the rededicated Temple.</p><p>For eight nights, Jews light a menorah (chanukiah) in the window or doorway — publicizing the miracle.</p>`, source:'Talmud Shabbat 21b; Rambam, Hilchot Chanukah 3:1–4' },
-      { title:'The Chanukiah', hebrew:'וְעַל הַנִּסִּים', transliteration:"V'al haNissim", translation:'And for the miracles...', body:`<p>The menorah holds 9 candles — 8 for the eight nights, plus the <em>shamash</em> (helper candle). Each night, one additional candle is added, building to maximum light on the final night.</p><p>"V\'al haNissim" — for the miracles — is added to prayers and grace after meals throughout Chanukah.</p>`, source:'Talmud Shabbat 21b; Shulchan Aruch, Orach Chaim 671–684' },
-      { title:'Purim', hebrew:'פּוּרִים', transliteration:'Purim', translation:'Lots (as in lottery)', body:`<p>Purim celebrates the salvation of Persian Jews from the plot of Haman, as told in the Book of Esther. The four mitzvot of Purim: reading the Megillah, sending food gifts to friends (<em>mishloach manot</em>), giving charity to the poor, and enjoying a festive meal.</p>`, source:'Megillat Esther; Talmud Megillah; Rambam, Hilchot Megillah 1–2' },
-      { title:'Quick Check', exercise:{ question:'How many nights does Chanukah last?', options:['3','7','8','9'], answer:2, explanation:'Chanukah lasts 8 nights, commemorating the miracle of one day\'s worth of oil burning for 8 days in the rededicated Temple in Jerusalem in 165 BCE.' } },
-    ]},
-    { id:'u4l5', title:'Holidays Quiz', icon:'📝', isQuiz:true, slides:[
-      { title:'Unit Quiz — Jewish Holidays', icon:'🍎', body:`<p>Test your knowledge of the Jewish calendar and its major holidays — from Rosh Hashana to Purim. Five questions.</p>` },
-      { title:'Question 1', exercise:{ question:'The Jewish New Year — Rosh Hashana — falls in which Hebrew month?', options:['Nissan','Sivan','Tishrei','Adar'], answer:2, explanation:'Rosh Hashana falls on the 1st of Tishrei, corresponding to September/October. Though Nissan is the "first month" of the year in the Torah, Tishrei is when the new year begins.' } },
-      { title:'Question 2', exercise:{ question:'What is the central mitzvah of Rosh Hashana?', options:['Fasting for 25 hours','Building a sukkah','Hearing the shofar','Eating apples and honey'], answer:2, explanation:'The central mitzvah of Rosh Hashana is hearing the shofar (ram\'s horn) — 100 blasts across the day. Its sound is a call to wake up and return to G-d.' } },
-      { title:'Question 3', exercise:{ question:'On Pesach, what replaces bread for 7–8 days?', options:['Pita','Crackers','Matzah','Challah'], answer:2, explanation:'On Pesach, all chametz (leavened products) are removed and matzah — unleavened bread — is eaten to commemorate the Israelites\' rushed departure from Egypt.' } },
-      { title:'Question 4', exercise:{ question:'Which holiday commemorates the Maccabees\' victory and the miracle of oil?', options:['Purim','Sukkot','Shavuot','Chanukah'], answer:3, explanation:'Chanukah commemorates the Maccabees\' victory over the Greek-Syrian empire in 165 BCE and the miracle of a single day\'s worth of oil burning for eight days.' } },
-      { title:'Question 5', exercise:{ question:'How many days after Pesach is Shavuot celebrated?', options:['7 days','30 days','50 days','100 days'], answer:2, explanation:'Shavuot is celebrated 50 days after Pesach — the 49-day counting period is called Sefirat HaOmer. Shavuot commemorates the giving of the Torah at Sinai.' } },
-      { title:'Holidays Unit Complete! 🍎', icon:'🍎', body:`<p>You've completed the Jewish Holidays unit. The Jewish calendar is a year-long spiritual curriculum moving through creation, redemption, revelation, and joy.</p>`, concept:'Final unit: Torah Study — how to engage with the weekly Parasha and the great commentators.' },
-    ]},
-  ]},
-  { id:'unit5', title:'Torah Study — Parshat HaShavua', level:'Advanced', lessons:[
-    { id:'u5l1', title:'What is the Parasha?', icon:'📜', slides:[
-      { title:'The Weekly Torah Portion', icon:'📜', body:`<p>Each week, the Jewish world reads the same section of the Torah — called the <em>parasha</em> or <em>parshat hashavua</em>. The 54 portions cycle through the Five Books of Moses in one year.</p>`, source:'Talmud Megillah 29b; Rambam, Hilchot Tefillah 12:1' },
-      { title:'How It Works', body:`<p>Each portion is named after its first distinctive word — Bereishit ("In the beginning"), Noach ("Noah"), Lech Lecha ("Go forth"). In leap years, some portions are combined.</p><p>Studying the weekly parasha connects you to a living, global Jewish conversation.</p>`, concept:'Whatever is happening in your life, the parasha of the week is speaking to it. Generations of Jews have found that the portion seems to be "about" their exact situation.', source:'Ba\'al Shem Tov (attributed); see Chiddushei HaRim, Introduction' },
-      { title:'PaRDeS — Four Levels', body:`<p>Jewish tradition recognizes four levels of interpretation — called <em>PaRDeS</em>:</p><p><strong style="color:var(--gold)">Peshat</strong> — Literal meaning<br/><strong style="color:var(--gold)">Remez</strong> — Allegorical/symbolic meaning<br/><strong style="color:var(--gold)">Derash</strong> — Homiletical/moral teaching<br/><strong style="color:var(--gold)">Sod</strong> — Mystical/Kabbalistic meaning</p>`, source:'Zohar Vol. 3, 202a; Bachya ibn Paquda, Chovot HaLevavot' },
-      { title:'Quick Check', exercise:{ question:'What does "PaRDeS" stand for?', options:['Peshat, Remez, Derash, Sod','Prayer, Reading, Discussion, Study','Parasha, Rabbi, Discussion, Seder','Psalm, Ritual, Drasha, Shul'], answer:0, explanation:'PaRDeS stands for Peshat (literal), Remez (allegorical), Derash (homiletical), and Sod (mystical) — the four levels of Torah interpretation. The word itself means "orchard" in Hebrew.' } },
-    ]},
-    { id:'u5l2', title:'Reading the Torah', icon:'✍️', slides:[
-      { title:'The Hebrew Alphabet', icon:'✍️', body:`<p>The Torah is written in Biblical Hebrew — 22 letters with no vowels in the written scroll. Even basic Hebrew literacy opens enormous doors — following Torah readings, praying with intention, accessing original texts.</p>`, source:'See Rabbi Nosson Scherman, "The Aleph-Beis"' },
-      { title:'Cantillation — Trop', body:`<p>The Torah is not just read — it is sung. Each word has a cantillation mark (<em>trop</em>) indicating the melody for that word. These marks also serve as punctuation and phrasing guides.</p><p>The Torah reader (ba\'al koreh) chants the entire portion using these melodies, from an unmarked scroll.</p>`, concept:'The tradition of reading Torah with cantillation is one of the oldest forms of sacred music in the world — practiced continuously for over 2,000 years.', source:'Talmud Nedarim 37b; Rambam, Hilchot Tefillah 12:2' },
-      { title:'Aliyot — Being Called Up', hebrew:'עֲלִיָּה', transliteration:'Aliyah', translation:'Going up', body:`<p>During the Torah reading, members of the community are called up (aliyah) to recite blessings before and after a section is read. There are typically 7 aliyot on Shabbat morning.</p>`, source:'Mishnah Megillah 4:1–2; Talmud Megillah 23a' },
-      { title:'Quick Check', exercise:{ question:'What is the Hebrew term for being called up to the Torah?', options:['Kiddush','Aliyah','Havdalah','Minyan'], answer:1, explanation:'Aliyah (going up) describes being called to the Torah to recite the blessings. The same word is used for immigration to Israel — both are acts of "going up" spiritually.' } },
-    ]},
-    { id:'u5l3', title:'Commentary — Rashi and Beyond', icon:'🧠', slides:[
-      { title:'Rashi', icon:'🧠', body:`<p>Rabbi Shlomo Yitzchaki (1040–1105), known by the acronym Rashi, wrote the most widely studied commentary on the Torah. He uses remarkably concise language to explain difficult words, reconcile contradictions, and bring in Midrashic teachings.</p>`, source:'Rashi on Bereishit 1:1; see R\' Chaim Dov Chavel\'s biography of Rashi' },
-      { title:'The Giants of Commentary', body:`<p><strong style="color:var(--gold)">Rashi</strong> — 11th c. France. Essential first commentary.<br/><strong style="color:var(--gold)">Ramban (Nachmanides)</strong> — 13th c. Spain. Philosophical and mystical depth.<br/><strong style="color:var(--gold)">Or HaChaim</strong> — 18th c. Morocco. Beloved Kabbalistic commentary.<br/><strong style="color:var(--gold)">Netziv</strong> — 19th c. Russia. Halachic and national focus.</p>`, concept:'Each commentator brings their era, culture, and perspective to the eternal text. Reading multiple commentators on the same verse reveals the extraordinary depth of Torah.', source:'See R\' Adin Even-Israel Steinsaltz, "Biblical Images"' },
-      { title:'How to Learn Parasha', body:`<p>A practical weekly routine:</p><p><strong style="color:var(--gold)">1.</strong> Read the English translation (15–20 min)<br/><strong style="color:var(--gold)">2.</strong> Read Rashi on 1–2 key verses<br/><strong style="color:var(--gold)">3.</strong> Listen to a 10-minute shiur (class)<br/><strong style="color:var(--gold)">4.</strong> Share one insight at your Shabbat table</p>`, source:'Based on Rambam, Hilchot Talmud Torah 1:8; Shulchan Aruch, Yoreh Deah 246' },
-      { title:'Quick Check', exercise:{ question:'In which century did Rashi live?', options:['8th century','11th century','14th century','16th century'], answer:1, explanation:'Rashi (Rabbi Shlomo Yitzchaki) lived from 1040–1105 CE in Troyes, France — in the 11th century. His commentary remains the most widely studied Torah commentary to this day.' } },
-    ]},
-    { id:'u5l4', title:'Applying Torah to Daily Life', icon:'💫', slides:[
-      { title:'Torah is a Living Document', icon:'💫', body:`<p>"It is not in heaven" (Devarim 30:12) — the Torah itself teaches that it must be interpreted and applied by human beings, in every generation and circumstance. This is the entire project of halacha.</p>`, source:'Devarim 30:12; Talmud Bava Metzia 59b' },
-      { title:'Mussar — Ethics of the Soul', hebrew:'מוּסַר', transliteration:'Mussar', translation:'Ethics / Discipline', body:`<p>Mussar is a Jewish ethical discipline developed in 19th-century Lithuania by Rabbi Yisrael Salanter. It focuses on systematic character development — identifying dominant negative traits and working to correct them.</p><p>Traits studied in Mussar: humility, patience, trust in G-d, order, silence, and love of Torah.</p>`, concept:'Mussar bridges knowing Torah intellectually and actually living it. It gives Judaism a personal, psychological dimension that many find transformative.', source:'R\' Yisrael Salanter; Mesillat Yesharim by R\' Moshe Chaim Luzzatto' },
-      { title:'Your Path Forward', body:`<p>You have completed the Journey to Hashem foundational curriculum!</p><p>Next steps:<br/><strong style="color:var(--gold)">Find a chevruta</strong> — a study partner<br/><strong style="color:var(--gold)">Attend a shiur</strong> — join a regular class<br/><strong style="color:var(--gold)">Start keeping Shabbat</strong> — even partially<br/><strong style="color:var(--gold)">Learn the daily prayers</strong> — with understanding</p>`, source:'"Find yourself a teacher, and acquire a study partner." — Pirkei Avot 1:6' },
-      { title:'Quick Check', exercise:{ question:'Who founded the Mussar movement?', options:['Rabbi Akiva','Rabbi Yisrael Salanter','The Vilna Gaon','Rabbi Moshe Chaim Luzzatto'], answer:1, explanation:'Rabbi Yisrael Salanter (1809–1883) founded the Mussar movement in 19th-century Lithuania, focusing on systematic ethical self-improvement as a Jewish practice.' } },
-    ]},
-    { id:'u5l5', title:'Torah Study Quiz', icon:'📝', isQuiz:true, slides:[
-      { title:'Unit Quiz — Torah Study', icon:'📜', body:`<p>Test your knowledge of Torah study — the parasha system, commentators, and how to engage with the weekly portion. Five questions.</p>` },
-      { title:'Question 1', exercise:{ question:'How many weekly Torah portions (parashiyot) are there in the annual cycle?', options:['24','36','54','70'], answer:2, explanation:'There are 54 parashiyot — one read each Shabbat over the course of a year. In shorter years, some are combined. The cycle restarts each fall on Simchat Torah.' } },
-      { title:'Question 2', exercise:{ question:'What does the acronym "PaRDeS" stand for?', options:['Peshat, Remez, Derash, Sod','Prayer, Reading, Discussion, Study','Parasha, Rav, Derasha, Shul','Psalms, Ritual, Drasha, Sermon'], answer:0, explanation:'PaRDeS stands for Peshat (literal), Remez (allegorical), Derash (homiletical), and Sod (mystical) — the four levels of Torah interpretation. The word means "orchard" in Hebrew.' } },
-      { title:'Question 3', exercise:{ question:'In which century did Rashi write his Torah commentary?', options:['8th century','11th century','14th century','16th century'], answer:1, explanation:'Rashi (Rabbi Shlomo Yitzchaki) lived from 1040–1105 CE in Troyes, France. His commentary remains the most widely studied Torah commentary to this day.' } },
-      { title:'Question 4', exercise:{ question:'What does "aliyah" mean in the context of the Torah reading?', options:['Reading from the Torah','Going up to the Torah','The weekly portion','The cantor\'s melody'], answer:1, explanation:'"Aliyah" (going up) refers to being called to the Torah to recite blessings before and after a section is read — considered a great honor.' } },
-      { title:'Question 5', exercise:{ question:'Who founded the Mussar movement of Jewish ethics?', options:['The Vilna Gaon','Rabbi Akiva','Rabbi Yisrael Salanter','Rabbi Moshe Chaim Luzzatto'], answer:2, explanation:'Rabbi Yisrael Salanter (1809–1883) founded the Mussar movement in Lithuania, focusing on systematic ethical self-improvement as a central Jewish practice.' } },
-      { title:'Course Complete! 🎓', icon:'🎓', body:`<p>You have completed the full Journey to Hashem foundational curriculum — five units covering the core pillars of Jewish life and learning.</p><p>This is just the beginning. The ocean of Torah is infinite, and every drop you learn brings you closer to Hashem and to your truest self.</p>`, concept:'"It is not upon you to finish the work, nor are you free to desist from it." — Pirkei Avot 2:16' },
-    ]},
-  ]},
-];
 
 const QUIZ_QUESTIONS = [
   { id:'q1', question:"Where are you in your Jewish journey?", options:["Just curious / exploring","Culturally Jewish, not very observant","Somewhat observant","Observant and want to go deeper","Orthodox / deeply learned"] },
@@ -324,7 +157,7 @@ function SearchOverlay({ onClose, onOpenLesson }) {
         <button className="btn-back-text" onClick={onClose}>Cancel</button>
       </div>
       <div className="search-results">
-        {q.length < 2 && <div className="search-empty" style={{paddingTop:60}}><div style={{fontSize:32,marginBottom:12}}>🔍</div>Search lessons</div>}
+        {q.length < 2 && <div className="search-empty" style={{paddingTop:60}}><div style={{fontSize:32,marginBottom:12}}><Icon name="search"/></div>Search lessons</div>}
         {q.length >= 2 && results.length === 0 && <div className="search-empty">No results for "{q}"</div>}
         {results.map((r, i) => (
           <button key={i} className="search-result-item" style={{width:'100%',textAlign:'left'}} onClick={() => {const unit=LEARNING_PATH.find(u=>u.lessons.some(l=>l.id===r.item.id));onOpenLesson(r.item,unit);onClose();}}>
@@ -643,14 +476,14 @@ function UserWaitlistCard(){
   const [error,setError]=useState('');
   if(done)return(
     <div className="home-card" style={{textAlign:'center',padding:'18px 16px'}}>
-      <div style={{fontSize:20,marginBottom:6}}>✅</div>
+      <Icon name="check_circle" size={20} style={{marginBottom:6,display:'block'}}/>
       <div style={{fontFamily:'Cormorant Garamond,serif',fontSize:17,color:'var(--gold)'}}>You're on the list!</div>
       <div style={{fontSize:13,color:'var(--text-dim)',marginTop:4}}>We'll be in touch.</div>
     </div>
   );
   return(
     <div className="home-card">
-      <div className="home-card-header"><span className="home-card-icon">✉️</span><span className="home-card-title">Join the Waitlist</span></div>
+      <div className="home-card-header"><span className="home-card-icon"><Icon name="envelope"/></span><span className="home-card-title">Join the Waitlist</span></div>
       <p style={{fontSize:13,color:'var(--text-dim)',margin:'4px 0 12px'}}>Be first to know when we launch.</p>
       <input className="pitch-input" placeholder="Your name" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} style={{marginBottom:8}}/>
       <input className="pitch-input" placeholder="Email address" type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} style={{marginBottom:12}}/>
@@ -704,22 +537,48 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
             <p className="home-date">{getHebrewDate()} · {new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</p>
           </div>
           <div style={{display:'flex',gap:8,alignItems:'flex-start'}}>
-            <button className="home-search-btn" onClick={()=>shareApp()} title="Share app">🔗</button>
-            <button className="home-search-btn" onClick={onSearch} title="Search">🔍</button>
+            <button className="home-search-btn" onClick={()=>shareApp()} title="Share app"><Icon name="share"/></button>
+            <button className="home-search-btn" onClick={onSearch} title="Search"><Icon name="search"/></button>
           </div>
         </div>
         <div className="home-streak-bar">
-          <span className="home-streak-icon">🔥</span>
+          <span className="home-streak-icon"><Icon name="streak"/></span>
           <div className="home-streak-text">
             <div className="home-streak-num">{currentStreak} day{currentStreak!==1?'s':''}</div>
             <div className="home-streak-label">learning streak · {totalXP} XP total</div>
           </div>
         </div>
+        {state.streakFreezeAvailable && (
+          <div style={{
+            display:'flex', alignItems:'center', gap:10,
+            padding:'10px 14px', marginTop:10,
+            background:'rgba(120, 180, 220, 0.08)',
+            border:'1px solid rgba(120, 180, 220, 0.2)',
+            borderRadius:'var(--radius-lg)',
+            fontSize:13, color:'var(--text-body)',
+          }}>
+            <Icon name="freeze" size={18}/>
+            <span><strong>Streak freeze ready.</strong> We'll auto-apply it if you miss a day.</span>
+          </div>
+        )}
+        {!state.streakFreezeAvailable && state.streakFreezeUsedAt && (
+          <div style={{
+            display:'flex', alignItems:'center', gap:10,
+            padding:'10px 14px', marginTop:10,
+            background:'rgba(255,255,255,0.03)',
+            border:'1px solid rgba(255,255,255,0.08)',
+            borderRadius:'var(--radius-lg)',
+            fontSize:12, color:'var(--text-dim)',
+          }}>
+            <Icon name="freeze" size={16}/>
+            <span>Streak freeze used on {state.streakFreezeUsedAt}. Refreshes Sunday.</span>
+          </div>
+        )}
       </div>
 
       {shabbat&&(
         <div className="shabbat-banner">
-          <span className="shabbat-banner-icon">🕯️</span>
+          <span className="shabbat-banner-icon"><Icon name="candle"/></span>
           <div className="shabbat-banner-text">
             <div className="shabbat-banner-title">Shabbat Shalom</div>
             <div className="shabbat-banner-sub">Shabbat is a day of rest — come back after nightfall to continue learning.</div>
@@ -729,7 +588,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
 
       {showStreakReminder&&(
         <div className="streak-reminder">
-          <span style={{fontSize:18}}>🔔</span>
+          <Icon name="bell" size={18}/>
           <span className="streak-reminder-text">Don't break your {currentStreak}-day streak — complete a lesson today!</span>
           <button className="streak-reminder-close" onClick={()=>setShowReminder(false)}>×</button>
         </div>
@@ -747,7 +606,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
 
       <div className="section section-top">
         <div className="parasha-card">
-          <div className="parasha-label">📜 This Week's Parasha (approx.)</div>
+          <div className="parasha-label"><Icon name="torah"/> This Week's Parasha (approx.)</div>
           <div className="parasha-name">Parashat {parasha}</div>
           <div className="parasha-detail">Approximate weekly Torah portion — verify at hebcal.com for your location.</div>
         </div>
@@ -755,14 +614,14 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
         <UserWaitlistCard/>
 
         <div className="home-card">
-          <div className="home-card-header"><span className="home-card-icon">✨</span><span className="home-card-title">Daily Insight</span></div>
+          <div className="home-card-header"><span className="home-card-icon"><Icon name="sparkle"/></span><span className="home-card-title">Daily Insight</span></div>
           <div className="home-insight-text">"{insight.text}"</div>
           <div className="home-insight-source">— {insight.source}</div>
         </div>
 
         <div className="home-card" style={{display:'flex',alignItems:'center',justifyContent:'space-between',cursor:'pointer'}} onClick={()=>onGoTab('community')}>
           <div>
-            <div className="home-card-title" style={{fontSize:11,color:'var(--gold)',textTransform:'uppercase',letterSpacing:'0.8px',marginBottom:4}}>💬 Community</div>
+            <div className="home-card-title" style={{fontSize:11,color:'var(--gold)',textTransform:'uppercase',letterSpacing:'0.8px',marginBottom:4}}><Icon name="community"/> Community</div>
             <div style={{fontSize:14,color:'var(--text-body)'}}>5 new posts today</div>
             <div style={{fontSize:12,color:'var(--text-dim)',marginTop:2}}>Discussing Parashat {parasha}</div>
           </div>
@@ -770,7 +629,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
         </div>
 
         <button className="pitch-home-btn" onClick={onOpenPitch}>
-          <span className="pitch-home-btn-icon">🕍</span>
+          <span className="pitch-home-btn-icon"><Icon name="synagogue"/></span>
           <div className="pitch-home-btn-text">
             <div className="pitch-home-btn-title">Are you a Rabbi or Educator?</div>
             <div className="pitch-home-btn-sub">Partner with Journey to Hashem →</div>
@@ -813,8 +672,8 @@ function PathMap({completedLessons,bookmarks,onLessonTap}){
                   <div className="node-col" style={{transform:`translateX(${shift}px)`}}>
                     <button className={`lesson-node node-${st}`} onClick={()=>st!=='locked'&&onLessonTap(lesson,unit)} disabled={st==='locked'}>
                       <span className="node-icon">{lesson.icon}</span>
-                      {st==='completed'&&<span className="node-check">✓</span>}
-                      {isBookmarked&&st!=='completed'&&<span className="node-bookmark">🔖</span>}
+                      {st==='completed'&&<span className="node-check"><Icon name="check"/></span>}
+                      {isBookmarked&&st!=='completed'&&<span className="node-bookmark"><Icon name="bookmark"/></span>}
                     </button>
                     <span className={`node-label label-${st}`}>{lesson.title}</span>
                   </div>
@@ -839,8 +698,8 @@ function LearnTab({state,onOpenLesson}){
     <div className="tab-screen learn-tab">
       <div className="learn-header">
         <div className="learn-header-top">
-          <div className="streak-counter"><span className="streak-icon">🔥</span><span className="streak-number">{currentStreak} day{currentStreak!==1?'s':''}</span></div>
-          <div className="xp-counter"><span className="xp-icon">⭐</span><span className="xp-number">{totalXP} XP</span></div>
+          <div className="streak-counter"><span className="streak-icon"><Icon name="streak"/></span><span className="streak-number">{currentStreak} day{currentStreak!==1?'s':''}</span></div>
+          <div className="xp-counter"><span className="xp-icon"><Icon name="xp"/></span><span className="xp-number">{totalXP} XP</span></div>
         </div>
         <p className="daily-goal-text">{dailyLessonsCompleted}/{DAILY_GOAL} lessons today</p>
         <div className="daily-goal-bar"><div className="daily-goal-fill" style={{width:`${dailyPct}%`}}/></div>
@@ -858,7 +717,7 @@ function LearnTab({state,onOpenLesson}){
         </div>
       ):(
         <div className="section section-top">
-          <div className="all-complete-banner"><span>🏆</span><p>You've completed all lessons!</p></div>
+          <div className="all-complete-banner"><span><Icon name="trophy"/></span><p>You've completed all lessons!</p></div>
         </div>
       )}
       <div className="section">
@@ -870,233 +729,50 @@ function LearnTab({state,onOpenLesson}){
   );
 }
 
-// ── EXERCISE COMPONENT ────────────────────────────────────
-function Exercise({exercise}){
-  const [selected,setSelected]=useState(null);
-  const [answered,setAnswered]=useState(false);
-  // Reset when exercise changes (quiz multi-slide)
-  useEffect(()=>{ setSelected(null); setAnswered(false); },[exercise.question]);
-  const isCorrect=selected===exercise.answer;
-  return(
-    <div className="exercise-card">
-      <div className="exercise-label">✏️ Quick Check</div>
-      <div className="exercise-question">{exercise.question}</div>
-      <div className="exercise-options">
-        {exercise.options.map((opt,i)=>{
-          let cls='exercise-option';
-          if(answered){
-            if(i===exercise.answer)cls+=' correct disabled';
-            else if(i===selected)cls+=' wrong disabled';
-            else cls+=' disabled';
-          }
-          return(
-            <button key={i} className={cls} onClick={()=>{if(!answered){setSelected(i);setAnswered(true);}}}>
-              {answered&&i===exercise.answer?'✓ ':answered&&i===selected&&!isCorrect?'✗ ':''}{opt}
-            </button>
-          );
-        })}
-      </div>
-      {answered&&(
-        <div className={`exercise-feedback${isCorrect?' correct':' wrong'}`}>
-          {isCorrect?'Correct! ':'Not quite — '}{exercise.explanation}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ── AUDIO DATA ────────────────────────────────────────────
-const RABBI_VOICES = {
-  'u1l1': { rabbi:'Rabbi Moshe Cohen', title:'Who is Hashem?', duration:'8:24', emoji:'👨‍🏫' },
-  'u1l2': { rabbi:'Rabbi Yosef Levi',  title:'Understanding the Torah', duration:'11:02', emoji:'📜' },
-  'u1l3': { rabbi:'Rabbi David Shapiro',title:'Am Yisrael — Our People', duration:'9:45', emoji:'✡️' },
-  'u1l4': { rabbi:'Rabbi Avi Bergman', title:'The Meaning of Mitzvot', duration:'7:18', emoji:'⭐' },
-  'u2l1': { rabbi:'Rabbi Moshe Cohen', title:'Shabbat — The Day of Rest', duration:'13:30', emoji:'🕯️' },
-  'u2l2': { rabbi:'Rabbi Yosef Levi',  title:'Welcoming the Shabbat Queen', duration:'10:15', emoji:'✨' },
-  'u3l1': { rabbi:'Rabbi David Shapiro',title:'Why We Pray', duration:'12:00', emoji:'🙏' },
-  'u3l3': { rabbi:'Rabbi Avi Bergman', title:'The Morning Prayer — Shacharit', duration:'15:45', emoji:'🌅' },
-};
-
-const WAVEFORM_HEIGHTS = [30,55,40,70,45,85,60,40,75,50,65,35,80,45,60,70,40,55,85,45,65,35,75,50,60,40,70,55,45,80];
-
-function AudioPlayer({lessonId, lessonTitle}){
-  const [playing, setPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [elapsed, setElapsed] = useState(0);
-  const intervalRef = useRef(null);
-  const voice = RABBI_VOICES[lessonId];
-  const totalSecs = voice ? parseInt(voice.duration.split(':')[0])*60+parseInt(voice.duration.split(':')[1]) : 480;
-
-  useEffect(()=>{
-    if(playing){
-      intervalRef.current = setInterval(()=>{
-        setElapsed(e=>{
-          if(e>=totalSecs){setPlaying(false);clearInterval(intervalRef.current);return totalSecs;}
-          return e+1;
-        });
-      },1000);
-    } else {
-      clearInterval(intervalRef.current);
-    }
-    return()=>clearInterval(intervalRef.current);
-  },[playing,totalSecs]);
-
-  useEffect(()=>{setProgress((elapsed/totalSecs)*100);},[elapsed,totalSecs]);
-
-  const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
-  const playedBars = Math.floor((elapsed/totalSecs)*WAVEFORM_HEIGHTS.length);
-
-  return(
-    <div className="audio-player">
-      <div className="audio-player-top">
-        <div className="audio-rabbi-avatar">{voice?.emoji||'🎙️'}</div>
-        <div className="audio-rabbi-info">
-          <div className="audio-rabbi-name">{voice?.rabbi||'Rabbi Moshe Cohen'}</div>
-          <div className="audio-rabbi-title">Featured Rabbi · Journey to Hashem</div>
-        </div>
-        <span className="audio-coming-soon-tag">AUDIO PREVIEW</span>
-      </div>
-      <div className="audio-track-title">"{voice?.title||lessonTitle}" — Rabbi Commentary</div>
-      <div className="audio-waveform">
-        {WAVEFORM_HEIGHTS.map((h,i)=>(
-          <div key={i} className={`audio-bar${i<playedBars?' played':i===playedBars&&playing?' active':''}`}
-            style={{height:`${playing&&i===playedBars?h*(0.7+Math.sin(Date.now()/200+i)*0.3):h}%`}}/>
-        ))}
-      </div>
-      <div className="audio-controls">
-        <button className="audio-skip-btn" onClick={()=>setElapsed(e=>Math.max(0,e-15))}>⏮ 15s</button>
-        <button className={`audio-play-btn${playing?' playing':''}`} onClick={()=>setPlaying(p=>!p)}>
-          {playing?'⏸':'▶'}
-        </button>
-        <button className="audio-skip-btn" onClick={()=>setElapsed(e=>Math.min(totalSecs,e+15))}>15s ⏭</button>
-        <div className="audio-progress-wrap">
-          <div className="audio-progress-track" onClick={e=>{const r=e.currentTarget.getBoundingClientRect();setElapsed(Math.floor(((e.clientX-r.left)/r.width)*totalSecs));}}>
-            <div className="audio-progress-fill" style={{width:`${progress}%`}}/>
-          </div>
-          <div className="audio-time-row">
-            <span className="audio-time">{fmt(elapsed)}</span>
-            <span className="audio-time">{voice?.duration||'8:00'}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── LESSON SCREEN ─────────────────────────────────────────
-function LessonScreen({lesson,unit,onClose,onComplete,isBookmarked,onToggleBookmark}){
-  const [step,setStep]=useState(0);
-  const [showAudio,setShowAudio]=useState(false);
-  const contentRef=useRef(null);
-  const slides=lesson.slides||[];
-  const STEPS=slides.length||1;
-  const isLast=step===STEPS-1;
-  const slide=slides[step]||{};
-  const hasAudio=!!RABBI_VOICES[lesson.id];
-
-  // Scroll to top on slide change
-  useEffect(()=>{
-    if(contentRef.current) contentRef.current.scrollTop=0;
-  },[step]);
-
-  return(
-    <div className="screen-full lesson-screen fade-in">
-      <div className="lesson-header">
-        <button className="btn-icon" onClick={onClose}>✕</button>
-        <div className="lesson-header-info">
-          <p className="lesson-header-unit">{unit?.title}</p>
-          <p className="lesson-header-title">{lesson.title}</p>
-        </div>
-        <div style={{display:'flex',gap:6}}>
-          {hasAudio&&<button className={`lesson-bookmark-btn${showAudio?' bookmarked':''}`} onClick={()=>setShowAudio(a=>!a)} title="Rabbi Audio">🎙️</button>}
-          <button className={`lesson-bookmark-btn${isBookmarked?' bookmarked':''}`} onClick={onToggleBookmark}>{isBookmarked?'🔖':'🏷️'}</button>
-        </div>
-      </div>
-      <div className="lesson-progress-bar"><div className="lesson-progress-fill" style={{width:`${((step+1)/STEPS)*100}%`}}/></div>
-      <div className="lesson-content" ref={contentRef}>
-        <div className="lesson-slide" key={step}>
-          {slide.icon&&<div className="lesson-slide-icon">{slide.icon}</div>}
-          {slide.title&&<h2 className="lesson-slide-title">{slide.title}</h2>}
-          {slide.body&&<div className="lesson-slide-body" dangerouslySetInnerHTML={{__html:slide.body}}/>}
-          {slide.hebrew&&(
-            <div className="lesson-hebrew-block">
-              <div className="lesson-hebrew">{slide.hebrew}</div>
-              {slide.transliteration&&<div className="lesson-transliteration">{slide.transliteration}</div>}
-              {slide.translation&&<div className="lesson-translation">{slide.translation}</div>}
-            </div>
-          )}
-          {slide.concept&&(
-            <div className="lesson-key-concept">
-              <div className="lesson-key-label">Key Concept</div>
-              <div className="lesson-key-text">{slide.concept}</div>
-            </div>
-          )}
-          {slide.exercise&&<Exercise exercise={slide.exercise}/>}
-          {slide.source&&<div className="lesson-source">Source: {slide.source}</div>}
-          {hasAudio&&step===0&&showAudio&&(
-            <AudioPlayer lessonId={lesson.id} lessonTitle={lesson.title}/>
-          )}
-          {hasAudio&&step===0&&!showAudio&&(
-            <button onClick={()=>setShowAudio(true)} style={{display:'flex',alignItems:'center',gap:10,width:'100%',background:'rgba(201,168,76,0.06)',border:'1px solid rgba(201,168,76,0.18)',borderRadius:'var(--radius-lg)',padding:'12px 16px',textAlign:'left',transition:'all 0.2s'}}>
-              <span style={{fontSize:22}}>🎙️</span>
-              <div style={{flex:1}}>
-                <div style={{fontSize:13,fontWeight:600,color:'var(--text-body)'}}>Rabbi Commentary Available</div>
-                <div style={{fontSize:11,color:'var(--text-dim)',marginTop:2}}>{RABBI_VOICES[lesson.id]?.rabbi} · {RABBI_VOICES[lesson.id]?.duration}</div>
-              </div>
-              <span style={{fontSize:12,color:'var(--gold)',fontWeight:600}}>Listen →</span>
-            </button>
-          )}
-        </div>
-      </div>
-      <div className="lesson-nav">
-        <button className="btn-secondary" onClick={()=>setStep(s=>Math.max(0,s-1))} disabled={step===0}>← Back</button>
-        {isLast
-          ?<button className="btn-primary" onClick={onComplete}>Complete ✓</button>
-          :<button className="btn-primary" onClick={()=>setStep(s=>s+1)}>Next →</button>
-        }
-      </div>
-    </div>
-  );
-}
-
 // ── CONGRATS ──────────────────────────────────────────────
-function CongratsScreen({lesson,xpEarned,streak,newBadges,totalXP,replay,onContinue}){
+function CongratsScreen({lesson, xpEarned, streak, newBadges, totalXP, replay, heartsLeft, wrongAnswers, ranOutOfHearts, onContinue}){
   const [visible,setVisible]=useState(false);
   useEffect(()=>{const t=setTimeout(()=>setVisible(true),80);return()=>clearTimeout(t);},[]);
   const level=getLevel(totalXP);
+  const perfect = wrongAnswers === 0 && !ranOutOfHearts && !replay;
+
   return(
-    <div className="screen-full congrats-screen">
-      <div className={`congrats-content${visible?' congrats-visible':''}`}>
-        <div className="congrats-star">{replay?'📖':'⭐'}</div>
-        <h2 className="congrats-title">{replay?'Lesson Reviewed!':'Lesson Complete!'}</h2>
-        <p className="congrats-lesson-name">{lesson.title}</p>
-        {replay?(
-          <div style={{background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.08)',borderRadius:'var(--radius-lg)',padding:'16px 24px',textAlign:'center'}}>
-            <div style={{fontSize:14,color:'var(--text-dim)',lineHeight:1.6}}>You already completed this lesson — no XP or streak credit for replays. Reviewing is always encouraged.</div>
-          </div>
-        ):(
-          <div className="congrats-rewards">
-            <div className="reward-item"><span className="reward-value">+{xpEarned}</span><span className="reward-label">XP earned</span></div>
-            <div className="reward-divider"/>
-            <div className="reward-item"><span className="reward-value">🔥 {streak}</span><span className="reward-label">Day streak</span></div>
-            <div className="reward-divider"/>
-            <div className="reward-item"><span className="reward-value" style={{fontSize:18}}>{level.name}</span><span className="reward-label">Your level</span></div>
+    <div className="screen-full congrats-screen fade-in">
+      <div className={`congrats-card${visible?' visible':''}`}>
+        <div className="congrats-sparkle"><Icon name={perfect?'celebration':'check'}/></div>
+        <h2 className="congrats-title">
+          {replay ? 'Reviewed!' : ranOutOfHearts ? 'Lesson complete' : perfect ? 'Perfect Lesson!' : 'Lesson complete'}
+        </h2>
+        <p className="congrats-sub">
+          {replay
+            ? `You've already earned XP for "${lesson.title}".`
+            : ranOutOfHearts
+              ? `You ran out of hearts — no XP this time, but "${lesson.title}" is still marked complete. Hearts refill tomorrow.`
+              : perfect
+                ? `No mistakes on "${lesson.title}" — +${xpEarned} XP including bonuses!`
+                : `+${xpEarned} XP on "${lesson.title}".`}
+        </p>
+        {!replay && !ranOutOfHearts && (
+          <div className="congrats-stats">
+            <div className="pitch-stat"><span className="pitch-stat-value">+{xpEarned}</span><span className="pitch-stat-label">XP</span></div>
+            <div className="pitch-stat"><span className="pitch-stat-value">{streak}</span><span className="pitch-stat-label">Streak</span></div>
+            <div className="pitch-stat"><span className="pitch-stat-value">{heartsLeft}</span><span className="pitch-stat-label">Hearts</span></div>
+            <div className="pitch-stat"><span className="pitch-stat-value" style={{fontSize:14}}>{level.name}</span><span className="pitch-stat-label">Level</span></div>
           </div>
         )}
-        {!replay&&newBadges.length>0&&(
-          <div style={{textAlign:'center'}}>
-            <div style={{fontSize:11,color:'var(--gold)',textTransform:'uppercase',letterSpacing:'0.8px',fontWeight:700,marginBottom:8}}>🏅 Badge{newBadges.length>1?'s':''} Unlocked!</div>
-            <div className="congrats-badges">
+        {newBadges.length>0 && (
+          <div className="congrats-badges">
+            <p className="congrats-badges-label">New badge{newBadges.length>1?'s':''} unlocked!</p>
+            <div className="congrats-badges-row">
               {newBadges.map(b=>(
-                <div key={b.id} className="congrats-badge-pill">
-                  <span className="congrats-badge-pill-icon">{b.icon}</span>
-                  <span className="congrats-badge-pill-name">{b.name}</span>
+                <div key={b.id} className="congrats-badge">
+                  <div className="congrats-badge-icon">{b.icon}</div>
+                  <div className="congrats-badge-name">{b.name}</div>
                 </div>
               ))}
             </div>
           </div>
         )}
-        <p className="congrats-message">{replay?'Keep reviewing to reinforce your learning.':'Keep going — one lesson at a time.'}</p>
         <button className="btn-primary btn-large" onClick={onContinue}>Continue</button>
       </div>
     </div>
@@ -1128,7 +804,7 @@ function CommunityTab({state}){
       <div style={{display:'flex',gap:8,padding:'14px 20px 4px'}}>
         {['feed','leaderboard'].map(s=>(
           <button key={s} onClick={()=>setActiveSection(s)} style={{padding:'7px 16px',borderRadius:100,fontSize:13,fontWeight:600,transition:'all 0.2s',background:activeSection===s?'var(--gold)':'rgba(255,255,255,0.05)',color:activeSection===s?'var(--navy)':'var(--text-dim)',border:'none'}}>
-            {s==='feed'?'💬 Feed':'🏆 Leaderboard'}
+            {s==='feed'?<><Icon name="community"/> Feed</>:<><Icon name="trophy"/> Leaderboard</>}
           </button>
         ))}
       </div>
@@ -1164,7 +840,7 @@ function CommunityTab({state}){
               <div className="leaderboard-avatar" style={r.me?{background:'linear-gradient(135deg,#4a90d9,#7bb3f0)',color:'#fff'}:{}}>{r.initials}</div>
               <div style={{flex:1}}>
                 <div className="leaderboard-name">{r.name}{r.me&&<span style={{fontSize:10,color:'var(--gold)',marginLeft:6,fontWeight:700}}>YOU</span>}</div>
-                <div className="leaderboard-streak">🔥 {r.streak} day streak</div>
+                <div className="leaderboard-streak"><Icon name="streak"/> {r.streak} day streak</div>
               </div>
               <span className="leaderboard-xp">{r.xp} XP</span>
             </div>
@@ -1220,11 +896,11 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
         <div className="profile-avatar">{(nameVal||'G').charAt(0).toUpperCase()}</div>
         {editing
           ?<input className="name-edit-input" value={nameVal} onChange={e=>setNameVal(e.target.value)} onBlur={saveName} onKeyDown={e=>e.key==='Enter'&&saveName()} autoFocus/>
-          :<h2 className="profile-name" onClick={()=>setEditing(true)} style={{cursor:'pointer'}}>{nameVal||'Tap to set name'} ✏️</h2>
+          :<h2 className="profile-name" onClick={()=>setEditing(true)} style={{cursor:'pointer'}}>{nameVal||'Tap to set name'} <Icon name="pencil"/></h2>
         }
         <p className="profile-path-label">{pathName||'Learning Path'}</p>
         <button className="share-btn" style={{marginTop:8}} onClick={()=>shareApp(`${nameVal||'I'} am on Journey to Hashem`,`I've completed ${completedLessons.length} lessons on @JourneyToHashem — join me!`)}>
-          🔗 Share My Progress
+          <Icon name="share"/> Share My Progress
         </button>
       </div>
 
@@ -1237,9 +913,9 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
       </div>
 
       <div className="stats-row">
-        <div className="stat-card"><span className="stat-icon">🔥</span><span className="stat-value">{currentStreak}</span><span className="stat-label">Day Streak</span></div>
-        <div className="stat-card"><span className="stat-icon">⭐</span><span className="stat-value">{totalXP}</span><span className="stat-label">Total XP</span></div>
-        <div className="stat-card"><span className="stat-icon">✅</span><span className="stat-value">{completedLessons.length}</span><span className="stat-label">Lessons</span></div>
+        <div className="stat-card"><span className="stat-icon"><Icon name="streak"/></span><span className="stat-value">{currentStreak}</span><span className="stat-label">Day Streak</span></div>
+        <div className="stat-card"><span className="stat-icon"><Icon name="xp"/></span><span className="stat-value">{totalXP}</span><span className="stat-label">Total XP</span></div>
+        <div className="stat-card"><span className="stat-icon"><Icon name="check_circle"/></span><span className="stat-value">{completedLessons.length}</span><span className="stat-label">Lessons</span></div>
       </div>
 
       <div className="section">
@@ -1287,10 +963,10 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
       <div className="section">
         <h3 className="section-title">Settings</h3>
         <div className="settings-list">
-          <button className="settings-item" onClick={()=>setShowNotifs(true)}><span>🔔 Notifications</span><span className="settings-chevron">›</span></button>
+          <button className="settings-item" onClick={()=>setShowNotifs(true)}><span><Icon name="bell"/> Notifications</span><span className="settings-chevron">›</span></button>
           {SETTINGS.map(s=>(<button key={s} className="settings-item"><span>{s}</span><span className="settings-chevron">›</span></button>))}
-          <button className="settings-item" onClick={onOpenPitch} style={{color:'var(--gold)'}}><span>🕍 Partner With Us — For Rabbis</span><span className="settings-chevron">›</span></button>
-          <button className="settings-item settings-item-danger" onClick={onReset}><span>🔄 Reset Demo / Start Over</span><span className="settings-chevron">›</span></button>
+          <button className="settings-item" onClick={onOpenPitch} style={{color:'var(--gold)'}}><span><Icon name="synagogue"/> Partner With Us — For Rabbis</span><span className="settings-chevron">›</span></button>
+          <button className="settings-item settings-item-danger" onClick={onReset}><span><Icon name="reset"/> Reset Demo / Start Over</span><span className="settings-chevron">›</span></button>
         </div>
       </div>
 
@@ -1662,14 +1338,7 @@ function ReturningUserScreen({state, onContinue}){
 }
 
 // ── APP ROOT ──────────────────────────────────────────────
-const DEFAULT_STATE={
-  onboardingComplete:false,onboardingStep:'welcome',
-  selectedPath:null,pathName:null,quizAnswers:[],
-  completedLessons:[],currentStreak:0,totalXP:0,
-  dailyLessonsCompleted:0,lastActiveDate:null,
-  activeTab:'home',bookmarks:[],userName:'',
-  earnedBadges:[],
-};
+const DEFAULT_STATE = DEFAULT_V4_STATE;
 
 function App(){
   const showDemoBanner = typeof window !== 'undefined'
@@ -1677,8 +1346,17 @@ function App(){
     : false;
 
   const [state,setState]=useState(()=>{
-    try{const s=localStorage.getItem('jth-v3');return s?{...DEFAULT_STATE,...JSON.parse(s)}:DEFAULT_STATE;}
-    catch{return DEFAULT_STATE;}
+    try{
+      const raw = localStorage.getItem('jth-v4');
+      if (raw) return migrate(JSON.parse(raw));
+      const oldRaw = localStorage.getItem('jth-v3');
+      if (oldRaw) {
+        const migrated = migrate(JSON.parse(oldRaw));
+        localStorage.setItem('jth-v4', JSON.stringify(migrated));
+        return migrated;
+      }
+      return migrate(null);
+    } catch { return migrate(null); }
   });
   const [previewMode,setPreviewMode]=useState(false);
   const [currentView,setCurrentView]=useState(null);
@@ -1688,13 +1366,33 @@ function App(){
   const [showReturning,setShowReturning]=useState(()=>{
     // Show returning screen if user has progress but hasn't seen it this session
     try{
-      const s=localStorage.getItem('jth-v3');
-      const saved=s?JSON.parse(s):null;
+      const raw = localStorage.getItem('jth-v4') || localStorage.getItem('jth-v3');
+      const saved = raw ? JSON.parse(raw) : null;
       return !!(saved?.onboardingComplete&&saved?.completedLessons?.length>0);
     }catch{return false;}
   });
 
-  useEffect(()=>{localStorage.setItem('jth-v3',JSON.stringify(state));},[state]);
+  useEffect(()=>{
+    try { localStorage.setItem('jth-v4', JSON.stringify(state)); } catch {}
+  }, [state]);
+
+  // Hearts regen + streak freeze tick
+  useEffect(() => {
+    const tick = () => {
+      setState(prev => {
+        const todayKey = getTodayKey();
+        let next = { ...prev, ...regenerateHearts(prev) };
+        next = maybeRefreshWeeklyFreeze(next, todayKey);
+        if (shouldAutoFreeze(next, todayKey)) {
+          next = applyStreakFreeze(next, todayKey);
+        }
+        return next;
+      });
+    };
+    tick();
+    const id = setInterval(tick, 60_000);
+    return () => clearInterval(id);
+  }, []);
 
   const update=u=>setState(prev=>({...prev,...u}));
 
@@ -1716,6 +1414,7 @@ function App(){
   const handleReset=()=>{
     if(window.confirm('Reset all progress and start over?')){
       localStorage.removeItem('jth-v3');
+      localStorage.removeItem('jth-v4');
       setState(DEFAULT_STATE);
       setCurrentView(null);
       setBadgeToast(null);
@@ -1736,35 +1435,55 @@ function App(){
     update({onboardingComplete:false,onboardingStep:'welcome'});
   };
 
-  const handleLessonComplete=lesson=>{
-    const alreadyCompleted=state.completedLessons.includes(lesson.id);
-    const today=new Date().toDateString();
-    const last=state.lastActiveDate;
+  const handleLessonComplete = (lesson, { wrongAnswers, ranOutOfHearts }) => {
+    const alreadyCompleted = state.completedLessons.includes(lesson.id);
+    const todayKey = getTodayKey();
 
-    // Always mark as completed, but only award XP/streak/daily progress
-    // if this is the FIRST time completing this lesson
-    const newCompleted=[...new Set([...state.completedLessons,lesson.id])];
-
-    if(alreadyCompleted){
-      // Replay: no rewards, just close with a quiet congrats
-      setCurrentView({type:'congrats',lesson,xpEarned:0,streak:state.currentStreak,newBadges:[],replay:true});
+    if (alreadyCompleted) {
+      setCurrentView({
+        type: 'congrats', lesson, xpEarned: 0, streak: state.currentStreak,
+        newBadges: [], replay: true, heartsLeft: state.hearts,
+        wrongAnswers, ranOutOfHearts,
+      });
       return;
     }
 
-    let newStreak=state.currentStreak;
-    if(!last){newStreak=1;}
-    else if(last===today){newStreak=state.currentStreak;}
-    else{const y=new Date();y.setDate(y.getDate()-1);newStreak=last===y.toDateString()?state.currentStreak+1:1;}
-    const newXP=state.totalXP+10;
-    const newDaily=last===today?state.dailyLessonsCompleted+1:1;
-    const updates={
-      completedLessons:newCompleted,totalXP:newXP,currentStreak:newStreak,
-      dailyLessonsCompleted:newDaily,lastActiveDate:today,
+    let newStreak = state.currentStreak;
+    if (!state.lastActiveDate) newStreak = 1;
+    else if (state.lastActiveDate === todayKey) newStreak = state.currentStreak;
+    else {
+      const y = new Date();
+      y.setDate(y.getDate() - 1);
+      const yKey = getTodayKey(y);
+      newStreak = state.lastActiveDate === yKey ? state.currentStreak + 1 : 1;
+    }
+    const isFirstOfDay = state.lastActiveDate !== todayKey;
+    const xpEarned = computeLessonXP({
+      wrongAnswers, isFirstOfDay, streak: newStreak, ranOutOfHearts,
+    });
+
+    const heartsAfter = Math.max(0, state.hearts - wrongAnswers);
+
+    const newCompleted = [...new Set([...state.completedLessons, lesson.id])];
+    const newDaily = state.lastActiveDate === todayKey ? state.dailyLessonsCompleted + 1 : 1;
+    const newPerfect = (wrongAnswers === 0 && !ranOutOfHearts) ? state.perfectLessons + 1 : state.perfectLessons;
+
+    const updates = {
+      completedLessons: newCompleted,
+      totalXP: state.totalXP + xpEarned,
+      currentStreak: newStreak,
+      dailyLessonsCompleted: newDaily,
+      lastActiveDate: todayKey,
+      hearts: heartsAfter,
+      perfectLessons: newPerfect,
     };
     updateWithBadgeCheck(updates);
-    const nextState={...state,...updates};
-    const newBadges=getNewBadges(state,nextState);
-    setCurrentView({type:'congrats',lesson,xpEarned:10,streak:newStreak,newBadges,replay:false});
+    const nextState = { ...state, ...updates };
+    const newBadges = getNewBadges(state, nextState);
+    setCurrentView({
+      type: 'congrats', lesson, xpEarned, streak: newStreak, newBadges,
+      replay: false, heartsLeft: heartsAfter, wrongAnswers, ranOutOfHearts,
+    });
   };
 
   const handleToggleBookmark=lessonId=>{
@@ -1779,7 +1498,7 @@ function App(){
   if(showReturning&&state.onboardingComplete) return(
     <div className="app-container">
       {showDemoBanner&&<div className="demo-banner">
-        <span className="demo-label">📱 DEMO MODE</span>
+        <span className="demo-label"><Icon name="phone"/> DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset</button>
       </div>}
       <ReturningUserScreen state={state} onContinue={()=>setShowReturning(false)}/>
@@ -1806,17 +1525,31 @@ function App(){
   if(currentView){
     if(currentView.type==='lesson') return(
       <div className="app-container">
-        <LessonScreen lesson={currentView.lesson} unit={currentView.unit}
-          onClose={()=>setCurrentView(null)}
-          onComplete={()=>handleLessonComplete(currentView.lesson)}
-          isBookmarked={(state.bookmarks||[]).includes(currentView.lesson.id)}
-          onToggleBookmark={()=>handleToggleBookmark(currentView.lesson.id)}
+        <LessonPlayer
+          lesson={currentView.lesson}
+          unit={currentView.unit}
+          hearts={state.hearts}
+          onClose={() => setCurrentView(null)}
+          onComplete={(result) => handleLessonComplete(currentView.lesson, result)}
+          isBookmarked={(state.bookmarks || []).includes(currentView.lesson.id)}
+          onToggleBookmark={() => handleToggleBookmark(currentView.lesson.id)}
         />
       </div>
     );
     if(currentView.type==='congrats') return(
       <div className="app-container">
-        <CongratsScreen lesson={currentView.lesson} xpEarned={currentView.xpEarned} streak={currentView.streak} newBadges={currentView.newBadges||[]} totalXP={state.totalXP} replay={currentView.replay||false} onContinue={()=>setCurrentView(null)}/>
+        <CongratsScreen
+          lesson={currentView.lesson}
+          xpEarned={currentView.xpEarned}
+          streak={currentView.streak}
+          newBadges={currentView.newBadges || []}
+          totalXP={state.totalXP}
+          replay={currentView.replay || false}
+          heartsLeft={currentView.heartsLeft}
+          wrongAnswers={currentView.wrongAnswers}
+          ranOutOfHearts={currentView.ranOutOfHearts}
+          onContinue={() => setCurrentView(null)}
+        />
       </div>
     );
   }
@@ -1824,7 +1557,7 @@ function App(){
   if(!state.onboardingComplete) return(
     <div className="app-container">
       {showDemoBanner&&<div className="demo-banner">
-        <span className="demo-label">📱 DEMO MODE</span>
+        <span className="demo-label"><Icon name="phone"/> DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset</button>
       </div>}
       {state.onboardingStep==='welcome'&&<Welcome onBegin={()=>update({onboardingStep:'quiz'})} onSkip={()=>update({onboardingComplete:true,activeTab:'learn',pathName:"The Seeker's Path"})} onTryDemo={handleTryDemo}/>}
@@ -1836,7 +1569,7 @@ function App(){
   return(
     <div className="app-container">
       {showDemoBanner&&<div className="demo-banner">
-        <span className="demo-label">📱 DEMO MODE</span>
+        <span className="demo-label"><Icon name="phone"/> DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset Demo</button>
       </div>}
       {previewMode&&(
@@ -1849,7 +1582,7 @@ function App(){
         <div className="badge-toast">
           <span className="badge-toast-icon">{badgeToast.icon}</span>
           <div>
-            <div className="badge-toast-label">🏅 Badge Unlocked!</div>
+            <div className="badge-toast-label"><Icon name="medal"/> Badge Unlocked!</div>
             <div className="badge-toast-name">{badgeToast.name}</div>
           </div>
         </div>
