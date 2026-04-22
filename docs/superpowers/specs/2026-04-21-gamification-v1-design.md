@@ -1,7 +1,7 @@
 # Gamification V1 — Design Spec
 
 **Date:** 2026-04-21
-**Status:** Approved (brainstorm), pending implementation plan
+**Status:** Implemented
 **Scope:** V1 launch-blocker. Turns Journey to Hashem's lessons from content-heavy reading into interactive, Duolingo-style question-led learning.
 
 ## Problem
