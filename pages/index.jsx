@@ -1,5 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { LEARNING_PATH } from '../data/lessons';
+import LessonPlayer from '../components/LessonPlayer';
+import { migrate, CURRENT_SCHEMA, DEFAULT_V4_STATE } from '../lib/migrate';
+import {
+  MAX_HEARTS, regenerateHearts, consumeHeart, computeLessonXP,
+  shouldAutoFreeze, applyStreakFreeze, maybeRefreshWeeklyFreeze,
+  getTodayKey, isNewDay,
+} from '../lib/gameplay';
+import Icon from '../components/Icon';
 
 
 
@@ -695,195 +703,6 @@ function LearnTab({state,onOpenLesson}){
   );
 }
 
-// ── EXERCISE COMPONENT ────────────────────────────────────
-function Exercise({exercise}){
-  const [selected,setSelected]=useState(null);
-  const [answered,setAnswered]=useState(false);
-  // Reset when exercise changes (quiz multi-slide)
-  useEffect(()=>{ setSelected(null); setAnswered(false); },[exercise.question]);
-  const isCorrect=selected===exercise.answer;
-  return(
-    <div className="exercise-card">
-      <div className="exercise-label">✏️ Quick Check</div>
-      <div className="exercise-question">{exercise.question}</div>
-      <div className="exercise-options">
-        {exercise.options.map((opt,i)=>{
-          let cls='exercise-option';
-          if(answered){
-            if(i===exercise.answer)cls+=' correct disabled';
-            else if(i===selected)cls+=' wrong disabled';
-            else cls+=' disabled';
-          }
-          return(
-            <button key={i} className={cls} onClick={()=>{if(!answered){setSelected(i);setAnswered(true);}}}>
-              {answered&&i===exercise.answer?'✓ ':answered&&i===selected&&!isCorrect?'✗ ':''}{opt}
-            </button>
-          );
-        })}
-      </div>
-      {answered&&(
-        <div className={`exercise-feedback${isCorrect?' correct':' wrong'}`}>
-          {isCorrect?'Correct! ':'Not quite — '}{exercise.explanation}
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ── AUDIO DATA ────────────────────────────────────────────
-const RABBI_VOICES = {
-  'u1l1': { rabbi:'Rabbi Moshe Cohen', title:'Who is Hashem?', duration:'8:24', emoji:'👨‍🏫' },
-  'u1l2': { rabbi:'Rabbi Yosef Levi',  title:'Understanding the Torah', duration:'11:02', emoji:'📜' },
-  'u1l3': { rabbi:'Rabbi David Shapiro',title:'Am Yisrael — Our People', duration:'9:45', emoji:'✡️' },
-  'u1l4': { rabbi:'Rabbi Avi Bergman', title:'The Meaning of Mitzvot', duration:'7:18', emoji:'⭐' },
-  'u2l1': { rabbi:'Rabbi Moshe Cohen', title:'Shabbat — The Day of Rest', duration:'13:30', emoji:'🕯️' },
-  'u2l2': { rabbi:'Rabbi Yosef Levi',  title:'Welcoming the Shabbat Queen', duration:'10:15', emoji:'✨' },
-  'u3l1': { rabbi:'Rabbi David Shapiro',title:'Why We Pray', duration:'12:00', emoji:'🙏' },
-  'u3l3': { rabbi:'Rabbi Avi Bergman', title:'The Morning Prayer — Shacharit', duration:'15:45', emoji:'🌅' },
-};
-
-const WAVEFORM_HEIGHTS = [30,55,40,70,45,85,60,40,75,50,65,35,80,45,60,70,40,55,85,45,65,35,75,50,60,40,70,55,45,80];
-
-function AudioPlayer({lessonId, lessonTitle}){
-  const [playing, setPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [elapsed, setElapsed] = useState(0);
-  const intervalRef = useRef(null);
-  const voice = RABBI_VOICES[lessonId];
-  const totalSecs = voice ? parseInt(voice.duration.split(':')[0])*60+parseInt(voice.duration.split(':')[1]) : 480;
-
-  useEffect(()=>{
-    if(playing){
-      intervalRef.current = setInterval(()=>{
-        setElapsed(e=>{
-          if(e>=totalSecs){setPlaying(false);clearInterval(intervalRef.current);return totalSecs;}
-          return e+1;
-        });
-      },1000);
-    } else {
-      clearInterval(intervalRef.current);
-    }
-    return()=>clearInterval(intervalRef.current);
-  },[playing,totalSecs]);
-
-  useEffect(()=>{setProgress((elapsed/totalSecs)*100);},[elapsed,totalSecs]);
-
-  const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
-  const playedBars = Math.floor((elapsed/totalSecs)*WAVEFORM_HEIGHTS.length);
-
-  return(
-    <div className="audio-player">
-      <div className="audio-player-top">
-        <div className="audio-rabbi-avatar">{voice?.emoji||'🎙️'}</div>
-        <div className="audio-rabbi-info">
-          <div className="audio-rabbi-name">{voice?.rabbi||'Rabbi Moshe Cohen'}</div>
-          <div className="audio-rabbi-title">Featured Rabbi · Journey to Hashem</div>
-        </div>
-        <span className="audio-coming-soon-tag">AUDIO PREVIEW</span>
-      </div>
-      <div className="audio-track-title">"{voice?.title||lessonTitle}" — Rabbi Commentary</div>
-      <div className="audio-waveform">
-        {WAVEFORM_HEIGHTS.map((h,i)=>(
-          <div key={i} className={`audio-bar${i<playedBars?' played':i===playedBars&&playing?' active':''}`}
-            style={{height:`${playing&&i===playedBars?h*(0.7+Math.sin(Date.now()/200+i)*0.3):h}%`}}/>
-        ))}
-      </div>
-      <div className="audio-controls">
-        <button className="audio-skip-btn" onClick={()=>setElapsed(e=>Math.max(0,e-15))}>⏮ 15s</button>
-        <button className={`audio-play-btn${playing?' playing':''}`} onClick={()=>setPlaying(p=>!p)}>
-          {playing?'⏸':'▶'}
-        </button>
-        <button className="audio-skip-btn" onClick={()=>setElapsed(e=>Math.min(totalSecs,e+15))}>15s ⏭</button>
-        <div className="audio-progress-wrap">
-          <div className="audio-progress-track" onClick={e=>{const r=e.currentTarget.getBoundingClientRect();setElapsed(Math.floor(((e.clientX-r.left)/r.width)*totalSecs));}}>
-            <div className="audio-progress-fill" style={{width:`${progress}%`}}/>
-          </div>
-          <div className="audio-time-row">
-            <span className="audio-time">{fmt(elapsed)}</span>
-            <span className="audio-time">{voice?.duration||'8:00'}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── LESSON SCREEN ─────────────────────────────────────────
-function LessonScreen({lesson,unit,onClose,onComplete,isBookmarked,onToggleBookmark}){
-  const [step,setStep]=useState(0);
-  const [showAudio,setShowAudio]=useState(false);
-  const contentRef=useRef(null);
-  const slides=lesson.slides||[];
-  const STEPS=slides.length||1;
-  const isLast=step===STEPS-1;
-  const slide=slides[step]||{};
-  const hasAudio=!!RABBI_VOICES[lesson.id];
-
-  // Scroll to top on slide change
-  useEffect(()=>{
-    if(contentRef.current) contentRef.current.scrollTop=0;
-  },[step]);
-
-  return(
-    <div className="screen-full lesson-screen fade-in">
-      <div className="lesson-header">
-        <button className="btn-icon" onClick={onClose}>✕</button>
-        <div className="lesson-header-info">
-          <p className="lesson-header-unit">{unit?.title}</p>
-          <p className="lesson-header-title">{lesson.title}</p>
-        </div>
-        <div style={{display:'flex',gap:6}}>
-          {hasAudio&&<button className={`lesson-bookmark-btn${showAudio?' bookmarked':''}`} onClick={()=>setShowAudio(a=>!a)} title="Rabbi Audio">🎙️</button>}
-          <button className={`lesson-bookmark-btn${isBookmarked?' bookmarked':''}`} onClick={onToggleBookmark}>{isBookmarked?'🔖':'🏷️'}</button>
-        </div>
-      </div>
-      <div className="lesson-progress-bar"><div className="lesson-progress-fill" style={{width:`${((step+1)/STEPS)*100}%`}}/></div>
-      <div className="lesson-content" ref={contentRef}>
-        <div className="lesson-slide" key={step}>
-          {slide.icon&&<div className="lesson-slide-icon">{slide.icon}</div>}
-          {slide.title&&<h2 className="lesson-slide-title">{slide.title}</h2>}
-          {slide.body&&<div className="lesson-slide-body" dangerouslySetInnerHTML={{__html:slide.body}}/>}
-          {slide.hebrew&&(
-            <div className="lesson-hebrew-block">
-              <div className="lesson-hebrew">{slide.hebrew}</div>
-              {slide.transliteration&&<div className="lesson-transliteration">{slide.transliteration}</div>}
-              {slide.translation&&<div className="lesson-translation">{slide.translation}</div>}
-            </div>
-          )}
-          {slide.concept&&(
-            <div className="lesson-key-concept">
-              <div className="lesson-key-label">Key Concept</div>
-              <div className="lesson-key-text">{slide.concept}</div>
-            </div>
-          )}
-          {slide.exercise&&<Exercise exercise={slide.exercise}/>}
-          {slide.source&&<div className="lesson-source">Source: {slide.source}</div>}
-          {hasAudio&&step===0&&showAudio&&(
-            <AudioPlayer lessonId={lesson.id} lessonTitle={lesson.title}/>
-          )}
-          {hasAudio&&step===0&&!showAudio&&(
-            <button onClick={()=>setShowAudio(true)} style={{display:'flex',alignItems:'center',gap:10,width:'100%',background:'rgba(201,168,76,0.06)',border:'1px solid rgba(201,168,76,0.18)',borderRadius:'var(--radius-lg)',padding:'12px 16px',textAlign:'left',transition:'all 0.2s'}}>
-              <span style={{fontSize:22}}>🎙️</span>
-              <div style={{flex:1}}>
-                <div style={{fontSize:13,fontWeight:600,color:'var(--text-body)'}}>Rabbi Commentary Available</div>
-                <div style={{fontSize:11,color:'var(--text-dim)',marginTop:2}}>{RABBI_VOICES[lesson.id]?.rabbi} · {RABBI_VOICES[lesson.id]?.duration}</div>
-              </div>
-              <span style={{fontSize:12,color:'var(--gold)',fontWeight:600}}>Listen →</span>
-            </button>
-          )}
-        </div>
-      </div>
-      <div className="lesson-nav">
-        <button className="btn-secondary" onClick={()=>setStep(s=>Math.max(0,s-1))} disabled={step===0}>← Back</button>
-        {isLast
-          ?<button className="btn-primary" onClick={onComplete}>Complete ✓</button>
-          :<button className="btn-primary" onClick={()=>setStep(s=>s+1)}>Next →</button>
-        }
-      </div>
-    </div>
-  );
-}
-
 // ── CONGRATS ──────────────────────────────────────────────
 function CongratsScreen({lesson, xpEarned, streak, newBadges, totalXP, replay, heartsLeft, wrongAnswers, ranOutOfHearts, onContinue}){
   const [visible,setVisible]=useState(false);
@@ -1493,14 +1312,7 @@ function ReturningUserScreen({state, onContinue}){
 }
 
 // ── APP ROOT ──────────────────────────────────────────────
-const DEFAULT_STATE={
-  onboardingComplete:false,onboardingStep:'welcome',
-  selectedPath:null,pathName:null,quizAnswers:[],
-  completedLessons:[],currentStreak:0,totalXP:0,
-  dailyLessonsCompleted:0,lastActiveDate:null,
-  activeTab:'home',bookmarks:[],userName:'',
-  earnedBadges:[],
-};
+const DEFAULT_STATE = DEFAULT_V4_STATE;
 
 function App(){
   const showDemoBanner = typeof window !== 'undefined'
@@ -1508,8 +1320,17 @@ function App(){
     : false;
 
   const [state,setState]=useState(()=>{
-    try{const s=localStorage.getItem('jth-v3');return s?{...DEFAULT_STATE,...JSON.parse(s)}:DEFAULT_STATE;}
-    catch{return DEFAULT_STATE;}
+    try{
+      const raw = localStorage.getItem('jth-v4');
+      if (raw) return migrate(JSON.parse(raw));
+      const oldRaw = localStorage.getItem('jth-v3');
+      if (oldRaw) {
+        const migrated = migrate(JSON.parse(oldRaw));
+        localStorage.setItem('jth-v4', JSON.stringify(migrated));
+        return migrated;
+      }
+      return migrate(null);
+    } catch { return migrate(null); }
   });
   const [previewMode,setPreviewMode]=useState(false);
   const [currentView,setCurrentView]=useState(null);
@@ -1519,13 +1340,33 @@ function App(){
   const [showReturning,setShowReturning]=useState(()=>{
     // Show returning screen if user has progress but hasn't seen it this session
     try{
-      const s=localStorage.getItem('jth-v3');
-      const saved=s?JSON.parse(s):null;
+      const raw = localStorage.getItem('jth-v4') || localStorage.getItem('jth-v3');
+      const saved = raw ? JSON.parse(raw) : null;
       return !!(saved?.onboardingComplete&&saved?.completedLessons?.length>0);
     }catch{return false;}
   });
 
-  useEffect(()=>{localStorage.setItem('jth-v3',JSON.stringify(state));},[state]);
+  useEffect(()=>{
+    try { localStorage.setItem('jth-v4', JSON.stringify(state)); } catch {}
+  }, [state]);
+
+  // Hearts regen + streak freeze tick
+  useEffect(() => {
+    const tick = () => {
+      setState(prev => {
+        const todayKey = getTodayKey();
+        let next = { ...prev, ...regenerateHearts(prev) };
+        next = maybeRefreshWeeklyFreeze(next, todayKey);
+        if (shouldAutoFreeze(next, todayKey)) {
+          next = applyStreakFreeze(next, todayKey);
+        }
+        return next;
+      });
+    };
+    tick();
+    const id = setInterval(tick, 60_000);
+    return () => clearInterval(id);
+  }, []);
 
   const update=u=>setState(prev=>({...prev,...u}));
 
@@ -1547,6 +1388,7 @@ function App(){
   const handleReset=()=>{
     if(window.confirm('Reset all progress and start over?')){
       localStorage.removeItem('jth-v3');
+      localStorage.removeItem('jth-v4');
       setState(DEFAULT_STATE);
       setCurrentView(null);
       setBadgeToast(null);
@@ -1567,35 +1409,55 @@ function App(){
     update({onboardingComplete:false,onboardingStep:'welcome'});
   };
 
-  const handleLessonComplete=lesson=>{
-    const alreadyCompleted=state.completedLessons.includes(lesson.id);
-    const today=new Date().toDateString();
-    const last=state.lastActiveDate;
+  const handleLessonComplete = (lesson, { wrongAnswers, ranOutOfHearts }) => {
+    const alreadyCompleted = state.completedLessons.includes(lesson.id);
+    const todayKey = getTodayKey();
 
-    // Always mark as completed, but only award XP/streak/daily progress
-    // if this is the FIRST time completing this lesson
-    const newCompleted=[...new Set([...state.completedLessons,lesson.id])];
-
-    if(alreadyCompleted){
-      // Replay: no rewards, just close with a quiet congrats
-      setCurrentView({type:'congrats',lesson,xpEarned:0,streak:state.currentStreak,newBadges:[],replay:true});
+    if (alreadyCompleted) {
+      setCurrentView({
+        type: 'congrats', lesson, xpEarned: 0, streak: state.currentStreak,
+        newBadges: [], replay: true, heartsLeft: state.hearts,
+        wrongAnswers, ranOutOfHearts,
+      });
       return;
     }
 
-    let newStreak=state.currentStreak;
-    if(!last){newStreak=1;}
-    else if(last===today){newStreak=state.currentStreak;}
-    else{const y=new Date();y.setDate(y.getDate()-1);newStreak=last===y.toDateString()?state.currentStreak+1:1;}
-    const newXP=state.totalXP+10;
-    const newDaily=last===today?state.dailyLessonsCompleted+1:1;
-    const updates={
-      completedLessons:newCompleted,totalXP:newXP,currentStreak:newStreak,
-      dailyLessonsCompleted:newDaily,lastActiveDate:today,
+    let newStreak = state.currentStreak;
+    if (!state.lastActiveDate) newStreak = 1;
+    else if (state.lastActiveDate === todayKey) newStreak = state.currentStreak;
+    else {
+      const y = new Date();
+      y.setDate(y.getDate() - 1);
+      const yKey = getTodayKey(y);
+      newStreak = state.lastActiveDate === yKey ? state.currentStreak + 1 : 1;
+    }
+    const isFirstOfDay = state.lastActiveDate !== todayKey;
+    const xpEarned = computeLessonXP({
+      wrongAnswers, isFirstOfDay, streak: newStreak, ranOutOfHearts,
+    });
+
+    const heartsAfter = Math.max(0, state.hearts - wrongAnswers);
+
+    const newCompleted = [...new Set([...state.completedLessons, lesson.id])];
+    const newDaily = state.lastActiveDate === todayKey ? state.dailyLessonsCompleted + 1 : 1;
+    const newPerfect = (wrongAnswers === 0 && !ranOutOfHearts) ? state.perfectLessons + 1 : state.perfectLessons;
+
+    const updates = {
+      completedLessons: newCompleted,
+      totalXP: state.totalXP + xpEarned,
+      currentStreak: newStreak,
+      dailyLessonsCompleted: newDaily,
+      lastActiveDate: todayKey,
+      hearts: heartsAfter,
+      perfectLessons: newPerfect,
     };
     updateWithBadgeCheck(updates);
-    const nextState={...state,...updates};
-    const newBadges=getNewBadges(state,nextState);
-    setCurrentView({type:'congrats',lesson,xpEarned:10,streak:newStreak,newBadges,replay:false});
+    const nextState = { ...state, ...updates };
+    const newBadges = getNewBadges(state, nextState);
+    setCurrentView({
+      type: 'congrats', lesson, xpEarned, streak: newStreak, newBadges,
+      replay: false, heartsLeft: heartsAfter, wrongAnswers, ranOutOfHearts,
+    });
   };
 
   const handleToggleBookmark=lessonId=>{
@@ -1637,17 +1499,31 @@ function App(){
   if(currentView){
     if(currentView.type==='lesson') return(
       <div className="app-container">
-        <LessonScreen lesson={currentView.lesson} unit={currentView.unit}
-          onClose={()=>setCurrentView(null)}
-          onComplete={()=>handleLessonComplete(currentView.lesson)}
-          isBookmarked={(state.bookmarks||[]).includes(currentView.lesson.id)}
-          onToggleBookmark={()=>handleToggleBookmark(currentView.lesson.id)}
+        <LessonPlayer
+          lesson={currentView.lesson}
+          unit={currentView.unit}
+          hearts={state.hearts}
+          onClose={() => setCurrentView(null)}
+          onComplete={(result) => handleLessonComplete(currentView.lesson, result)}
+          isBookmarked={(state.bookmarks || []).includes(currentView.lesson.id)}
+          onToggleBookmark={() => handleToggleBookmark(currentView.lesson.id)}
         />
       </div>
     );
     if(currentView.type==='congrats') return(
       <div className="app-container">
-        <CongratsScreen lesson={currentView.lesson} xpEarned={currentView.xpEarned} streak={currentView.streak} newBadges={currentView.newBadges||[]} totalXP={state.totalXP} replay={currentView.replay||false} onContinue={()=>setCurrentView(null)}/>
+        <CongratsScreen
+          lesson={currentView.lesson}
+          xpEarned={currentView.xpEarned}
+          streak={currentView.streak}
+          newBadges={currentView.newBadges || []}
+          totalXP={state.totalXP}
+          replay={currentView.replay || false}
+          heartsLeft={currentView.heartsLeft}
+          wrongAnswers={currentView.wrongAnswers}
+          ranOutOfHearts={currentView.ranOutOfHearts}
+          onContinue={() => setCurrentView(null)}
+        />
       </div>
     );
   }
