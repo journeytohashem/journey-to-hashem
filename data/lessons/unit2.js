@@ -7,7 +7,7 @@ const unit2 = {
     {
       id: 'u2l1',
       title: 'What is Shabbat?',
-      iconName: 'candle',
+      iconName: 'shabbat_sunset',
       hook: {
         title: 'What is Shabbat?',
         body: `<p>Shabbat is the Jewish day of rest — observed from Friday sundown to Saturday nightfall. It is the only holiday in the Ten Commandments, and the weekly heartbeat of Jewish life.</p>`,
@@ -117,7 +117,7 @@ const unit2 = {
     {
       id: 'u2l2',
       title: 'Friday Night — Kabbalat Shabbat',
-      iconName: 'sparkle',
+      iconName: 'shabbat_candles',
       hook: {
         title: 'Welcoming Shabbat',
         body: `<p>As Friday\'s sun drops, Jewish homes and synagogues transform. Candles are lit, services begin, and Shabbat is welcomed as a queen and bride.</p>`,
@@ -224,7 +224,7 @@ const unit2 = {
     {
       id: 'u2l3',
       title: 'Shabbat Day',
-      iconName: 'books',
+      iconName: 'kiddush_cup',
       hook: {
         title: 'Shabbat Morning',
         body: `<p>Shabbat day centers on synagogue, Torah reading, and a festive meal. The whole Jewish world reads the same Torah portion — creating a shared weekly rhythm across every continent.</p>`,
@@ -326,7 +326,7 @@ const unit2 = {
     {
       id: 'u2l4',
       title: 'Havdalah — Ending Shabbat',
-      iconName: 'havdalah',
+      iconName: 'havdalah_candle',
       hook: {
         title: 'Havdalah',
         body: `<p>When three stars appear Saturday night, Shabbat ends with Havdalah — a brief, sensory ritual of separation between holy and ordinary, using wine, spices, and a braided flame.</p>`,
@@ -431,7 +431,7 @@ const unit2 = {
     {
       id: 'u2l5',
       title: 'Shabbat Quiz',
-      iconName: 'note',
+      iconName: 'quiz_checklist',
       isQuiz: true,
       hook: {
         title: 'Shabbat — Quiz',

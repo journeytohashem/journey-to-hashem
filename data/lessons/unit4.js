@@ -7,7 +7,7 @@ const unit4 = {
     {
       id: 'u4l1',
       title: 'The Jewish Calendar',
-      iconName: 'calendar',
+      iconName: 'jewish_calendar',
       hook: {
         title: 'The Jewish Calendar',
         body: `<p>The Jewish calendar is lunisolar — months follow the moon, but leap months keep holidays in their proper seasons. The year begins in Tishrei, in the fall.</p>`,
@@ -114,7 +114,7 @@ const unit4 = {
     {
       id: 'u4l2',
       title: 'Rosh Hashana & Yom Kippur',
-      iconName: 'holiday',
+      iconName: 'shofar',
       hook: {
         title: 'The Days of Awe',
         body: `<p>Rosh Hashana and Yom Kippur frame the "Ten Days of Teshuva" — the most spiritually intense stretch of the Jewish year, a moment of judgment and return.</p>`,
@@ -220,7 +220,7 @@ const unit4 = {
     {
       id: 'u4l3',
       title: 'Sukkot, Pesach & Shavuot',
-      iconName: 'holiday',
+      iconName: 'matzah',
       hook: {
         title: 'The Three Pilgrimage Festivals',
         body: `<p>Three times each year — <em>Shalosh Regalim</em> — Jews once made pilgrimage to Jerusalem. Pesach, Shavuot, and Sukkot still anchor the Jewish year around Exodus, Sinai, and the desert journey.</p>`,
@@ -326,7 +326,7 @@ const unit4 = {
     {
       id: 'u4l4',
       title: 'Chanukah and Purim',
-      iconName: 'holiday',
+      iconName: 'menorah',
       hook: {
         title: 'Miracles Large and Small',
         body: `<p>Chanukah and Purim are the two great rabbinic holidays — not Torah-commanded, but born from later history, celebrating salvation from distinct threats.</p>`,
@@ -433,7 +433,7 @@ const unit4 = {
     {
       id: 'u4l5',
       title: 'Holidays Quiz',
-      iconName: 'note',
+      iconName: 'quiz_checklist',
       isQuiz: true,
       hook: {
         title: 'Jewish Holidays — Quiz',

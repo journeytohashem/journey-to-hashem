@@ -161,7 +161,7 @@ function SearchOverlay({ onClose, onOpenLesson }) {
         {q.length >= 2 && results.length === 0 && <div className="search-empty">No results for "{q}"</div>}
         {results.map((r, i) => (
           <button key={i} className="search-result-item" style={{width:'100%',textAlign:'left'}} onClick={() => {const unit=LEARNING_PATH.find(u=>u.lessons.some(l=>l.id===r.item.id));onOpenLesson(r.item,unit);onClose();}}>
-            <span className="search-result-icon">{r.item.icon}</span>
+            <span className="search-result-icon"><Icon name={r.item.iconName}/></span>
             <div><div className="search-result-title">{r.item.title}</div><div className="search-result-sub">{r.item.unitTitle}</div></div>
           </button>
         ))}
@@ -172,17 +172,17 @@ function SearchOverlay({ onClose, onOpenLesson }) {
 
 // ── BOTTOM NAV ────────────────────────────────────────────
 const TABS = [
-  {id:'home',icon:'🏠',label:'Home'},
-  {id:'learn',icon:'📚',label:'Learn'},
-  {id:'community',icon:'💬',label:'Community'},
-  {id:'profile',icon:'👤',label:'Profile'},
+  {id:'home',iconName:'nav_home',label:'Home'},
+  {id:'learn',iconName:'nav_learn',label:'Learn'},
+  {id:'community',iconName:'nav_community',label:'Community'},
+  {id:'profile',iconName:'nav_profile',label:'Profile'},
 ];
 function BottomNav({activeTab,onChange}){
   return(
     <nav className="bottom-nav">
       {TABS.map(t=>(
         <button key={t.id} className={`nav-tab${activeTab===t.id?' nav-tab-active':''}`} onClick={()=>onChange(t.id)}>
-          <span className="nav-icon">{t.icon}</span>
+          <span className="nav-icon"><Icon name={t.iconName} size={22}/></span>
           <span className="nav-label">{t.label}</span>
           {activeTab===t.id && <span className="nav-active-dot"/>}
         </button>
@@ -456,7 +456,7 @@ function PathReady({path, answers, onStart}){
           <div className="path-preview-title">You'll start with</div>
           {previewLessons.map((l,i)=>(
             <div key={l.id} className="path-preview-lesson">
-              <span className="path-preview-icon">{l.icon}</span>
+              <span className="path-preview-icon"><Icon name={l.iconName}/></span>
               <span className={i===0?'path-preview-name':'path-preview-locked'}>{l.title}</span>
               {i===0&&<span style={{marginLeft:'auto',fontSize:10,color:'var(--gold)',fontWeight:700,background:'rgba(201,168,76,0.12)',padding:'2px 8px',borderRadius:20}}>FIRST</span>}
             </div>
@@ -671,7 +671,7 @@ function PathMap({completedLessons,bookmarks,onLessonTap}){
                 <div key={lesson.id} className="node-row">
                   <div className="node-col" style={{transform:`translateX(${shift}px)`}}>
                     <button className={`lesson-node node-${st}`} onClick={()=>st!=='locked'&&onLessonTap(lesson,unit)} disabled={st==='locked'}>
-                      <span className="node-icon">{lesson.icon}</span>
+                      <span className="node-icon"><Icon name={lesson.iconName} size={28}/></span>
                       {st==='completed'&&<span className="node-check"><Icon name="check"/></span>}
                       {isBookmarked&&st!=='completed'&&<span className="node-bookmark"><Icon name="bookmark"/></span>}
                     </button>
@@ -953,7 +953,7 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
           <h3 className="section-title">Bookmarked</h3>
           {bookmarkedLessons.map(l=>(
             <div key={l.id} style={{display:'flex',alignItems:'center',gap:10,padding:'10px 0',borderBottom:'1px solid rgba(255,255,255,0.04)'}}>
-              <span style={{fontSize:20}}>{l.icon}</span>
+              <span style={{fontSize:20,display:'inline-flex',alignItems:'center'}}><Icon name={l.iconName} size={20}/></span>
               <span style={{fontSize:14,color:'var(--text-body)'}}>{l.title}</span>
             </div>
           ))}
@@ -1344,6 +1344,17 @@ function App(){
   const showDemoBanner = typeof window !== 'undefined'
     ? new URLSearchParams(window.location.search).get('demo') === 'true'
     : false;
+  // Landing/onboarding is opt-in via ?view=landing for pre-launch marketing.
+  // New users by default open directly in the app (see DEFAULT_V4_STATE).
+  // Read URL after mount to avoid an SSR/client hydration mismatch — this adds a
+  // tiny flash for the landing URL, but keeps the default app path hydration-clean.
+  const [showLanding, setShowLanding] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (new URLSearchParams(window.location.search).get('view') === 'landing') {
+      setShowLanding(true);
+    }
+  }, []);
 
   const [state,setState]=useState(()=>{
     try{
@@ -1426,13 +1437,15 @@ function App(){
   // Preview mode — session-only, never persisted to localStorage
   const handleTryDemo=()=>{
     setPreviewMode(true);
+    setShowLanding(false);
     update({onboardingComplete:true,activeTab:'home',pathName:"The Seeker's Path"});
   };
   const handleBackToLanding=()=>{
     setPreviewMode(false);
     setCurrentView(null);
     setShowReturning(false);
-    update({onboardingComplete:false,onboardingStep:'welcome'});
+    setShowLanding(true);
+    update({onboardingStep:'welcome'});
   };
 
   const handleLessonComplete = (lesson, { wrongAnswers, ranOutOfHearts }) => {
@@ -1554,17 +1567,22 @@ function App(){
     );
   }
 
-  if(!state.onboardingComplete) return(
-    <div className="app-container">
-      {showDemoBanner&&<div className="demo-banner">
-        <span className="demo-label"><Icon name="phone"/> DEMO MODE</span>
-        <button className="demo-reset" onClick={handleReset}>Reset</button>
-      </div>}
-      {state.onboardingStep==='welcome'&&<Welcome onBegin={()=>update({onboardingStep:'quiz'})} onSkip={()=>update({onboardingComplete:true,activeTab:'learn',pathName:"The Seeker's Path"})} onTryDemo={handleTryDemo}/>}
-      {state.onboardingStep==='quiz'&&<Quiz onComplete={ans=>{const path=getPathFromAnswers(ans);update({quizAnswers:ans,selectedPath:path,pathName:path.name,onboardingStep:'path-ready'});}}/>}
-      {state.onboardingStep==='path-ready'&&<PathReady path={state.selectedPath} answers={state.quizAnswers||[]} onStart={()=>update({onboardingComplete:true,activeTab:'home'})}/>}
-    </div>
-  );
+  if(showLanding || !state.onboardingComplete){
+    // If opened via ?view=landing and there's no step set yet, start at 'welcome'.
+    const step = state.onboardingStep || 'welcome';
+    const exitLanding = (patch) => { setShowLanding(false); update(patch); };
+    return(
+      <div className="app-container">
+        {showDemoBanner&&<div className="demo-banner">
+          <span className="demo-label"><Icon name="phone"/> DEMO MODE</span>
+          <button className="demo-reset" onClick={handleReset}>Reset</button>
+        </div>}
+        {step==='welcome'&&<Welcome onBegin={()=>update({onboardingStep:'quiz'})} onSkip={()=>exitLanding({onboardingComplete:true,activeTab:'home',pathName:"The Seeker's Path"})} onTryDemo={handleTryDemo}/>}
+        {step==='quiz'&&<Quiz onComplete={ans=>{const path=getPathFromAnswers(ans);update({quizAnswers:ans,selectedPath:path,pathName:path.name,onboardingStep:'path-ready'});}}/>}
+        {step==='path-ready'&&<PathReady path={state.selectedPath} answers={state.quizAnswers||[]} onStart={()=>exitLanding({onboardingComplete:true,activeTab:'home'})}/>}
+      </div>
+    );
+  }
 
   return(
     <div className="app-container">

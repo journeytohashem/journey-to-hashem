@@ -7,7 +7,7 @@ const unit5 = {
     {
       id: 'u5l1',
       title: 'What is the Parasha?',
-      iconName: 'torah',
+      iconName: 'parasha_scroll',
       hook: {
         title: 'The Weekly Torah Portion',
         body: `<p>The Torah is divided into 54 weekly portions — the <em>parasha</em> — read in a continuous annual cycle. Every Shabbat, Jewish communities worldwide read the same section.</p>`,
@@ -113,7 +113,7 @@ const unit5 = {
     {
       id: 'u5l2',
       title: 'Reading the Torah',
-      iconName: 'torah',
+      iconName: 'trop_notes',
       hook: {
         title: 'How the Torah is Read',
         body: `<p>The Torah is not just read — it is sung, from an unmarked scroll, in a tradition older than any other continuous ritual music on earth.</p>`,
@@ -218,7 +218,7 @@ const unit5 = {
     {
       id: 'u5l3',
       title: 'Commentary — Rashi and Beyond',
-      iconName: 'scholar',
+      iconName: 'quill',
       hook: {
         title: 'The Great Commentators',
         body: `<p>The Torah is never read alone — it comes with layers of commentary built up over two millennia. The master of them all: Rashi.</p>`,
@@ -321,7 +321,7 @@ const unit5 = {
     {
       id: 'u5l4',
       title: 'Applying Torah to Daily Life',
-      iconName: 'scholar',
+      iconName: 'footsteps',
       hook: {
         title: 'Living the Text',
         body: `<p>"It is not in heaven" (Devarim 30:12). Torah is meant to be lived — interpreted and applied by each generation. That work has a name: halacha, and its counterpart in character: Mussar.</p>`,
@@ -426,7 +426,7 @@ const unit5 = {
     {
       id: 'u5l5',
       title: 'Torah Study Quiz',
-      iconName: 'note',
+      iconName: 'quiz_checklist',
       isQuiz: true,
       hook: {
         title: 'Torah Study — Quiz',

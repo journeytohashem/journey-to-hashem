@@ -221,8 +221,11 @@ input,textarea,select{font-size:16px!important;}
     .node-completed{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 100%);box-shadow:0 6px 24px rgba(201,168,76,0.4);}
     .node-current{background:var(--navy-light);border:2.5px solid var(--gold);animation:pulseRing 2.4s ease-out infinite;box-shadow:0 4px 16px rgba(201,168,76,0.15);}
     .node-locked{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.06);}
-    .node-locked .node-icon{opacity:0.35;filter:grayscale(1);}
-    .node-icon{font-size:22px;line-height:1;position:relative;z-index:1;}
+    .node-locked .node-icon{opacity:0.35;filter:grayscale(1);color:var(--text-dim);}
+    .node-icon{font-size:22px;line-height:1;position:relative;z-index:1;color:var(--gold);display:inline-flex;align-items:center;justify-content:center;}
+    /* SVG icons on completed (gold bg) stand in navy for contrast */
+    .node-completed .node-icon{color:var(--navy);}
+    .node-current .node-icon{color:var(--gold);}
     .node-check{position:absolute;bottom:-1px;right:-1px;width:20px;height:20px;background:var(--navy);color:var(--gold);border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--gold);box-shadow:0 2px 8px rgba(0,0,0,0.4);}
     .node-bookmark{position:absolute;top:-3px;right:-3px;width:17px;height:17px;background:var(--gold);border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(201,168,76,0.4);}
     .node-label{font-size:11px;max-width:110px;text-align:center;line-height:1.3;}

@@ -7,7 +7,7 @@ const unit1 = {
     {
       id: 'u1l1',
       title: 'Who is Hashem?',
-      iconName: 'star_of_david',
+      iconName: 'hashem',
       hook: {
         title: 'Who is Hashem?',
         body: `<p>"Hashem" literally means <em>The Name</em> — how Jews speak of G-d in everyday life. This lesson explores what Judaism teaches about the One behind that Name.</p>`,
@@ -115,7 +115,7 @@ const unit1 = {
     {
       id: 'u1l2',
       title: 'What is the Torah?',
-      iconName: 'torah',
+      iconName: 'torah_scroll',
       hook: {
         title: 'What is the Torah?',
         body: `<p>The Torah is Judaism's foundational text, given at Mount Sinai about 3,300 years ago. But "Torah" means more than a book — it's the blueprint of reality itself.</p>`,
@@ -221,7 +221,7 @@ const unit1 = {
     {
       id: 'u1l3',
       title: 'The Jewish People',
-      iconName: 'synagogue',
+      iconName: 'jewish_people',
       hook: {
         title: 'Am Yisrael — The People',
         body: `<p>The Jewish people trace their origin to Avraham, called by Hashem to leave his homeland and found a people dedicated to ethical monotheism. This lesson is about that covenant and mission.</p>`,
@@ -327,7 +327,7 @@ const unit1 = {
     {
       id: 'u1l4',
       title: 'What is a Mitzvah?',
-      iconName: 'star',
+      iconName: 'tablets',
       hook: {
         title: 'What is a Mitzvah?',
         body: `<p>A mitzvah is a divine commandment — one of the 613 in the Torah. The word also carries a second meaning: <em>connection</em>. Every mitzvah is both instruction and a way to connect with Hashem.</p>`,
@@ -432,7 +432,7 @@ const unit1 = {
     {
       id: 'u1l5',
       title: 'Foundations Quiz',
-      iconName: 'note',
+      iconName: 'quiz_checklist',
       isQuiz: true,
       hook: {
         title: 'Foundations of Faith — Quiz',

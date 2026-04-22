@@ -7,7 +7,7 @@ const unit3 = {
     {
       id: 'u3l1',
       title: 'Why Do We Pray?',
-      iconName: 'prayer',
+      iconName: 'praying_hands',
       hook: {
         title: 'Why Do We Pray?',
         body: `<p>Jewish prayer is called <em>Avodah shebalev</em> — service of the heart. It\'s less about asking G-d for things and more about reshaping who we are.</p>`,
@@ -110,7 +110,7 @@ const unit3 = {
     {
       id: 'u3l2',
       title: 'The Structure of the Siddur',
-      iconName: 'books',
+      iconName: 'siddur',
       hook: {
         title: 'The Siddur',
         body: `<p>The Siddur ("order") is the Jewish prayer book — centuries of liturgy compiled into a careful daily sequence. At its core: the Amidah.</p>`,
@@ -217,7 +217,7 @@ const unit3 = {
     {
       id: 'u3l3',
       title: 'Shacharit — Morning Prayer',
-      iconName: 'sparkle',
+      iconName: 'sunrise',
       hook: {
         title: 'Beginning the Day',
         body: `<p>Before getting out of bed, the first Jewish words of the day are <em>Modeh Ani</em> — a 12-second thank-you that reframes everything that follows.</p>`,
@@ -321,7 +321,7 @@ const unit3 = {
     {
       id: 'u3l4',
       title: 'Mincha and Maariv',
-      iconName: 'havdalah',
+      iconName: 'sun_moon',
       hook: {
         title: 'Afternoon and Evening',
         body: `<p>After Shacharit comes Mincha — the afternoon pause — and Maariv, the evening\'s close. Two briefer services, two distinct moods.</p>`,
@@ -425,7 +425,7 @@ const unit3 = {
     {
       id: 'u3l5',
       title: 'Prayer Quiz',
-      iconName: 'note',
+      iconName: 'quiz_checklist',
       isQuiz: true,
       hook: {
         title: 'Prayer — Quiz',
