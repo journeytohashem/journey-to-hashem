@@ -157,7 +157,7 @@ function SearchOverlay({ onClose, onOpenLesson }) {
         <button className="btn-back-text" onClick={onClose}>Cancel</button>
       </div>
       <div className="search-results">
-        {q.length < 2 && <div className="search-empty" style={{paddingTop:60}}><div style={{fontSize:32,marginBottom:12}}>🔍</div>Search lessons</div>}
+        {q.length < 2 && <div className="search-empty" style={{paddingTop:60}}><div style={{fontSize:32,marginBottom:12}}><Icon name="search"/></div>Search lessons</div>}
         {q.length >= 2 && results.length === 0 && <div className="search-empty">No results for "{q}"</div>}
         {results.map((r, i) => (
           <button key={i} className="search-result-item" style={{width:'100%',textAlign:'left'}} onClick={() => {const unit=LEARNING_PATH.find(u=>u.lessons.some(l=>l.id===r.item.id));onOpenLesson(r.item,unit);onClose();}}>
@@ -476,14 +476,14 @@ function UserWaitlistCard(){
   const [error,setError]=useState('');
   if(done)return(
     <div className="home-card" style={{textAlign:'center',padding:'18px 16px'}}>
-      <div style={{fontSize:20,marginBottom:6}}>✅</div>
+      <Icon name="check_circle" size={20} style={{marginBottom:6,display:'block'}}/>
       <div style={{fontFamily:'Cormorant Garamond,serif',fontSize:17,color:'var(--gold)'}}>You're on the list!</div>
       <div style={{fontSize:13,color:'var(--text-dim)',marginTop:4}}>We'll be in touch.</div>
     </div>
   );
   return(
     <div className="home-card">
-      <div className="home-card-header"><span className="home-card-icon">✉️</span><span className="home-card-title">Join the Waitlist</span></div>
+      <div className="home-card-header"><span className="home-card-icon"><Icon name="envelope"/></span><span className="home-card-title">Join the Waitlist</span></div>
       <p style={{fontSize:13,color:'var(--text-dim)',margin:'4px 0 12px'}}>Be first to know when we launch.</p>
       <input className="pitch-input" placeholder="Your name" value={form.name} onChange={e=>setForm(f=>({...f,name:e.target.value}))} style={{marginBottom:8}}/>
       <input className="pitch-input" placeholder="Email address" type="email" value={form.email} onChange={e=>setForm(f=>({...f,email:e.target.value}))} style={{marginBottom:12}}/>
@@ -537,12 +537,12 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
             <p className="home-date">{getHebrewDate()} · {new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</p>
           </div>
           <div style={{display:'flex',gap:8,alignItems:'flex-start'}}>
-            <button className="home-search-btn" onClick={()=>shareApp()} title="Share app">🔗</button>
-            <button className="home-search-btn" onClick={onSearch} title="Search">🔍</button>
+            <button className="home-search-btn" onClick={()=>shareApp()} title="Share app"><Icon name="share"/></button>
+            <button className="home-search-btn" onClick={onSearch} title="Search"><Icon name="search"/></button>
           </div>
         </div>
         <div className="home-streak-bar">
-          <span className="home-streak-icon">🔥</span>
+          <span className="home-streak-icon"><Icon name="streak"/></span>
           <div className="home-streak-text">
             <div className="home-streak-num">{currentStreak} day{currentStreak!==1?'s':''}</div>
             <div className="home-streak-label">learning streak · {totalXP} XP total</div>
@@ -557,7 +557,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
             borderRadius:'var(--radius-lg)',
             fontSize:13, color:'var(--text-body)',
           }}>
-            <span style={{fontSize:18}}>🧊</span>
+            <Icon name="freeze" size={18}/>
             <span><strong>Streak freeze ready.</strong> We'll auto-apply it if you miss a day.</span>
           </div>
         )}
@@ -570,7 +570,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
             borderRadius:'var(--radius-lg)',
             fontSize:12, color:'var(--text-dim)',
           }}>
-            <span style={{fontSize:16}}>🧊</span>
+            <Icon name="freeze" size={16}/>
             <span>Streak freeze used on {state.streakFreezeUsedAt}. Refreshes Sunday.</span>
           </div>
         )}
@@ -578,7 +578,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
 
       {shabbat&&(
         <div className="shabbat-banner">
-          <span className="shabbat-banner-icon">🕯️</span>
+          <span className="shabbat-banner-icon"><Icon name="candle"/></span>
           <div className="shabbat-banner-text">
             <div className="shabbat-banner-title">Shabbat Shalom</div>
             <div className="shabbat-banner-sub">Shabbat is a day of rest — come back after nightfall to continue learning.</div>
@@ -588,7 +588,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
 
       {showStreakReminder&&(
         <div className="streak-reminder">
-          <span style={{fontSize:18}}>🔔</span>
+          <Icon name="bell" size={18}/>
           <span className="streak-reminder-text">Don't break your {currentStreak}-day streak — complete a lesson today!</span>
           <button className="streak-reminder-close" onClick={()=>setShowReminder(false)}>×</button>
         </div>
@@ -606,7 +606,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
 
       <div className="section section-top">
         <div className="parasha-card">
-          <div className="parasha-label">📜 This Week's Parasha (approx.)</div>
+          <div className="parasha-label"><Icon name="torah"/> This Week's Parasha (approx.)</div>
           <div className="parasha-name">Parashat {parasha}</div>
           <div className="parasha-detail">Approximate weekly Torah portion — verify at hebcal.com for your location.</div>
         </div>
@@ -614,14 +614,14 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
         <UserWaitlistCard/>
 
         <div className="home-card">
-          <div className="home-card-header"><span className="home-card-icon">✨</span><span className="home-card-title">Daily Insight</span></div>
+          <div className="home-card-header"><span className="home-card-icon"><Icon name="sparkle"/></span><span className="home-card-title">Daily Insight</span></div>
           <div className="home-insight-text">"{insight.text}"</div>
           <div className="home-insight-source">— {insight.source}</div>
         </div>
 
         <div className="home-card" style={{display:'flex',alignItems:'center',justifyContent:'space-between',cursor:'pointer'}} onClick={()=>onGoTab('community')}>
           <div>
-            <div className="home-card-title" style={{fontSize:11,color:'var(--gold)',textTransform:'uppercase',letterSpacing:'0.8px',marginBottom:4}}>💬 Community</div>
+            <div className="home-card-title" style={{fontSize:11,color:'var(--gold)',textTransform:'uppercase',letterSpacing:'0.8px',marginBottom:4}}><Icon name="community"/> Community</div>
             <div style={{fontSize:14,color:'var(--text-body)'}}>5 new posts today</div>
             <div style={{fontSize:12,color:'var(--text-dim)',marginTop:2}}>Discussing Parashat {parasha}</div>
           </div>
@@ -629,7 +629,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
         </div>
 
         <button className="pitch-home-btn" onClick={onOpenPitch}>
-          <span className="pitch-home-btn-icon">🕍</span>
+          <span className="pitch-home-btn-icon"><Icon name="synagogue"/></span>
           <div className="pitch-home-btn-text">
             <div className="pitch-home-btn-title">Are you a Rabbi or Educator?</div>
             <div className="pitch-home-btn-sub">Partner with Journey to Hashem →</div>
@@ -672,8 +672,8 @@ function PathMap({completedLessons,bookmarks,onLessonTap}){
                   <div className="node-col" style={{transform:`translateX(${shift}px)`}}>
                     <button className={`lesson-node node-${st}`} onClick={()=>st!=='locked'&&onLessonTap(lesson,unit)} disabled={st==='locked'}>
                       <span className="node-icon">{lesson.icon}</span>
-                      {st==='completed'&&<span className="node-check">✓</span>}
-                      {isBookmarked&&st!=='completed'&&<span className="node-bookmark">🔖</span>}
+                      {st==='completed'&&<span className="node-check"><Icon name="check"/></span>}
+                      {isBookmarked&&st!=='completed'&&<span className="node-bookmark"><Icon name="bookmark"/></span>}
                     </button>
                     <span className={`node-label label-${st}`}>{lesson.title}</span>
                   </div>
@@ -698,8 +698,8 @@ function LearnTab({state,onOpenLesson}){
     <div className="tab-screen learn-tab">
       <div className="learn-header">
         <div className="learn-header-top">
-          <div className="streak-counter"><span className="streak-icon">🔥</span><span className="streak-number">{currentStreak} day{currentStreak!==1?'s':''}</span></div>
-          <div className="xp-counter"><span className="xp-icon">⭐</span><span className="xp-number">{totalXP} XP</span></div>
+          <div className="streak-counter"><span className="streak-icon"><Icon name="streak"/></span><span className="streak-number">{currentStreak} day{currentStreak!==1?'s':''}</span></div>
+          <div className="xp-counter"><span className="xp-icon"><Icon name="xp"/></span><span className="xp-number">{totalXP} XP</span></div>
         </div>
         <p className="daily-goal-text">{dailyLessonsCompleted}/{DAILY_GOAL} lessons today</p>
         <div className="daily-goal-bar"><div className="daily-goal-fill" style={{width:`${dailyPct}%`}}/></div>
@@ -717,7 +717,7 @@ function LearnTab({state,onOpenLesson}){
         </div>
       ):(
         <div className="section section-top">
-          <div className="all-complete-banner"><span>🏆</span><p>You've completed all lessons!</p></div>
+          <div className="all-complete-banner"><span><Icon name="trophy"/></span><p>You've completed all lessons!</p></div>
         </div>
       )}
       <div className="section">
@@ -739,7 +739,7 @@ function CongratsScreen({lesson, xpEarned, streak, newBadges, totalXP, replay, h
   return(
     <div className="screen-full congrats-screen fade-in">
       <div className={`congrats-card${visible?' visible':''}`}>
-        <div className="congrats-sparkle">{perfect?'🎉':'✓'}</div>
+        <div className="congrats-sparkle"><Icon name={perfect?'celebration':'check'}/></div>
         <h2 className="congrats-title">
           {replay ? 'Reviewed!' : ranOutOfHearts ? 'Lesson complete' : perfect ? 'Perfect Lesson!' : 'Lesson complete'}
         </h2>
@@ -804,7 +804,7 @@ function CommunityTab({state}){
       <div style={{display:'flex',gap:8,padding:'14px 20px 4px'}}>
         {['feed','leaderboard'].map(s=>(
           <button key={s} onClick={()=>setActiveSection(s)} style={{padding:'7px 16px',borderRadius:100,fontSize:13,fontWeight:600,transition:'all 0.2s',background:activeSection===s?'var(--gold)':'rgba(255,255,255,0.05)',color:activeSection===s?'var(--navy)':'var(--text-dim)',border:'none'}}>
-            {s==='feed'?'💬 Feed':'🏆 Leaderboard'}
+            {s==='feed'?<><Icon name="community"/> Feed</>:<><Icon name="trophy"/> Leaderboard</>}
           </button>
         ))}
       </div>
@@ -840,7 +840,7 @@ function CommunityTab({state}){
               <div className="leaderboard-avatar" style={r.me?{background:'linear-gradient(135deg,#4a90d9,#7bb3f0)',color:'#fff'}:{}}>{r.initials}</div>
               <div style={{flex:1}}>
                 <div className="leaderboard-name">{r.name}{r.me&&<span style={{fontSize:10,color:'var(--gold)',marginLeft:6,fontWeight:700}}>YOU</span>}</div>
-                <div className="leaderboard-streak">🔥 {r.streak} day streak</div>
+                <div className="leaderboard-streak"><Icon name="streak"/> {r.streak} day streak</div>
               </div>
               <span className="leaderboard-xp">{r.xp} XP</span>
             </div>
@@ -896,11 +896,11 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
         <div className="profile-avatar">{(nameVal||'G').charAt(0).toUpperCase()}</div>
         {editing
           ?<input className="name-edit-input" value={nameVal} onChange={e=>setNameVal(e.target.value)} onBlur={saveName} onKeyDown={e=>e.key==='Enter'&&saveName()} autoFocus/>
-          :<h2 className="profile-name" onClick={()=>setEditing(true)} style={{cursor:'pointer'}}>{nameVal||'Tap to set name'} ✏️</h2>
+          :<h2 className="profile-name" onClick={()=>setEditing(true)} style={{cursor:'pointer'}}>{nameVal||'Tap to set name'} <Icon name="pencil"/></h2>
         }
         <p className="profile-path-label">{pathName||'Learning Path'}</p>
         <button className="share-btn" style={{marginTop:8}} onClick={()=>shareApp(`${nameVal||'I'} am on Journey to Hashem`,`I've completed ${completedLessons.length} lessons on @JourneyToHashem — join me!`)}>
-          🔗 Share My Progress
+          <Icon name="share"/> Share My Progress
         </button>
       </div>
 
@@ -913,9 +913,9 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
       </div>
 
       <div className="stats-row">
-        <div className="stat-card"><span className="stat-icon">🔥</span><span className="stat-value">{currentStreak}</span><span className="stat-label">Day Streak</span></div>
-        <div className="stat-card"><span className="stat-icon">⭐</span><span className="stat-value">{totalXP}</span><span className="stat-label">Total XP</span></div>
-        <div className="stat-card"><span className="stat-icon">✅</span><span className="stat-value">{completedLessons.length}</span><span className="stat-label">Lessons</span></div>
+        <div className="stat-card"><span className="stat-icon"><Icon name="streak"/></span><span className="stat-value">{currentStreak}</span><span className="stat-label">Day Streak</span></div>
+        <div className="stat-card"><span className="stat-icon"><Icon name="xp"/></span><span className="stat-value">{totalXP}</span><span className="stat-label">Total XP</span></div>
+        <div className="stat-card"><span className="stat-icon"><Icon name="check_circle"/></span><span className="stat-value">{completedLessons.length}</span><span className="stat-label">Lessons</span></div>
       </div>
 
       <div className="section">
@@ -963,10 +963,10 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
       <div className="section">
         <h3 className="section-title">Settings</h3>
         <div className="settings-list">
-          <button className="settings-item" onClick={()=>setShowNotifs(true)}><span>🔔 Notifications</span><span className="settings-chevron">›</span></button>
+          <button className="settings-item" onClick={()=>setShowNotifs(true)}><span><Icon name="bell"/> Notifications</span><span className="settings-chevron">›</span></button>
           {SETTINGS.map(s=>(<button key={s} className="settings-item"><span>{s}</span><span className="settings-chevron">›</span></button>))}
-          <button className="settings-item" onClick={onOpenPitch} style={{color:'var(--gold)'}}><span>🕍 Partner With Us — For Rabbis</span><span className="settings-chevron">›</span></button>
-          <button className="settings-item settings-item-danger" onClick={onReset}><span>🔄 Reset Demo / Start Over</span><span className="settings-chevron">›</span></button>
+          <button className="settings-item" onClick={onOpenPitch} style={{color:'var(--gold)'}}><span><Icon name="synagogue"/> Partner With Us — For Rabbis</span><span className="settings-chevron">›</span></button>
+          <button className="settings-item settings-item-danger" onClick={onReset}><span><Icon name="reset"/> Reset Demo / Start Over</span><span className="settings-chevron">›</span></button>
         </div>
       </div>
 
@@ -1498,7 +1498,7 @@ function App(){
   if(showReturning&&state.onboardingComplete) return(
     <div className="app-container">
       {showDemoBanner&&<div className="demo-banner">
-        <span className="demo-label">📱 DEMO MODE</span>
+        <span className="demo-label"><Icon name="phone"/> DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset</button>
       </div>}
       <ReturningUserScreen state={state} onContinue={()=>setShowReturning(false)}/>
@@ -1557,7 +1557,7 @@ function App(){
   if(!state.onboardingComplete) return(
     <div className="app-container">
       {showDemoBanner&&<div className="demo-banner">
-        <span className="demo-label">📱 DEMO MODE</span>
+        <span className="demo-label"><Icon name="phone"/> DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset</button>
       </div>}
       {state.onboardingStep==='welcome'&&<Welcome onBegin={()=>update({onboardingStep:'quiz'})} onSkip={()=>update({onboardingComplete:true,activeTab:'learn',pathName:"The Seeker's Path"})} onTryDemo={handleTryDemo}/>}
@@ -1569,7 +1569,7 @@ function App(){
   return(
     <div className="app-container">
       {showDemoBanner&&<div className="demo-banner">
-        <span className="demo-label">📱 DEMO MODE</span>
+        <span className="demo-label"><Icon name="phone"/> DEMO MODE</span>
         <button className="demo-reset" onClick={handleReset}>Reset Demo</button>
       </div>}
       {previewMode&&(
@@ -1582,7 +1582,7 @@ function App(){
         <div className="badge-toast">
           <span className="badge-toast-icon">{badgeToast.icon}</span>
           <div>
-            <div className="badge-toast-label">🏅 Badge Unlocked!</div>
+            <div className="badge-toast-label"><Icon name="medal"/> Badge Unlocked!</div>
             <div className="badge-toast-name">{badgeToast.name}</div>
           </div>
         </div>

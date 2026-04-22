@@ -38,6 +38,18 @@ export const ICONS = {
   // UI
   search: '🔍',
   pencil: '✏️',
+  share: '🔗',
+  bell: '🔔',
+  community: '💬',
+  celebration: '🎉',
+  check_circle: '✅',
+  phone: '📱',
+  medal: '🏅',
+  medal_gold: '🥇',
+  medal_silver: '🥈',
+  medal_bronze: '🥉',
+  reset: '🔄',
+  envelope: '✉️',
 };
 
 export function iconFor(name) {
