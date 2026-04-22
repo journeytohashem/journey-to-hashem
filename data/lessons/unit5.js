@@ -1,38 +1,517 @@
-// Unit 5 — existing V3 format. Will be rewritten in a later task.
-const unit5 = { id:'unit5', title:'Torah Study — Parshat HaShavua', level:'Advanced', lessons:[
-    { id:'u5l1', title:'What is the Parasha?', icon:'📜', slides:[
-      { title:'The Weekly Torah Portion', icon:'📜', body:`<p>Each week, the Jewish world reads the same section of the Torah — called the <em>parasha</em> or <em>parshat hashavua</em>. The 54 portions cycle through the Five Books of Moses in one year.</p>`, source:'Talmud Megillah 29b; Rambam, Hilchot Tefillah 12:1' },
-      { title:'How It Works', body:`<p>Each portion is named after its first distinctive word — Bereishit ("In the beginning"), Noach ("Noah"), Lech Lecha ("Go forth"). In leap years, some portions are combined.</p><p>Studying the weekly parasha connects you to a living, global Jewish conversation.</p>`, concept:'Whatever is happening in your life, the parasha of the week is speaking to it. Generations of Jews have found that the portion seems to be "about" their exact situation.', source:'Ba\'al Shem Tov (attributed); see Chiddushei HaRim, Introduction' },
-      { title:'PaRDeS — Four Levels', body:`<p>Jewish tradition recognizes four levels of interpretation — called <em>PaRDeS</em>:</p><p><strong style="color:var(--gold)">Peshat</strong> — Literal meaning<br/><strong style="color:var(--gold)">Remez</strong> — Allegorical/symbolic meaning<br/><strong style="color:var(--gold)">Derash</strong> — Homiletical/moral teaching<br/><strong style="color:var(--gold)">Sod</strong> — Mystical/Kabbalistic meaning</p>`, source:'Zohar Vol. 3, 202a; Bachya ibn Paquda, Chovot HaLevavot' },
-      { title:'Quick Check', exercise:{ question:'What does "PaRDeS" stand for?', options:['Peshat, Remez, Derash, Sod','Prayer, Reading, Discussion, Study','Parasha, Rabbi, Discussion, Seder','Psalm, Ritual, Drasha, Shul'], answer:0, explanation:'PaRDeS stands for Peshat (literal), Remez (allegorical), Derash (homiletical), and Sod (mystical) — the four levels of Torah interpretation. The word itself means "orchard" in Hebrew.' } },
-    ]},
-    { id:'u5l2', title:'Reading the Torah', icon:'✍️', slides:[
-      { title:'The Hebrew Alphabet', icon:'✍️', body:`<p>The Torah is written in Biblical Hebrew — 22 letters with no vowels in the written scroll. Even basic Hebrew literacy opens enormous doors — following Torah readings, praying with intention, accessing original texts.</p>`, source:'See Rabbi Nosson Scherman, "The Aleph-Beis"' },
-      { title:'Cantillation — Trop', body:`<p>The Torah is not just read — it is sung. Each word has a cantillation mark (<em>trop</em>) indicating the melody for that word. These marks also serve as punctuation and phrasing guides.</p><p>The Torah reader (ba'al koreh) chants the entire portion using these melodies, from an unmarked scroll.</p>`, concept:'The tradition of reading Torah with cantillation is one of the oldest forms of sacred music in the world — practiced continuously for over 2,000 years.', source:'Talmud Nedarim 37b; Rambam, Hilchot Tefillah 12:2' },
-      { title:'Aliyot — Being Called Up', hebrew:'עֲלִיָּה', transliteration:'Aliyah', translation:'Going up', body:`<p>During the Torah reading, members of the community are called up (aliyah) to recite blessings before and after a section is read. There are typically 7 aliyot on Shabbat morning.</p>`, source:'Mishnah Megillah 4:1–2; Talmud Megillah 23a' },
-      { title:'Quick Check', exercise:{ question:'What is the Hebrew term for being called up to the Torah?', options:['Kiddush','Aliyah','Havdalah','Minyan'], answer:1, explanation:'Aliyah (going up) describes being called to the Torah to recite the blessings. The same word is used for immigration to Israel — both are acts of "going up" spiritually.' } },
-    ]},
-    { id:'u5l3', title:'Commentary — Rashi and Beyond', icon:'🧠', slides:[
-      { title:'Rashi', icon:'🧠', body:`<p>Rabbi Shlomo Yitzchaki (1040–1105), known by the acronym Rashi, wrote the most widely studied commentary on the Torah. He uses remarkably concise language to explain difficult words, reconcile contradictions, and bring in Midrashic teachings.</p>`, source:'Rashi on Bereishit 1:1; see R\' Chaim Dov Chavel\'s biography of Rashi' },
-      { title:'The Giants of Commentary', body:`<p><strong style="color:var(--gold)">Rashi</strong> — 11th c. France. Essential first commentary.<br/><strong style="color:var(--gold)">Ramban (Nachmanides)</strong> — 13th c. Spain. Philosophical and mystical depth.<br/><strong style="color:var(--gold)">Or HaChaim</strong> — 18th c. Morocco. Beloved Kabbalistic commentary.<br/><strong style="color:var(--gold)">Netziv</strong> — 19th c. Russia. Halachic and national focus.</p>`, concept:'Each commentator brings their era, culture, and perspective to the eternal text. Reading multiple commentators on the same verse reveals the extraordinary depth of Torah.', source:'See R\' Adin Even-Israel Steinsaltz, "Biblical Images"' },
-      { title:'How to Learn Parasha', body:`<p>A practical weekly routine:</p><p><strong style="color:var(--gold)">1.</strong> Read the English translation (15–20 min)<br/><strong style="color:var(--gold)">2.</strong> Read Rashi on 1–2 key verses<br/><strong style="color:var(--gold)">3.</strong> Listen to a 10-minute shiur (class)<br/><strong style="color:var(--gold)">4.</strong> Share one insight at your Shabbat table</p>`, source:'Based on Rambam, Hilchot Talmud Torah 1:8; Shulchan Aruch, Yoreh Deah 246' },
-      { title:'Quick Check', exercise:{ question:'In which century did Rashi live?', options:['8th century','11th century','14th century','16th century'], answer:1, explanation:'Rashi (Rabbi Shlomo Yitzchaki) lived from 1040–1105 CE in Troyes, France — in the 11th century. His commentary remains the most widely studied Torah commentary to this day.' } },
-    ]},
-    { id:'u5l4', title:'Applying Torah to Daily Life', icon:'💫', slides:[
-      { title:'Torah is a Living Document', icon:'💫', body:`<p>"It is not in heaven" (Devarim 30:12) — the Torah itself teaches that it must be interpreted and applied by human beings, in every generation and circumstance. This is the entire project of halacha.</p>`, source:'Devarim 30:12; Talmud Bava Metzia 59b' },
-      { title:'Mussar — Ethics of the Soul', hebrew:'מוּסַר', transliteration:'Mussar', translation:'Ethics / Discipline', body:`<p>Mussar is a Jewish ethical discipline developed in 19th-century Lithuania by Rabbi Yisrael Salanter. It focuses on systematic character development — identifying dominant negative traits and working to correct them.</p><p>Traits studied in Mussar: humility, patience, trust in G-d, order, silence, and love of Torah.</p>`, concept:'Mussar bridges knowing Torah intellectually and actually living it. It gives Judaism a personal, psychological dimension that many find transformative.', source:'R\' Yisrael Salanter; Mesillat Yesharim by R\' Moshe Chaim Luzzatto' },
-      { title:'Your Path Forward', body:`<p>You have completed the Journey to Hashem foundational curriculum!</p><p>Next steps:<br/><strong style="color:var(--gold)">Find a chevruta</strong> — a study partner<br/><strong style="color:var(--gold)">Attend a shiur</strong> — join a regular class<br/><strong style="color:var(--gold)">Start keeping Shabbat</strong> — even partially<br/><strong style="color:var(--gold)">Learn the daily prayers</strong> — with understanding</p>`, source:'"Find yourself a teacher, and acquire a study partner." — Pirkei Avot 1:6' },
-      { title:'Quick Check', exercise:{ question:'Who founded the Mussar movement?', options:['Rabbi Akiva','Rabbi Yisrael Salanter','The Vilna Gaon','Rabbi Moshe Chaim Luzzatto'], answer:1, explanation:'Rabbi Yisrael Salanter (1809–1883) founded the Mussar movement in 19th-century Lithuania, focusing on systematic ethical self-improvement as a Jewish practice.' } },
-    ]},
-    { id:'u5l5', title:'Torah Study Quiz', icon:'📝', isQuiz:true, slides:[
-      { title:'Unit Quiz — Torah Study', icon:'📜', body:`<p>Test your knowledge of Torah study — the parasha system, commentators, and how to engage with the weekly portion. Five questions.</p>` },
-      { title:'Question 1', exercise:{ question:'How many weekly Torah portions (parashiyot) are there in the annual cycle?', options:['24','36','54','70'], answer:2, explanation:'There are 54 parashiyot — one read each Shabbat over the course of a year. In shorter years, some are combined. The cycle restarts each fall on Simchat Torah.' } },
-      { title:'Question 2', exercise:{ question:'What does the acronym "PaRDeS" stand for?', options:['Peshat, Remez, Derash, Sod','Prayer, Reading, Discussion, Study','Parasha, Rav, Derasha, Shul','Psalms, Ritual, Drasha, Sermon'], answer:0, explanation:'PaRDeS stands for Peshat (literal), Remez (allegorical), Derash (homiletical), and Sod (mystical) — the four levels of Torah interpretation. The word means "orchard" in Hebrew.' } },
-      { title:'Question 3', exercise:{ question:'In which century did Rashi write his Torah commentary?', options:['8th century','11th century','14th century','16th century'], answer:1, explanation:'Rashi (Rabbi Shlomo Yitzchaki) lived from 1040–1105 CE in Troyes, France. His commentary remains the most widely studied Torah commentary to this day.' } },
-      { title:'Question 4', exercise:{ question:'What does "aliyah" mean in the context of the Torah reading?', options:['Reading from the Torah','Going up to the Torah','The weekly portion','The cantor\'s melody'], answer:1, explanation:'"Aliyah" (going up) refers to being called to the Torah to recite blessings before and after a section is read — considered a great honor.' } },
-      { title:'Question 5', exercise:{ question:'Who founded the Mussar movement of Jewish ethics?', options:['The Vilna Gaon','Rabbi Akiva','Rabbi Yisrael Salanter','Rabbi Moshe Chaim Luzzatto'], answer:2, explanation:'Rabbi Yisrael Salanter (1809–1883) founded the Mussar movement in Lithuania, focusing on systematic ethical self-improvement as a central Jewish practice.' } },
-      { title:'Course Complete! 🎓', icon:'🎓', body:`<p>You have completed the full Journey to Hashem foundational curriculum — five units covering the core pillars of Jewish life and learning.</p><p>This is just the beginning. The ocean of Torah is infinite, and every drop you learn brings you closer to Hashem and to your truest self.</p>`, concept:'"It is not upon you to finish the work, nor are you free to desist from it." — Pirkei Avot 2:16' },
-    ]},
-  ]};
+// Unit 5 — Torah Study. V1 gamification format (see data/lessons/schema.js).
+const unit5 = {
+  id: 'unit5',
+  title: 'Torah Study — Parshat HaShavua',
+  level: 'Advanced',
+  lessons: [
+    {
+      id: 'u5l1',
+      title: 'What is the Parasha?',
+      iconName: 'torah',
+      hook: {
+        title: 'The Weekly Torah Portion',
+        body: `<p>The Torah is divided into 54 weekly portions — the <em>parasha</em> — read in a continuous annual cycle. Every Shabbat, Jewish communities worldwide read the same section.</p>`,
+      },
+      teachSlides: [
+        {
+          title: 'Named by First Word',
+          body: `<p>Each parasha takes its name from its opening distinctive word: <em>Bereishit</em>, <em>Noach</em>, <em>Lech Lecha</em>. In leap years, some portions pair up so the cycle always finishes on Simchat Torah.</p>`,
+          concept: 'Names come from the text itself.',
+        },
+        {
+          title: 'PaRDeS — Four Levels',
+          hebrew: 'פַּרְדֵּס',
+          transliteration: 'PaRDeS',
+          translation: 'Orchard',
+          body: `<p>Four levels of interpretation: <strong>Peshat</strong> (literal), <strong>Remez</strong> (allegorical), <strong>Derash</strong> (homiletical), <strong>Sod</strong> (mystical). The acronym spells "orchard" — Torah as a place to wander and grow.</p>`,
+        },
+      ],
+      questions: [
+        {
+          type: 'multiple_choice',
+          prompt: 'How many weekly Torah portions are in the annual cycle?',
+          options: ['24', '36', '54', '70'],
+          correct: 2,
+          explanation: '54 parashiyot — some combine in shorter years so the cycle finishes on Simchat Torah.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'What does PaRDeS stand for?',
+          options: ['Peshat, Remez, Derash, Sod', 'Prayer, Reading, Discussion, Study', 'Parasha, Rav, Derasha, Shul', 'Psalms, Ritual, Drasha, Sermon'],
+          correct: 0,
+          explanation: 'Peshat (literal), Remez (allegorical), Derash (homiletical), Sod (mystical). The word itself means "orchard."',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'How are the weekly portions named?',
+          options: ['By their topic', 'By the week of the year', 'By the first distinctive word in the portion', 'By their length'],
+          correct: 2,
+          explanation: 'Named by the first distinctive Hebrew word — e.g., <em>Bereishit</em>, <em>Noach</em>, <em>Vayikra</em>.',
+        },
+        {
+          type: 'true_false',
+          prompt: 'On any given Shabbat, Jewish communities around the world read the same parasha.',
+          correct: true,
+          explanation: 'The synchronized annual cycle unifies Jewish study worldwide.',
+        },
+        {
+          type: 'fill_blank',
+          prompt: 'The Hebrew word "PaRDeS" literally means "___".',
+          answer_variants: ['orchard', 'garden'],
+          explanation: '"PaRDeS" — orchard. A beautiful image for Torah interpretation.',
+        },
+        {
+          type: 'typed_translation',
+          prompt: 'Type the English meaning of "Peshat".',
+          answer_variants: ['literal', 'simple', 'plain', 'literal meaning', 'plain meaning'],
+          explanation: 'Peshat — the literal or plain meaning. The first of the four PaRDeS levels.',
+        },
+        {
+          type: 'match_pairs',
+          prompt: 'Match each PaRDeS level to its mode.',
+          left: [
+            { id: 'a', text: 'Peshat' },
+            { id: 'b', text: 'Remez' },
+            { id: 'c', text: 'Derash' },
+            { id: 'd', text: 'Sod' },
+          ],
+          right: [
+            { id: '1', text: 'Homiletical / moral' },
+            { id: '2', text: 'Literal / plain' },
+            { id: '3', text: 'Mystical' },
+            { id: '4', text: 'Allegorical / symbolic' },
+          ],
+          correct: { a: '2', b: '4', c: '1', d: '3' },
+          explanation: 'Peshat (literal), Remez (allegorical), Derash (homiletical), Sod (mystical).',
+        },
+        {
+          type: 'order_steps',
+          prompt: 'Order the PaRDeS levels from surface to depth.',
+          steps: [
+            { id: 'a', text: 'Peshat' },
+            { id: 'b', text: 'Remez' },
+            { id: 'c', text: 'Derash' },
+            { id: 'd', text: 'Sod' },
+          ],
+          correctOrder: ['a', 'b', 'c', 'd'],
+          explanation: 'Peshat → Remez → Derash → Sod: from plain meaning to mystical.',
+        },
+      ],
+      wrap: {
+        title: 'In summary',
+        body: `<p>The parasha is Judaism\'s shared weekly conversation — 54 portions, four levels of meaning, one global community reading together.</p>`,
+      },
+      sources: [
+        'Talmud Megillah 29b',
+        'Rambam, Hilchot Tefillah 12:1',
+        'Zohar Vol. 3, 202a',
+        'Bachya ibn Paquda, Chovot HaLevavot',
+      ],
+      readMore: `<p>The Ba\'al Shem Tov famously taught that the weekly parasha is not just assigned reading — it is a living message for the week. Generations of Jews have found that the portion seems to be "about" their exact current situation. Whether one reads this mystically or psychologically, the effect is real: pause the week to sit with the parasha, and it often speaks to something you did not know you needed to hear.</p>`,
+    },
+
+    {
+      id: 'u5l2',
+      title: 'Reading the Torah',
+      iconName: 'torah',
+      hook: {
+        title: 'How the Torah is Read',
+        body: `<p>The Torah is not just read — it is sung, from an unmarked scroll, in a tradition older than any other continuous ritual music on earth.</p>`,
+      },
+      teachSlides: [
+        {
+          title: 'Trop — Cantillation',
+          body: `<p>Every word of Torah carries a <em>trop</em> mark indicating melody and phrasing. The Torah reader (<em>ba\'al koreh</em>) chants the portion from a scroll that contains no vowels or trop — memory and training carry it.</p>`,
+          concept: 'Memory, melody, and community.',
+        },
+        {
+          title: 'Aliyah',
+          hebrew: 'עֲלִיָּה',
+          transliteration: 'Aliyah',
+          translation: 'Going up',
+          body: `<p>Congregants are called up — <em>aliyah</em> — to recite blessings before and after sections of the reading. Shabbat morning has seven aliyot plus the <em>maftir</em>.</p>`,
+        },
+      ],
+      questions: [
+        {
+          type: 'multiple_choice',
+          prompt: 'What is "trop"?',
+          options: ['A type of prayer', 'Cantillation marks indicating Torah melody', 'A commentary style', 'A Torah pointer'],
+          correct: 1,
+          explanation: 'Trop — cantillation marks — indicate melody and phrasing for every Torah word.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'How many aliyot are traditionally given on Shabbat morning?',
+          options: ['3', '5', '7', '12'],
+          correct: 2,
+          explanation: 'Seven aliyot on Shabbat morning, plus a concluding <em>maftir</em>.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'The Torah scroll itself contains:',
+          options: ['Vowels and trop', 'Only vowels', 'Only consonants — no vowels or trop', 'Full translation'],
+          correct: 2,
+          explanation: 'Consonants only. Vowels and trop live in the reader\'s memory and training.',
+        },
+        {
+          type: 'true_false',
+          prompt: 'The Torah is chanted with melody, not simply read in speech.',
+          correct: true,
+          explanation: 'Each word is sung with its trop — a continuous oral tradition over two millennia old.',
+        },
+        {
+          type: 'fill_blank',
+          prompt: 'The person who reads the Torah for the congregation is called the "___ koreh."',
+          answer_variants: ['baal', 'ba\'al', 'bal'],
+          explanation: '"Ba\'al Koreh" — master of reading. A community member trained to chant the weekly portion.',
+        },
+        {
+          type: 'typed_translation',
+          prompt: 'Type the English meaning of "Aliyah" (in the context of Torah reading).',
+          answer_variants: ['going up', 'ascent', 'going up to the torah'],
+          explanation: '"Aliyah" — going up. The same word is used for moving to Israel — both are "going up."',
+        },
+        {
+          type: 'match_pairs',
+          prompt: 'Match each Torah-reading term.',
+          left: [
+            { id: 'a', text: 'Trop' },
+            { id: 'b', text: 'Aliyah' },
+            { id: 'c', text: 'Ba\'al koreh' },
+          ],
+          right: [
+            { id: '1', text: 'Torah reader' },
+            { id: '2', text: 'Being called up to the Torah' },
+            { id: '3', text: 'Cantillation marks' },
+          ],
+          correct: { a: '3', b: '2', c: '1' },
+          explanation: 'Trop = cantillation, Aliyah = being called up, Ba\'al koreh = reader.',
+        },
+        {
+          type: 'order_steps',
+          prompt: 'Order an aliyah at the Torah.',
+          steps: [
+            { id: 'a', text: 'Called up by Hebrew name' },
+            { id: 'b', text: 'Touch Torah with tzitzit / tallit, kiss it' },
+            { id: 'c', text: 'Recite the blessing before reading' },
+            { id: 'd', text: 'Torah reader chants the section' },
+            { id: 'e', text: 'Recite the blessing after reading' },
+          ],
+          correctOrder: ['a', 'b', 'c', 'd', 'e'],
+          explanation: 'Called up → touch and kiss the scroll → opening blessing → reading → closing blessing.',
+        },
+      ],
+      wrap: {
+        title: 'In summary',
+        body: `<p>Reading Torah is a shared performance — cantillated melody, memorized vowels, and honor shared among the community through aliyot.</p>`,
+      },
+      sources: [
+        'Mishnah Megillah 4:1–2',
+        'Talmud Megillah 23a',
+        'Talmud Nedarim 37b',
+        'Rambam, Hilchot Tefillah 12:2',
+      ],
+      readMore: `<p>Learning to be a <em>ba\'al koreh</em> is a serious undertaking — the reader must memorize not just the words (vowels included), but the trop, and must read from a scroll that shows none of this. The practice connects the reader to centuries of predecessors who learned the same portion and chanted it aloud in shuls across the world.</p>`,
+    },
+
+    {
+      id: 'u5l3',
+      title: 'Commentary — Rashi and Beyond',
+      iconName: 'scholar',
+      hook: {
+        title: 'The Great Commentators',
+        body: `<p>The Torah is never read alone — it comes with layers of commentary built up over two millennia. The master of them all: Rashi.</p>`,
+      },
+      teachSlides: [
+        {
+          title: 'Rashi',
+          body: `<p>Rabbi Shlomo Yitzchaki (1040–1105, France) wrote the most widely studied Torah commentary ever composed. Concise, warm, and essential — he explains, reconciles, and brings Midrash in a few words.</p>`,
+          concept: 'The first commentator Jews turn to.',
+        },
+        {
+          title: 'Others Who Followed',
+          body: `<p><strong>Ramban</strong> (13th c. Spain) — philosophical and mystical. <strong>Or HaChaim</strong> (18th c. Morocco) — beloved Kabbalistic depth. <strong>Netziv</strong> (19th c. Russia) — halachic and national focus.</p>`,
+        },
+      ],
+      questions: [
+        {
+          type: 'multiple_choice',
+          prompt: 'In which century did Rashi live?',
+          options: ['8th', '11th', '14th', '16th'],
+          correct: 1,
+          explanation: 'Rashi — 1040–1105 CE — wrote in 11th-century Troyes, France.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'What does "Rashi" stand for?',
+          options: ['A Hebrew word for "teacher"', 'Acronym: Rabbi Shlomo Yitzchaki', 'A place name', 'A Latin title'],
+          correct: 1,
+          explanation: 'An acronym: Ra-SH-I = Rabbi Shlomo Yitzchaki.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'Which commentator is known for philosophical and mystical depth, writing in 13th-century Spain?',
+          options: ['Rashi', 'Ramban (Nachmanides)', 'Or HaChaim', 'Netziv'],
+          correct: 1,
+          explanation: 'Ramban = Rabbi Moshe ben Nachman (Nachmanides) — philosopher, kabbalist, physician.',
+        },
+        {
+          type: 'true_false',
+          prompt: 'Rashi\'s commentary is printed in most standard editions of the Torah text.',
+          correct: true,
+          explanation: 'Standard Mikraot Gedolot editions print Rashi alongside the Torah text itself.',
+        },
+        {
+          type: 'fill_blank',
+          prompt: '"Rashi" is an acronym for Rabbi Shlomo ___.',
+          answer_variants: ['yitzchaki', 'yitzhaki', 'itzchaki', 'yitzchaki of troyes'],
+          explanation: 'Ra-SH-I = Rabbi Shlomo Yitzchaki. "Yitzchaki" means "son of Yitzchak."',
+        },
+        {
+          type: 'typed_translation',
+          prompt: 'Type the English meaning of the phrase "Chevruta" (a pair of study partners).',
+          answer_variants: ['study partner', 'partner', 'companion', 'study partnership'],
+          explanation: 'Chevruta — study partner / partnership. Jewish text study is traditionally done in pairs.',
+        },
+        {
+          type: 'match_pairs',
+          prompt: 'Match each commentator to their era and place.',
+          left: [
+            { id: 'a', text: 'Rashi' },
+            { id: 'b', text: 'Ramban' },
+            { id: 'c', text: 'Or HaChaim' },
+            { id: 'd', text: 'Netziv' },
+          ],
+          right: [
+            { id: '1', text: '19th c. Russia' },
+            { id: '2', text: '11th c. France' },
+            { id: '3', text: '13th c. Spain' },
+            { id: '4', text: '18th c. Morocco' },
+          ],
+          correct: { a: '2', b: '3', c: '4', d: '1' },
+          explanation: 'Rashi = 11th c. France, Ramban = 13th c. Spain, Or HaChaim = 18th c. Morocco, Netziv = 19th c. Russia.',
+        },
+        {
+          type: 'order_steps',
+          prompt: 'Order a practical weekly parasha routine.',
+          steps: [
+            { id: 'a', text: 'Read the parasha in translation' },
+            { id: 'b', text: 'Read Rashi on 1-2 key verses' },
+            { id: 'c', text: 'Listen to a short shiur (class)' },
+            { id: 'd', text: 'Share one insight at Shabbat table' },
+          ],
+          correctOrder: ['a', 'b', 'c', 'd'],
+          explanation: 'Translation → Rashi → shiur → share at the table. A sustainable weekly rhythm.',
+        },
+      ],
+      wrap: {
+        title: 'In summary',
+        body: `<p>Torah study unfolds in conversation with its great commentators. Rashi is the first door — and behind it, nearly a thousand years of Jewish thought.</p>`,
+      },
+      sources: [
+        'Rashi on Bereishit 1:1',
+        'Rambam, Hilchot Talmud Torah 1:8',
+        'Shulchan Aruch, Yoreh Deah 246',
+        'Pirkei Avot 1:6',
+      ],
+      readMore: `<p>Rashi wrote with an extraordinary economy: often a single word can resolve what looks like a major textual problem. Generations of Torah scholars have trained themselves on his commentary not only for its insights but as a school of clear thinking. If Rashi says nothing on a verse, that itself is a signal — the peshat is already plain.</p>`,
+    },
+
+    {
+      id: 'u5l4',
+      title: 'Applying Torah to Daily Life',
+      iconName: 'scholar',
+      hook: {
+        title: 'Living the Text',
+        body: `<p>"It is not in heaven" (Devarim 30:12). Torah is meant to be lived — interpreted and applied by each generation. That work has a name: halacha, and its counterpart in character: Mussar.</p>`,
+      },
+      teachSlides: [
+        {
+          title: 'Mussar',
+          hebrew: 'מוּסַר',
+          transliteration: 'Mussar',
+          translation: 'Ethics / discipline',
+          body: `<p>A 19th-century Lithuanian movement founded by Rabbi Yisrael Salanter. Systematic character work: identify a trait (humility, patience, silence), and practice it until it becomes you.</p>`,
+          concept: 'Knowing Torah → becoming Torah.',
+        },
+        {
+          title: 'Your Path Forward',
+          body: `<p>Find a <em>chevruta</em> (study partner). Attend a regular shiur. Start with one Shabbat practice. Learn one prayer deeply. Consistency beats intensity.</p>`,
+        },
+      ],
+      questions: [
+        {
+          type: 'multiple_choice',
+          prompt: 'Who founded the Mussar movement?',
+          options: ['Rabbi Akiva', 'Rabbi Yisrael Salanter', 'The Vilna Gaon', 'Rabbi Moshe Chaim Luzzatto'],
+          correct: 1,
+          explanation: 'Rabbi Yisrael Salanter (1809–1883), in 19th-century Lithuania.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'What is Mussar focused on?',
+          options: ['Mystical visions', 'Systematic character refinement', 'Oral tradition', 'Calendar calculation'],
+          correct: 1,
+          explanation: 'Mussar is Jewish ethical discipline — practical, introspective, oriented to becoming better over time.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'What does the phrase "It is not in heaven" (Devarim 30:12) teach?',
+          options: ['Torah study is optional', 'Humans must interpret and apply Torah themselves', 'Only prophets access Torah', 'Torah is a secret'],
+          correct: 1,
+          explanation: 'Humans must wrestle with, interpret, and apply Torah in each generation.',
+        },
+        {
+          type: 'true_false',
+          prompt: 'Jewish tradition recommends finding a chevruta — a study partner — for serious Torah learning.',
+          correct: true,
+          explanation: 'Pirkei Avot 1:6: "Find yourself a teacher, and acquire for yourself a friend" — the chevruta model.',
+        },
+        {
+          type: 'fill_blank',
+          prompt: 'A study partner in Jewish tradition is called a "___".',
+          answer_variants: ['chevruta', 'chavruta', 'havruta'],
+          explanation: 'A <em>chevruta</em> — literally "friendship." Two people wrestling with the text together.',
+        },
+        {
+          type: 'typed_translation',
+          prompt: 'Type the English meaning of "Mussar".',
+          answer_variants: ['ethics', 'discipline', 'moral instruction', 'ethical discipline'],
+          explanation: 'Mussar — ethics, discipline, moral instruction. Character work as a Jewish path.',
+        },
+        {
+          type: 'match_pairs',
+          prompt: 'Match each term to its meaning.',
+          left: [
+            { id: 'a', text: 'Halacha' },
+            { id: 'b', text: 'Mussar' },
+            { id: 'c', text: 'Chevruta' },
+          ],
+          right: [
+            { id: '1', text: 'Study partner' },
+            { id: '2', text: 'Jewish law / the way' },
+            { id: '3', text: 'Ethical/character discipline' },
+          ],
+          correct: { a: '2', b: '3', c: '1' },
+          explanation: 'Halacha = law, Mussar = character work, Chevruta = study partner.',
+        },
+        {
+          type: 'order_steps',
+          prompt: 'Order these steps for beginning to live Torah practically.',
+          steps: [
+            { id: 'a', text: 'Find a chevruta or shiur' },
+            { id: 'b', text: 'Start one Shabbat practice (candles, meal)' },
+            { id: 'c', text: 'Learn one prayer deeply (the Shema)' },
+            { id: 'd', text: 'Pick one Mussar trait to work on' },
+          ],
+          correctOrder: ['a', 'b', 'c', 'd'],
+          explanation: 'Community first, then Shabbat, then prayer, then character — but any order works. Start somewhere.',
+        },
+      ],
+      wrap: {
+        title: 'In summary',
+        body: `<p>Torah is not a book to finish; it is a life to live. Find a partner, build a practice, and start. The work is lifelong — and it begins today.</p>`,
+      },
+      sources: [
+        'Devarim 30:12',
+        'Talmud Bava Metzia 59b',
+        'Pirkei Avot 1:6',
+        'R\' Yisrael Salanter (Mussar movement)',
+        'Mesillat Yesharim, R\' Moshe Chaim Luzzatto',
+      ],
+      readMore: `<p>The Talmud tells of Rabbi Yehoshua famously declaring "It is not in heaven!" when debating Torah law with a heavenly voice. G-d, according to the Talmud, laughed: "My children have defeated Me." Judaism hands the Torah to human beings, in full awareness of the stakes. Living Torah is not obedience to a distant voice — it is a partnership with G-d in the ongoing work of making the world holy.</p>`,
+    },
+
+    {
+      id: 'u5l5',
+      title: 'Torah Study Quiz',
+      iconName: 'note',
+      isQuiz: true,
+      hook: {
+        title: 'Torah Study — Quiz',
+        body: `<p>Eight final questions — and a milestone. Complete this and you\'ll have finished the Journey to Hashem foundational curriculum.</p>`,
+      },
+      teachSlides: [],
+      questions: [
+        {
+          type: 'multiple_choice',
+          prompt: 'How many weekly Torah portions are there?',
+          options: ['24', '36', '54', '70'],
+          correct: 2,
+          explanation: '54 parashiyot in the annual cycle.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'PaRDeS stands for:',
+          options: ['Peshat, Remez, Derash, Sod', 'Prayer, Reading, Discussion, Study', 'Parasha, Rav, Derasha, Shul', 'Psalms, Ritual, Drasha, Sermon'],
+          correct: 0,
+          explanation: 'Peshat (literal), Remez (allegorical), Derash (homiletical), Sod (mystical).',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'Rashi wrote in which century?',
+          options: ['8th', '11th', '14th', '16th'],
+          correct: 1,
+          explanation: '11th century — 1040–1105, France.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: '"Aliyah" in Torah reading means:',
+          options: ['Chanting the portion', 'Going up to the Torah', 'The weekly portion', 'The cantor\'s role'],
+          correct: 1,
+          explanation: '"Aliyah" — going up. Being called to recite blessings at the Torah.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'Who founded the Mussar movement?',
+          options: ['The Vilna Gaon', 'Rabbi Akiva', 'Rabbi Yisrael Salanter', 'Rabbi Moshe Chaim Luzzatto'],
+          correct: 2,
+          explanation: 'Rabbi Yisrael Salanter — 19th-century Lithuania.',
+        },
+        {
+          type: 'true_false',
+          prompt: 'The Torah scroll itself has no vowels or cantillation marks — the reader knows them by memory.',
+          correct: true,
+          explanation: 'Consonants only. Vowels and trop are carried by tradition and training.',
+        },
+        {
+          type: 'fill_blank',
+          prompt: 'A Jewish study partner is called a "___".',
+          answer_variants: ['chevruta', 'chavruta', 'havruta'],
+          explanation: '"Chevruta" — from <em>chaver</em>, friend. Two people wrestling with a text together.',
+        },
+        {
+          type: 'match_pairs',
+          prompt: 'Match each term to its meaning.',
+          left: [
+            { id: 'a', text: 'Peshat' },
+            { id: 'b', text: 'Rashi' },
+            { id: 'c', text: 'Mussar' },
+            { id: 'd', text: 'Trop' },
+          ],
+          right: [
+            { id: '1', text: 'Ethical/character discipline' },
+            { id: '2', text: 'Cantillation marks' },
+            { id: '3', text: 'Literal meaning' },
+            { id: '4', text: 'The first commentator: R. Shlomo Yitzchaki' },
+          ],
+          correct: { a: '3', b: '4', c: '1', d: '2' },
+          explanation: 'Peshat = literal, Rashi = the essential commentator, Mussar = character work, Trop = cantillation.',
+        },
+      ],
+      wrap: {
+        title: 'Course Complete',
+        body: `<p>You\'ve completed the Journey to Hashem foundational curriculum — all five units. The ocean of Torah is infinite; you\'ve stepped into the water. "It is not upon you to finish the work, nor are you free to desist from it" (Pirkei Avot 2:16).</p>`,
+      },
+      sources: [
+        'Talmud Megillah 29b',
+        'Pirkei Avot 2:16',
+        'Rashi, throughout',
+        'R\' Yisrael Salanter, Iggeret HaMussar',
+      ],
+    },
+  ],
+};
 
 export default unit5;
