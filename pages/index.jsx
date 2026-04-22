@@ -1356,36 +1356,46 @@ function App(){
     }
   }, []);
 
-  const [state,setState]=useState(()=>{
-    try{
-      const raw = localStorage.getItem('jth-v4');
-      if (raw) return migrate(JSON.parse(raw));
-      const oldRaw = localStorage.getItem('jth-v3');
-      if (oldRaw) {
-        const migrated = migrate(JSON.parse(oldRaw));
-        localStorage.setItem('jth-v4', JSON.stringify(migrated));
-        return migrated;
-      }
-      return migrate(null);
-    } catch { return migrate(null); }
-  });
+  // Initialize with defaults (no localStorage read) so SSR and first client render
+  // agree. Real state loads in the hydration useEffect below.
+  const [state,setState]=useState(()=>migrate(null));
+  const [hydrated,setHydrated]=useState(false);
   const [previewMode,setPreviewMode]=useState(false);
   const [currentView,setCurrentView]=useState(null);
   const [showSearch,setShowSearch]=useState(false);
   const [showPitch,setShowPitch]=useState(false);
   const [badgeToast,setBadgeToast]=useState(null);
-  const [showReturning,setShowReturning]=useState(()=>{
-    // Show returning screen if user has progress but hasn't seen it this session
+  const [showReturning,setShowReturning]=useState(false);
+
+  // One-time hydration from localStorage — runs after mount so server HTML and
+  // first client render match. Any flash of default state is harmless since the
+  // default is Home (same destination most users are heading to).
+  useEffect(()=>{
     try{
-      const raw = localStorage.getItem('jth-v4') || localStorage.getItem('jth-v3');
-      const saved = raw ? JSON.parse(raw) : null;
-      return !!(saved?.onboardingComplete&&saved?.completedLessons?.length>0);
-    }catch{return false;}
-  });
+      const raw = localStorage.getItem('jth-v4');
+      if (raw) {
+        setState(migrate(JSON.parse(raw)));
+      } else {
+        const oldRaw = localStorage.getItem('jth-v3');
+        if (oldRaw) {
+          const migrated = migrate(JSON.parse(oldRaw));
+          localStorage.setItem('jth-v4', JSON.stringify(migrated));
+          setState(migrated);
+        }
+      }
+      const raw2 = localStorage.getItem('jth-v4') || localStorage.getItem('jth-v3');
+      const saved = raw2 ? JSON.parse(raw2) : null;
+      if (saved?.onboardingComplete && saved?.completedLessons?.length>0) {
+        setShowReturning(true);
+      }
+    }catch{}
+    setHydrated(true);
+  }, []);
 
   useEffect(()=>{
+    if (!hydrated) return;
     try { localStorage.setItem('jth-v4', JSON.stringify(state)); } catch {}
-  }, [state]);
+  }, [state, hydrated]);
 
   // Hearts regen + streak freeze tick
   useEffect(() => {
