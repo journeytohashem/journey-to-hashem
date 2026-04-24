@@ -201,7 +201,14 @@ input,textarea,select{font-size:16px!important;}
     .continue-card-content{flex:1;}
     .continue-unit{font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;}
     .continue-lesson{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--text-body);line-height:1.3;}
-    .all-complete-banner{display:flex;align-items:center;gap:12px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:var(--radius);padding:16px 20px;margin-top:12px;font-size:15px;color:var(--gold-light);font-family:'Cormorant Garamond',serif;}
+    .all-complete-card{background:linear-gradient(160deg,rgba(201,168,76,0.07) 0%,rgba(13,27,42,0) 100%);border:1px solid rgba(201,168,76,0.22);border-radius:var(--radius-lg);padding:28px 22px 22px;margin-top:12px;text-align:center;}
+    .all-complete-trophy{margin-bottom:12px;}
+    .all-complete-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--gold-light);margin-bottom:8px;}
+    .all-complete-subtitle{font-size:13px;color:var(--text-body);line-height:1.55;margin-bottom:16px;}
+    .all-complete-divider{height:1px;background:rgba(201,168,76,0.15);margin:0 0 14px;}
+    .all-complete-coming{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.18);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--gold);margin-bottom:12px;}
+    .all-complete-hint{font-size:12px;color:var(--text-dim);line-height:1.5;}
+    .home-cta-done{cursor:default;opacity:0.75;}
 
     /* ── PATH MAP ── */
     .path-map{padding:0;}
@@ -368,7 +375,6 @@ input,textarea,select{font-size:16px!important;}
     .continue-unit{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;font-weight:700;}
     .continue-lesson{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:var(--text-body);line-height:1.3;}
     .continue-card-content{flex:1;}
-    .all-complete-banner{display:flex;align-items:center;gap:14px;background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.18);border-radius:var(--radius-lg);padding:18px 20px;margin-top:12px;font-size:16px;color:var(--gold-light);font-family:'Cormorant Garamond',serif;}
     /* ── ONBOARDING EXTRAS ── */
     .welcome-features{width:100%;display:flex;flex-direction:column;gap:10px;}
     .welcome-feature{display:flex;align-items:center;gap:14px;background:rgba(19,34,55,0.6);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius-lg);padding:14px 16px;}

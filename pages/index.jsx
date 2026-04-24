@@ -603,6 +603,15 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
           <span className="home-cta-arrow">→</span>
         </button>
       )}
+      {!shabbat&&!curLesson&&(
+        <div className="home-cta home-cta-done">
+          <div>
+            <div className="home-cta-label" style={{color:'var(--gold)'}}>Core Curriculum Complete <Icon name="trophy" size={14}/></div>
+            <div className="home-cta-title" style={{fontSize:13,color:'var(--text-dim)'}}>Units 9+ coming soon — revisit lessons below</div>
+          </div>
+          <span className="home-cta-arrow" style={{color:'var(--text-dim)'}}>✓</span>
+        </div>
+      )}
 
       <div className="section section-top">
         <div className="parasha-card">
@@ -717,7 +726,17 @@ function LearnTab({state,onOpenLesson}){
         </div>
       ):(
         <div className="section section-top">
-          <div className="all-complete-banner"><span><Icon name="trophy"/></span><p>You've completed all lessons!</p></div>
+          <div className="all-complete-card">
+            <div className="all-complete-trophy"><Icon name="trophy" size={40}/></div>
+            <h3 className="all-complete-title">Core Curriculum Complete</h3>
+            <p className="all-complete-subtitle">You've finished all {allLessons.length} lessons — {LEARNING_PATH.map(u=>u.title.split('—')[0].trim()).join(', ')}.</p>
+            <div className="all-complete-divider"/>
+            <div className="all-complete-coming">
+              <Icon name="sparkle" size={16}/>
+              <span>Units 9+ are in development</span>
+            </div>
+            <p className="all-complete-hint">In the meantime, revisit any lesson on the path below — review deepens understanding.</p>
+          </div>
         </div>
       )}
       <div className="section">
@@ -1262,8 +1281,8 @@ const ALL_BADGES = [
   { id:'streak_7',      icon:'⚡', name:'Lightning Streak', desc:'7-day learning streak',            check:(s)=>s.currentStreak>=7 },
   { id:'scholar_50',    icon:'⭐', name:'50 XP',            desc:'Earn 50 XP',                       check:(s)=>s.totalXP>=50 },
   { id:'scholar_100',   icon:'💫', name:'100 XP',           desc:'Earn 100 XP',                      check:(s)=>s.totalXP>=100 },
-  { id:'half_path',     icon:'📚', name:'Halfway There',    desc:'Complete 12 lessons',              check:(s)=>s.completedLessons.length>=12 },
-  { id:'full_path',     icon:'🏆', name:'Path Complete',    desc:'Complete all 25 lessons',          check:(s)=>s.completedLessons.length>=25 },
+  { id:'half_path',     icon:'📚', name:'Halfway There',    desc:'Complete 20 lessons',              check:(s)=>s.completedLessons.length>=20 },
+  { id:'full_path',     icon:'🏆', name:'Path Complete',    desc:'Complete all 40 lessons',          check:(s)=>s.completedLessons.length>=40 },
   { id:'bookmarker',    icon:'🔖', name:'Bookworm',         desc:'Bookmark 3 lessons',               check:(s)=>(s.bookmarks||[]).length>=3 },
   { id:'foundations',   icon:'✡️', name:'Foundation Stone', desc:'Complete Foundations of Faith',    check:(s)=>['u1l1','u1l2','u1l3','u1l4','u1l5'].every(id=>s.completedLessons.includes(id)) },
   { id:'daily_3',       icon:'📅', name:'Daily 3',          desc:'Complete 3 lessons in one day',    check:(s)=>s.dailyLessonsCompleted>=3 },
