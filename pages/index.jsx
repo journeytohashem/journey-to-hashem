@@ -44,7 +44,7 @@ function getHebrewDate() {
     }
   }
   const ordinals = ['','א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ז׳','ח׳','ט׳','י׳','י״א','י״ב','י״ג','י״ד','ט״ו','ט״ז','י״ז','י״ח','י״ט','כ׳','כ״א','כ״ב','כ״ג','כ״ד','כ״ה','כ״ו','כ״ז','כ״ח','כ״ט','ל׳'];
-  return `~${ordinals[hDay]} ${MONTHS[hMonth].name} ${hYear}`;
+  return `${ordinals[hDay]} ${MONTHS[hMonth].name} ${hYear}`;
 }
 
 // ── SHABBAT DETECTION (approximate — demo only) ───────────
@@ -148,7 +148,14 @@ function SearchOverlay({ onClose, onOpenLesson }) {
   const [q, setQ] = useState('');
   const allLessons = LEARNING_PATH.flatMap(u => u.lessons.map(l => ({...l, unitTitle:u.title})));
   const results = q.length < 2 ? [] : allLessons
-    .filter(l => l.title.toLowerCase().includes(q.toLowerCase()))
+    .filter(l => {
+      const s = q.toLowerCase();
+      return l.title.toLowerCase().includes(s)
+        || l.hook?.body?.toLowerCase().includes(s)
+        || l.wrap?.toLowerCase().includes(s)
+        || l.teachSlides?.some(ts => ts.title?.toLowerCase().includes(s) || ts.body?.toLowerCase().includes(s))
+        || l.questions?.some(qs => qs.prompt?.toLowerCase().includes(s));
+    })
     .map(l => ({type:'lesson', item:l}));
   return (
     <div className="search-overlay fade-in">
@@ -211,7 +218,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
   ];
 
   const FAQ_ITEMS = [
-    {q:'When is Journey to Hashem launching?', a:"We're launching Q3 2026. Join the waitlist to get early access and updates on our progress."},
+    {q:'When are the native apps launching?', a:"The web app is available now — start learning today. Native iOS and Android apps are coming Q3 2026. Join the waitlist to be first to know."},
     {q:'Who is this for?', a:'Anyone on a path back to Judaism — baalei teshuva, curious beginners, committed learners without access to a consistent teacher, or Jews anywhere in the world who want real Torah in their pocket.'},
     {q:'What hashkafa is this?', a:"Journey to Hashem is built with traditional Orthodox teachers across Sephardi, Chabad, and Yeshivish backgrounds. It's not tied to one hashkafa — it's built to give learners access to authentic Torah and let them find the teacher who speaks to them."},
     {q:'Will it be free?', a:'The core learning content will be free. Advanced units, premium features, and one-on-one access to teachers may be paid. Our goal is accessibility first.'},
@@ -286,16 +293,14 @@ function Welcome({onBegin, onSkip, onTryDemo}){
             </div>
           ))}
         </div>
-        {/* Change 2 — updated CTAs */}
-        <button className="btn-primary btn-large" onClick={()=>scrollTo('learner-waitlist')}>Join the waitlist</button>
+        <button className="btn-primary btn-large" onClick={onTryDemo}>Start Learning Free →</button>
+        <button className="btn-secondary" style={{width:'100%',marginTop:10,padding:'14px'}} onClick={()=>scrollTo('learner-waitlist')}>Get notified when native apps launch</button>
         <div className="welcome-divider">
           <div className="welcome-divider-line"/>
           <span className="welcome-divider-text">Are you an educator?</span>
           <div className="welcome-divider-line"/>
         </div>
-        <button className="welcome-skip" onClick={()=>scrollTo('rabbi-teacher')}>I'm a rabbi or teacher</button>
-        {/* Change 1 — Try a demo CTA */}
-        <button className="btn-primary btn-large" onClick={onTryDemo} style={{marginTop:10}}>Try a demo (launching Q3 2026)</button>
+        <button className="welcome-skip" onClick={()=>scrollTo('rabbi-teacher')}>I'm a rabbi or teacher →</button>
       </div>
 
       {/* ── Change 4 — For Rabbis & Teachers ── */}
@@ -370,7 +375,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
 
       {/* ── Change 3 — Footer ── */}
       <footer style={{padding:'24px 20px 40px',borderTop:'1px solid rgba(255,255,255,0.06)',textAlign:'center'}}>
-        <p style={{fontSize:12,color:'var(--text-dim)',margin:'0 0 4px',letterSpacing:'0.2px'}}>Launching Q3 2026</p>
+        <p style={{fontSize:12,color:'var(--text-dim)',margin:'0 0 4px',letterSpacing:'0.2px'}}>Native apps coming Q3 2026</p>
         <p style={{fontSize:12,color:'var(--text-dim)',margin:0,letterSpacing:'0.2px'}}>Founded by Salomon Elie · Miami · 2026</p>
       </footer>
 
@@ -617,7 +622,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
         <div className="parasha-card">
           <div className="parasha-label"><Icon name="torah"/> This Week's Parasha (approx.)</div>
           <div className="parasha-name">Parashat {parasha}</div>
-          <div className="parasha-detail">Approximate weekly Torah portion — verify at hebcal.com for your location.</div>
+          <div className="parasha-detail">Approximate · may vary by location and year</div>
         </div>
 
         <UserWaitlistCard/>
@@ -868,7 +873,7 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
   return(
     <div className="tab-screen profile-tab fade-in">
       <div className="profile-hero">
-        <div className="profile-avatar">{(nameVal||'G').charAt(0).toUpperCase()}</div>
+        <div className="profile-avatar">{nameVal ? nameVal.charAt(0).toUpperCase() : '?'}</div>
         {editing
           ?<input className="name-edit-input" value={nameVal} onChange={e=>setNameVal(e.target.value)} onBlur={saveName} onKeyDown={e=>e.key==='Enter'&&saveName()} autoFocus/>
           :<h2 className="profile-name" onClick={()=>setEditing(true)} style={{cursor:'pointer'}}>{nameVal||'Tap to set name'} <Icon name="pencil"/></h2>
@@ -939,9 +944,11 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
         <h3 className="section-title">Settings</h3>
         <div className="settings-list">
           <button className="settings-item" onClick={()=>setShowNotifs(true)}><span><Icon name="bell"/> Notifications</span><span className="settings-chevron">›</span></button>
-          {SETTINGS.map(s=>(<button key={s} className="settings-item"><span>{s}</span><span className="settings-chevron">›</span></button>))}
+          <div className="settings-item" style={{cursor:'default'}}><span>🌐 Language</span><span style={{fontSize:12,color:'var(--text-dim)'}}>English</span></div>
+          <div className="settings-item" style={{cursor:'default'}}><span>✡️ Observance Level</span><span style={{fontSize:12,color:'var(--text-dim)'}}>All levels</span></div>
+          <button className="settings-item" onClick={()=>alert('Journey to Hashem v1.1.0\nBuilt by Salomon Elie · Miami · 2026')}><span>ℹ️ About</span><span className="settings-chevron">›</span></button>
           <button className="settings-item" onClick={onOpenPitch} style={{color:'var(--gold)'}}><span><Icon name="synagogue"/> Partner With Us — For Rabbis</span><span className="settings-chevron">›</span></button>
-          <button className="settings-item settings-item-danger" onClick={onReset}><span><Icon name="reset"/> Reset Demo / Start Over</span><span className="settings-chevron">›</span></button>
+          <button className="settings-item settings-item-danger" onClick={onReset}><span><Icon name="reset"/> Reset Progress</span><span className="settings-chevron">›</span></button>
         </div>
       </div>
 
@@ -950,23 +957,13 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
           <div className="modal-sheet">
             <div className="modal-handle"/>
             <h3 className="modal-title">Notifications</h3>
-            <div style={{padding:'4px 0'}}>
-              {[
-                {key:'daily',icon:'📚',title:'Daily Learning Reminder',sub:'Remind me to complete my daily lesson'},
-                {key:'streak',icon:'🔥',title:'Streak Protection',sub:'Alert me before my streak is about to break'},
-                {key:'shabbat',icon:'🕯️',title:'Shabbat Times',sub:'Friday candle lighting reminder'},
-              ].map(n=>(
-                <div key={n.key} className="notif-row">
-                  <div className="notif-info">
-                    <div className="notif-title">{n.icon} {n.title}</div>
-                    <div className="notif-sub">{n.sub}</div>
-                  </div>
-                  <button className={`toggle${notifs[n.key]?' on':''}`} onClick={()=>setNotifs(p=>({...p,[n.key]:!p[n.key]}))}/>
-                </div>
-              ))}
+            <div style={{padding:'24px 0',textAlign:'center'}}>
+              <div style={{fontSize:32,marginBottom:12}}>🔔</div>
+              <div style={{fontFamily:'Cormorant Garamond,serif',fontSize:17,color:'var(--gold)',marginBottom:8}}>Push notifications coming soon</div>
+              <p style={{fontSize:13,color:'var(--text-dim)',lineHeight:1.7}}>Daily reminders, streak protection, and Shabbat times will be available when the native apps launch.</p>
             </div>
-            <div style={{marginTop:16}}>
-              <button className="btn-primary" onClick={()=>setShowNotifs(false)}>Save Preferences</button>
+            <div style={{marginTop:8}}>
+              <button className="btn-primary" onClick={()=>setShowNotifs(false)}>Got it</button>
             </div>
           </div>
         </div>
