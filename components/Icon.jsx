@@ -299,6 +299,117 @@ export const ICONS = {
     </>
   ),
 
+  // ── Lesson covers — Unit 6: Kashrut ──────────────────
+  // u6l1 What is Kashrut? — Certification seal (circle with inner ring + checkmark)
+  kashrut_seal: makeSvg(
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5.5" />
+      <path d="M9.5 12l1.5 1.5 3-3" />
+    </>
+  ),
+  // u6l2 Meat and Milk — Two bowls separated by a dividing line
+  meat_milk: makeSvg(
+    <>
+      <path d="M4 10h6v2a3 3 0 006 0v-2h4" />
+      <path d="M5 10c0-2 1.5-4 4-4" />
+      <path d="M19 10c0-2-1.5-4-4-4" />
+      <path d="M12 4v16" strokeDasharray="2 2" />
+      <path d="M4 18h6M14 18h6" />
+    </>
+  ),
+  // u6l3 Kosher Kitchen — House outline with a center divider
+  kosher_kitchen: makeSvg(
+    <>
+      <path d="M3 12l9-8 9 8" />
+      <path d="M5 11v9h14v-9" />
+      <path d="M12 11v9" />
+      <path d="M8 20v-4h3v4M13 20v-4h3v4" />
+    </>
+  ),
+  // u6l4 Spiritual Dimension — Flame inside a diamond (body + soul)
+  kashrut_spirit: makeSvg(
+    <>
+      <path d="M12 3l7 9-7 9-7-9z" />
+      <path d="M12 18c-1.5-2-.5-4 0-5 .5 1.5 2 2 0 5z" fill="currentColor" />
+    </>
+  ),
+
+  // ── Lesson covers — Unit 7: Jewish Lifecycle ──────────
+  // u7l1 Brit Milah — Cradle with Star of David above
+  brit_milah: makeSvg(
+    <>
+      <path d="M5 14c0 3 3 5 7 5s7-2 7-5V10H5z" />
+      <path d="M5 10c0-2 3-3 7-3s7 1 7 3" />
+      <path d="M12 4l.8 1.4H14l-1.2.9.5 1.6L12 7l-1.3.9.5-1.6L10 5.4h1.2z" fill="currentColor" />
+    </>
+  ),
+  // u7l2 Bar/Bat Mitzvah — Person holding a Torah scroll above head
+  bar_mitzvah: makeSvg(
+    <>
+      <circle cx="12" cy="5" r="2.2" />
+      <path d="M12 8v5" />
+      <path d="M9 21v-6l3-2 3 2v6" />
+      <rect x="5" y="3" width="3" height="5" rx="0.8" />
+      <rect x="16" y="3" width="3" height="5" rx="0.8" />
+    </>
+  ),
+  // u7l3 Kiddushin — Chuppah (four poles + canopy)
+  chuppah: makeSvg(
+    <>
+      <path d="M4 8h16" />
+      <path d="M4 8v13M20 8v13" />
+      <path d="M8 8v13M16 8v13" />
+      <path d="M4 5h16" strokeWidth="2.5" />
+      <path d="M10 21h4" />
+    </>
+  ),
+  // u7l4 Mourning / Shiva — Single yahrzeit candle, low flame
+  yahrzeit: makeSvg(
+    <>
+      <rect x="9" y="13" width="6" height="8" rx="1" />
+      <path d="M12 13v-3" />
+      <path d="M12 10c-1-1.5-.3-3.5 0-4.5.3 1.5 1.5 1.5 0 4.5z" fill="currentColor" />
+      <path d="M7 21h10" />
+    </>
+  ),
+
+  // ── Lesson covers — Unit 8: Ethics & Mitzvot ─────────
+  // u8l1 Tzedakah — Open hand with a coin above the palm
+  tzedakah_hand: makeSvg(
+    <>
+      <path d="M6 14c0-1 .7-1.5 2-1.5h4.5c1 0 1.5.5 1.5 1.5v.5H6z" />
+      <path d="M4 18h16l-2-4H6z" />
+      <circle cx="12" cy="8" r="2.5" />
+      <path d="M12 10.5v3" />
+    </>
+  ),
+  // u8l2 Lashon Hara — Speech bubble with an X (guarded speech)
+  lashon_hara: makeSvg(
+    <>
+      <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" />
+      <path d="M9.5 9.5l5 5M14.5 9.5l-5 5" />
+    </>
+  ),
+  // u8l3 Kibud Av Va'em — Two figures side by side (parent + child)
+  kibud_av: makeSvg(
+    <>
+      <circle cx="8" cy="6" r="2.2" />
+      <circle cx="16" cy="7.5" r="1.7" />
+      <path d="M4 20c0-3.5 2-5 4-5s4 1.5 4 5" />
+      <path d="M13 20c0-3 1.5-4 3-4s3 1 3 4" />
+      <path d="M12 15l-1-1" />
+    </>
+  ),
+  // u8l4 Chessed & Teshuvah — Heart with a return arrow
+  teshuvah: makeSvg(
+    <>
+      <path d="M12 21C7 17 3 13.5 3 9a5 5 0 019-3 5 5 0 019 3c0 4.5-4 8-9 12z" />
+      <path d="M15 8a3 3 0 00-3-3" />
+      <path d="M13 5l-1.5-2L10 5" />
+    </>
+  ),
+
   // ── Shared across all 5 unit quizzes ─────────────────────
   quiz_checklist: makeSvg(
     <>
