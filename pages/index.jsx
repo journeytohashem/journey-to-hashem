@@ -204,8 +204,8 @@ function StepDots({total, current}){
 
 function Welcome({onBegin, onSkip, onTryDemo}){
   const FEATURES = [
-    {icon:'📚', title:'25 Structured Lessons', text:'Five units covering the foundations of Jewish faith, Shabbat, prayer, holidays, and Torah study'},
-    {icon:'🎯', title:'Personalized Path', text:'Answer a few questions and get a learning path matched to where you are right now'},
+    {icon:'📚', title:`${LEARNING_PATH.flatMap(u=>u.lessons).length} Structured Lessons`, text:'Eight units covering the foundations of Jewish faith, Shabbat, prayer, holidays, Torah study, Kashrut, the Jewish lifecycle, and ethics.'},
+    {icon:'🗺️', title:'Structured Learning Path', text:'A clear progression from the basics to advanced topics — each lesson builds on the last.'},
     {icon:'🔥', title:'Streaks & Badges', text:'Daily progress, XP, and milestones to keep you coming back — one lesson at a time'},
     {icon:'💬', title:'Community', text:'Ask questions and share insights with learners and rabbis worldwide'},
   ];
@@ -442,13 +442,13 @@ function PathReady({path, answers, onStart}){
     <div className="screen-full onboarding-screen fade-in">
       <div className="onboarding-content">
         <div className="path-ready-icon">✨</div>
-        <p className="path-ready-label">Your personalized path</p>
+        <p className="path-ready-label">Your learning path</p>
         <h2 className="path-ready-name">{path.name}</h2>
         <p className="path-ready-description">{path.description}</p>
         <div className="path-ready-meta">
           <div className="path-meta-item"><span className="path-meta-value">{path.weeks}</span><span className="path-meta-label">weeks</span></div>
           <div className="path-meta-divider"/>
-          <div className="path-meta-item"><span className="path-meta-value">25</span><span className="path-meta-label">lessons</span></div>
+          <div className="path-meta-item"><span className="path-meta-value">{LEARNING_PATH.flatMap(u=>u.lessons).length}</span><span className="path-meta-label">lessons</span></div>
           <div className="path-meta-divider"/>
           <div className="path-meta-item"><span className="path-meta-value">{timeLabel}</span><span className="path-meta-label">your pace</span></div>
         </div>
@@ -801,22 +801,12 @@ function CongratsScreen({lesson, xpEarned, streak, newBadges, totalXP, replay, h
 
 // ── COMMUNITY TAB ─────────────────────────────────────────
 function CommunityTab({state}){
-  const [likes,setLikes]=useState({});
-  const [showAsk,setShowAsk]=useState(false);
-  const [question,setQuestion]=useState('');
-  const [submitted,setSubmitted]=useState(false);
   const [activeSection,setActiveSection]=useState('feed');
-  const toggleLike=id=>setLikes(prev=>({...prev,[id]:!prev[id]}));
-  const handleSubmit=()=>{if(question.trim()){setSubmitted(true);setTimeout(()=>{setShowAsk(false);setQuestion('');setSubmitted(false);},1500);}};
-
-  const leaderboard=[...LEADERBOARD].map(r=>r.me?{...r,xp:state?.totalXP||0,streak:state?.currentStreak||0}:r).sort((a,b)=>b.xp-a.xp);
-  const medals=['🥇','🥈','🥉'];
 
   return(
     <div className="tab-screen fade-in" style={{position:'relative'}}>
       <div className="community-header">
         <div><h2 className="tab-title">Community</h2><p className="tab-subtitle">Learn and grow together</p></div>
-        <button className="community-ask-btn" onClick={()=>setShowAsk(true)}>+ Ask</button>
       </div>
 
       {/* Section toggle */}
@@ -828,61 +818,27 @@ function CommunityTab({state}){
         ))}
       </div>
 
-      {activeSection==='feed'&&(<>
-        <p className="community-section-label">Recent Discussions</p>
-        {COMMUNITY_POSTS.map(post=>(
-          <div key={post.id} className="community-post">
-            <div className="community-post-top">
-              <div className="community-avatar">{post.initials}</div>
-              <div><div className="community-username">{post.name}</div><div className="community-time">{post.time}</div></div>
-              {post.badge&&<div className="community-badge">{post.badge}</div>}
-            </div>
-            <div className="community-post-text">{post.text}</div>
-            <div className="community-post-actions">
-              <button className={`community-like-btn${likes[post.id]?' liked':''}`} onClick={()=>toggleLike(post.id)}>
-                {likes[post.id]?'♥':'♡'} {post.likes+(likes[post.id]?1:0)}
-              </button>
-              <button className="community-reply-btn">↩ Reply</button>
-            </div>
-          </div>
-        ))}
-      </>)}
-
-      {activeSection==='leaderboard'&&(
-        <div style={{padding:'8px 0 24px'}}>
-          <div style={{padding:'8px 20px 16px',fontSize:12,color:'var(--text-dim)'}}>Weekly XP rankings · resets every Sunday</div>
-          {leaderboard.map((r,i)=>(
-            <div key={r.name} className={`leaderboard-row${r.me?' me':''}`}>
-              <span className={`leaderboard-rank${i===0?' gold':i===1?' silver':i===2?' bronze':''}`}>
-                {i<3?medals[i]:i+1}
-              </span>
-              <div className="leaderboard-avatar" style={r.me?{background:'linear-gradient(135deg,#4a90d9,#7bb3f0)',color:'#fff'}:{}}>{r.initials}</div>
-              <div style={{flex:1}}>
-                <div className="leaderboard-name">{r.name}{r.me&&<span style={{fontSize:10,color:'var(--gold)',marginLeft:6,fontWeight:700}}>YOU</span>}</div>
-                <div className="leaderboard-streak"><Icon name="streak"/> {r.streak} day streak</div>
-              </div>
-              <span className="leaderboard-xp">{r.xp} XP</span>
-            </div>
-          ))}
-          <div style={{padding:'16px 20px',fontSize:12,color:'var(--text-dim)',textAlign:'center',fontStyle:'italic'}}>
-            Complete more lessons to climb the leaderboard
-          </div>
+      {activeSection==='feed'&&(
+        <div style={{padding:'48px 24px',textAlign:'center'}}>
+          <div style={{fontSize:40,marginBottom:16}}>💬</div>
+          <div style={{fontFamily:'Cormorant Garamond,serif',fontSize:22,color:'var(--gold)',marginBottom:10}}>Community coming soon</div>
+          <p style={{fontSize:14,color:'var(--text-dim)',lineHeight:1.7,maxWidth:300,margin:'0 auto'}}>Real discussions with learners and rabbis are on the way. Keep learning — the community launches with the full app.</p>
         </div>
       )}
 
-      {showAsk&&(
-        <div className="modal-overlay" onClick={e=>{if(e.target===e.currentTarget)setShowAsk(false);}}>
-          <div className="modal-sheet">
-            <div className="modal-handle"/>
-            <h3 className="modal-title">{submitted?'Question Submitted! ✓':'Ask the Community'}</h3>
-            {!submitted&&(<>
-              <textarea className="modal-textarea" placeholder="Ask a question about Torah, Jewish practice, or anything on your mind..." value={question} onChange={e=>setQuestion(e.target.value)} rows={4}/>
-              <div className="modal-actions">
-                <button className="btn-secondary" style={{flex:1}} onClick={()=>setShowAsk(false)}>Cancel</button>
-                <button className={`btn-primary${!question.trim()?' btn-disabled':''}`} style={{flex:2}} onClick={handleSubmit} disabled={!question.trim()}>Post Question</button>
-              </div>
-            </>)}
-            {submitted&&<p style={{color:'var(--text-dim)',fontSize:14,textAlign:'center',marginTop:8}}>A rabbi or community member will respond shortly.</p>}
+      {activeSection==='leaderboard'&&(
+        <div style={{padding:'48px 24px',textAlign:'center'}}>
+          <div style={{fontSize:40,marginBottom:16}}>🏆</div>
+          <div style={{fontFamily:'Cormorant Garamond,serif',fontSize:22,color:'var(--gold)',marginBottom:10}}>Leaderboard coming soon</div>
+          <p style={{fontSize:14,color:'var(--text-dim)',lineHeight:1.7,maxWidth:300,margin:'0 auto 24px'}}>Compete with real learners when the community launches. Here's where you stand right now:</p>
+          <div className="leaderboard-row me" style={{borderRadius:'var(--radius-lg)',padding:'14px 16px',maxWidth:320,margin:'0 auto'}}>
+            <span className="leaderboard-rank">🏅</span>
+            <div className="leaderboard-avatar" style={{background:'linear-gradient(135deg,#4a90d9,#7bb3f0)',color:'#fff'}}>{(state?.userName||'Y').charAt(0).toUpperCase()}</div>
+            <div style={{flex:1,textAlign:'left'}}>
+              <div className="leaderboard-name">{state?.userName||'You'} <span style={{fontSize:10,color:'var(--gold)',marginLeft:6,fontWeight:700}}>YOU</span></div>
+              <div className="leaderboard-streak"><Icon name="streak"/> {state?.currentStreak||0} day streak</div>
+            </div>
+            <span className="leaderboard-xp">{state?.totalXP||0} XP</span>
           </div>
         </div>
       )}
@@ -1115,7 +1071,7 @@ function RabbiPitchScreen({onBack}){
           <h2 className="pitch-section-title">The Solution</h2>
           <p className="pitch-section-sub">A beautifully designed, Duolingo-style platform that makes daily Jewish learning as easy as checking Instagram — with real rabbis at the center.</p>
           {[
-            {icon:'📚', title:'Structured Learning Path', body:'25+ lessons across 5 units covering foundations of faith, Shabbat, prayer, holidays, and Torah study — with XP, streaks, and badges to keep learners engaged.'},
+            {icon:'📚', title:'Structured Learning Path', body:`${LEARNING_PATH.flatMap(u=>u.lessons).length}+ lessons across ${LEARNING_PATH.length} units — foundations of faith, Shabbat, prayer, holidays, Torah study, Kashrut, lifecycle, and ethics — with XP, streaks, and badges to keep learners engaged.`},
             {icon:'🎙️', title:'Rabbi Audio Integration', body:'Every lesson includes a rabbi voice commentary. Your shiurim become permanent, searchable, shareable assets — not one-time Saturday morning talks.'},
             {icon:'💬', title:'Community & Q&A', body:'A moderated community feed where learners ask questions and rabbis answer — building real relationships at scale.'},
             {icon:'📊', title:'Analytics Dashboard', body:'See exactly which topics resonate, where learners drop off, and which of your congregants are engaging — data you\'ve never had before.'},
