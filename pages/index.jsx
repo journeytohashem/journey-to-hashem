@@ -214,7 +214,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
     {icon:'📚', title:`${LEARNING_PATH.flatMap(u=>u.lessons).length} Structured Lessons`, text:'Eight units covering the foundations of Jewish faith, Shabbat, prayer, holidays, Torah study, Kashrut, the Jewish lifecycle, and ethics.'},
     {icon:'🗺️', title:'Structured Learning Path', text:'A clear progression from the basics to advanced topics — each lesson builds on the last.'},
     {icon:'🔥', title:'Streaks & Badges', text:'Daily progress, XP, and milestones to keep you coming back — one lesson at a time'},
-    {icon:'💬', title:'Community', text:'Ask questions and share insights with learners and rabbis worldwide'},
+    {icon:'🕍', title:'Rabbi-Centered', text:'Built with traditional Orthodox teachers — Sephardi, Chabad, and Yeshivish. Real Torah, not watered-down content.'},
   ];
 
   const FAQ_ITEMS = [
@@ -440,7 +440,9 @@ function Quiz({onComplete}){
 
 function PathReady({path, answers, onStart}){
   if(!path)return null;
-  const firstUnit = LEARNING_PATH[0];
+  const level = answers[0]??0;
+  const startUnitIdx = level>=3 ? Math.min(4, LEARNING_PATH.length-1) : 0;
+  const firstUnit = LEARNING_PATH[startUnitIdx];
   const previewLessons = firstUnit.lessons.slice(0,3);
   const timeLabel = answers[4]===0?'5 min/day':answers[4]===1?'10–15 min/day':answers[4]===2?'30 min/day':'1+ hr/day';
   return(
@@ -458,7 +460,7 @@ function PathReady({path, answers, onStart}){
           <div className="path-meta-item"><span className="path-meta-value">{timeLabel}</span><span className="path-meta-label">your pace</span></div>
         </div>
         <div className="path-preview">
-          <div className="path-preview-title">You'll start with</div>
+          <div className="path-preview-title">{level>=3?`You'll dive into ${firstUnit.title}`:'You\'ll start with'}</div>
           {previewLessons.map((l,i)=>(
             <div key={l.id} className="path-preview-lesson">
               <span className="path-preview-icon"><Icon name={l.iconName}/></span>
@@ -948,6 +950,14 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
           <div className="settings-item" style={{cursor:'default'}}><span>✡️ Observance Level</span><span style={{fontSize:12,color:'var(--text-dim)'}}>All levels</span></div>
           <button className="settings-item" onClick={()=>alert('Journey to Hashem v1.1.0\nBuilt by Salomon Elie · Miami · 2026')}><span>ℹ️ About</span><span className="settings-chevron">›</span></button>
           <button className="settings-item" onClick={onOpenPitch} style={{color:'var(--gold)'}}><span><Icon name="synagogue"/> Partner With Us — For Rabbis</span><span className="settings-chevron">›</span></button>
+          <button className="settings-item" onClick={()=>{
+            try{
+              const raw=localStorage.getItem('jth-v4')||'{}';
+              const encoded=btoa(unescape(encodeURIComponent(raw)));
+              const body=`My Journey to Hashem progress backup:%0A%0A${encoded}%0A%0ATo restore, paste this into your browser console at journeytohashem.com:%0AlocalStorage.setItem('jth-v4', decodeURIComponent(escape(atob('${encoded}'))))`;
+              window.location.href=`mailto:?subject=My%20Journey%20to%20Hashem%20Progress&body=${body}`;
+            }catch(e){alert('Unable to create backup. Please try again.');}
+          }}><span>📤 Back Up My Progress</span><span className="settings-chevron">›</span></button>
           <button className="settings-item settings-item-danger" onClick={onReset}><span><Icon name="reset"/> Reset Progress</span><span className="settings-chevron">›</span></button>
         </div>
       </div>
@@ -1024,7 +1034,7 @@ function RabbiPitchScreen({onBack}){
     {phase:'Phase 2 — ~3 mo', future:true,  title:'Soft Launch — 500 Users',         desc:'iOS & Android apps, core learning path, audio library with 20+ shiurim, community Q&A'},
     {phase:'Phase 3 — ~6 mo', future:true,  title:'Community & Monetization',        desc:'Synagogue plans, leaderboards, push notifications, Stripe integration, rabbi revenue share'},
     {phase:'Phase 4 — ~12 mo',future:true,  title:'Scale — 50,000 Users',            desc:'Hebrew content track, Sephardic curriculum, Spanish localization, partnerships with major organizations'},
-    {phase:'Phase 5 — ~24 mo',future:true,  title:'Global Platform',                 desc:'The Duolingo of Jewish learning — 500k+ users across 40+ countries'},
+    {phase:'Phase 5 — ~24 mo',future:true,  title:'Global Platform',                 desc:'The home for Jewish learning online — 500k+ users across 40+ countries'},
   ];
 
   return(
@@ -1066,7 +1076,7 @@ function RabbiPitchScreen({onBack}){
         {/* The Solution */}
         <div className="pitch-section" style={{paddingTop:28}}>
           <h2 className="pitch-section-title">The Solution</h2>
-          <p className="pitch-section-sub">A beautifully designed, Duolingo-style platform that makes daily Jewish learning as easy as checking Instagram — with real rabbis at the center.</p>
+          <p className="pitch-section-sub">A beautifully designed learning platform that makes daily Jewish learning as easy as checking Instagram — sourced from primary texts, built with real rabbis at the center.</p>
           {[
             {icon:'📚', title:'Structured Learning Path', body:`${LEARNING_PATH.flatMap(u=>u.lessons).length}+ lessons across ${LEARNING_PATH.length} units — foundations of faith, Shabbat, prayer, holidays, Torah study, Kashrut, lifecycle, and ethics — with XP, streaks, and badges to keep learners engaged.`},
             {icon:'🎙️', title:'Rabbi Audio Integration', body:'Every lesson includes a rabbi voice commentary. Your shiurim become permanent, searchable, shareable assets — not one-time Saturday morning talks.'},
@@ -1335,7 +1345,7 @@ function App(){
   const [previewMode,setPreviewMode]=useState(false);
   const [currentView,setCurrentView]=useState(null);
   const [showSearch,setShowSearch]=useState(false);
-  const [showPitch,setShowPitch]=useState(false);
+  const openRabbiPage=()=>window.open('/for-rabbis','_blank');
   const [badgeToast,setBadgeToast]=useState(null);
   const [showReturning,setShowReturning]=useState(false);
 
@@ -1500,12 +1510,6 @@ function App(){
     </div>
   );
 
-  // Pitch screen
-  if(showPitch) return(
-    <div className="app-container">
-      <RabbiPitchScreen onBack={()=>setShowPitch(false)}/>
-    </div>
-  );
 
   // Overlay views
   if(showSearch) return(
@@ -1589,10 +1593,10 @@ function App(){
       )}
       <div className="tab-content">
         <div key={state.activeTab} className="tab-view">
-          {state.activeTab==='home'&&<HomeTab state={state} onOpenLesson={(l,u)=>setCurrentView({type:'lesson',lesson:l,unit:u})} onGoTab={t=>update({activeTab:t})} onSearch={()=>setShowSearch(true)} onOpenPitch={()=>setShowPitch(true)}/>}
+          {state.activeTab==='home'&&<HomeTab state={state} onOpenLesson={(l,u)=>setCurrentView({type:'lesson',lesson:l,unit:u})} onGoTab={t=>update({activeTab:t})} onSearch={()=>setShowSearch(true)} onOpenPitch={openRabbiPage}/>}
           {state.activeTab==='learn'&&<LearnTab state={state} onOpenLesson={(l,u)=>setCurrentView({type:'lesson',lesson:l,unit:u})}/>}
           {state.activeTab==='community'&&<CommunityTab state={state}/>}
-          {state.activeTab==='profile'&&<ProfileTab state={state} onReset={handleReset} onOpenPitch={()=>setShowPitch(true)} onUpdateName={handleUpdateName}/>}
+          {state.activeTab==='profile'&&<ProfileTab state={state} onReset={handleReset} onOpenPitch={openRabbiPage} onUpdateName={handleUpdateName}/>}
         </div>
       </div>
       <BottomNav activeTab={state.activeTab} onChange={tab=>update({activeTab:tab})}/>
