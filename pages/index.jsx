@@ -950,7 +950,7 @@ function ProfileTab({state,onReset,onOpenPitch,onUpdateName}){
           <button className="settings-item" onClick={()=>setShowNotifs(true)}><span><Icon name="bell"/> Notifications</span><span className="settings-chevron">›</span></button>
           <div className="settings-item" style={{cursor:'default'}}><span>🌐 Language</span><span style={{fontSize:12,color:'var(--text-dim)'}}>English</span></div>
           <div className="settings-item" style={{cursor:'default'}}><span>✡️ Observance Level</span><span style={{fontSize:12,color:'var(--text-dim)'}}>All levels</span></div>
-          <button className="settings-item" onClick={()=>alert('Journey to Hashem v1.1.0\nBuilt by Salomon Elie · Miami · 2026')}><span>ℹ️ About</span><span className="settings-chevron">›</span></button>
+          <button className="settings-item" onClick={()=>alert('Journey to Hashem v1.2.0\nBuilt by Salomon Elie · Miami · 2026')}><span>ℹ️ About</span><span className="settings-chevron">›</span></button>
           <button className="settings-item" onClick={onOpenPitch} style={{color:'var(--gold)'}}><span><Icon name="synagogue"/> Partner With Us — For Rabbis</span><span className="settings-chevron">›</span></button>
           <button className="settings-item" onClick={()=>{
             try{

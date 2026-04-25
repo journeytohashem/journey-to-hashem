@@ -2,6 +2,18 @@
 
 All notable changes to Journey to Hashem are documented here.
 
+## [1.2.0] - 2026-04-24
+
+### Added
+- **PostHog analytics** — 5 manual events: `lesson_started`, `lesson_completed` (with XP, streak, perfect props), `quiz_completed`, `waitlist_signup`, `rabbi_interest`. No autocapture; clean signal.
+- **`/for-rabbis` standalone page** — Rabbi pitch deck extracted to its own URL with full SEO `<Head>` tags. All "Partner With Us" entry points now open it in a new tab.
+- **Progress backup** — Settings → "📤 Back Up My Progress" generates a `mailto:` with base64-encoded localStorage state and console restore instructions.
+
+### Changed
+- **Quiz-aware PathReady preview** — Scholars (knowledge level ≥ 3) now see Unit 5 (Torah Study) previewed instead of Unit 1, with label "You'll dive into Torah Study".
+- **Marketing copy** — Removed all "Duolingo" comparisons. Community feature bullet replaced with "Rabbi-Centered" (honest, accurate). Rabbi pitch subtitle and roadmap Phase 5 updated to reflect unique positioning.
+- Dynamic lesson count now used everywhere: feature bullets, PathReady meta, rabbi pitch card.
+
 ## [1.1.0] - 2026-04-24
 
 ### Added

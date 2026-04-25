@@ -1,6 +1,6 @@
 {
   "name": "journey-to-hashem",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -14,6 +14,7 @@
     "@netlify/blobs": "^10.7.4",
     "canvas-confetti": "^1.9.4",
     "next": "14.2.3",
+    "posthog-js": "^1.372.1",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },
