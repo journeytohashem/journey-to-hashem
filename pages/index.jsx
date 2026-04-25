@@ -660,7 +660,7 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
 
 
 // ── LEARN TAB ─────────────────────────────────────────────
-const NODE_OFFSETS=[0,1,0,-1,0];
+const NODE_OFFSETS=[0,1,0,-1,0,1,0,-1,0,1,0,-1,0,1,0];
 function PathMap({completedLessons,bookmarks,onLessonTap}){
   const completedSet=new Set(completedLessons);
   const allLessons=LEARNING_PATH.flatMap(u=>u.lessons);
@@ -683,7 +683,7 @@ function PathMap({completedLessons,bookmarks,onLessonTap}){
             <div className="unit-nodes-track"/>
             {unit.lessons.map((lesson,i)=>{
               const st=getState(lesson.id);
-              const shift=NODE_OFFSETS[i]*56;
+              const shift=(NODE_OFFSETS[i%NODE_OFFSETS.length]??0)*56;
               const isBookmarked=bookmarks&&bookmarks.includes(lesson.id);
               return(
                 <div key={lesson.id} className="node-row">

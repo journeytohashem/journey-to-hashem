@@ -410,7 +410,258 @@ export const ICONS = {
     </>
   ),
 
-  // ── Shared across all 5 unit quizzes ─────────────────────
+  // ── Expanded lesson icons — Units 2–8 new lessons ────────
+
+  // ahavah — love / V'ahavta l'reiacha kamocha (heart with +)
+  ahavah: makeSvg(
+    <>
+      <path d="M12 20C7 17 3 13 3 9a5 5 0 019-3 5 5 0 019 3c0 4-4 8-9 11z" />
+      <path d="M12 10v4M10 12h4" />
+    </>
+  ),
+
+  // chessed — loving-kindness (open hand, coin above)
+  chessed: makeSvg(
+    <>
+      <path d="M6 19h12l-1.5-5H7.5z" />
+      <path d="M9 14V9.5c0-.7.5-1.2 1.2-1.2.7 0 1.3.5 1.3 1.2V14" />
+      <path d="M11.5 14V8.5c0-.7.5-1.2 1.2-1.2.7 0 1.3.5 1.3 1.2V14" />
+      <path d="M14 14v-4c0-.7.5-1.2 1.2-1.2.7 0 1.3.5 1.3 1.2v4" />
+      <circle cx="10.5" cy="5.5" r="1.5" />
+      <path d="M10.5 7v2.5" />
+    </>
+  ),
+
+  // emet — truth (open eye — seeing clearly)
+  emet: makeSvg(
+    <>
+      <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z" />
+      <circle cx="12" cy="12" r="3" />
+      <circle cx="12" cy="12" r="1" fill="currentColor" />
+    </>
+  ),
+
+  // scales — judging favorably, balance (justice scale)
+  scales: makeSvg(
+    <>
+      <path d="M12 4v16" />
+      <path d="M5 8h14" />
+      <path d="M5 8L3 15h4z" />
+      <path d="M19 8l2 7h-4z" />
+      <path d="M9 20h6" />
+    </>
+  ),
+
+  // giyur — conversion (person above mikveh waves)
+  giyur: makeSvg(
+    <>
+      <circle cx="12" cy="5" r="2" />
+      <path d="M12 7v3" />
+      <path d="M3 14c3-3 6-3 9-3s6 0 9 3" />
+      <path d="M3 17.5c3-2.5 6-2.5 9-2.5s6 0 9 2.5" />
+    </>
+  ),
+
+  // jewish_name — naming ceremony (scroll with text lines)
+  jewish_name: makeSvg(
+    <>
+      <path d="M6 4h12a1 1 0 011 1v15a1 1 0 01-1 1H6a1 1 0 01-1-1V5a1 1 0 011-1z" />
+      <path d="M8 8h8M8 11h6M8 14h8M8 17h5" />
+      <path d="M10 4v-2M14 4v-2" />
+    </>
+  ),
+
+  // amidah — standing prayer (figure upright, arms slightly open)
+  amidah: makeSvg(
+    <>
+      <circle cx="12" cy="4.5" r="2" />
+      <path d="M12 6.5v9" />
+      <path d="M8.5 10.5L12 9l3.5 1.5" />
+      <path d="M9 21v-5.5l3-1.5 3 1.5V21" />
+    </>
+  ),
+
+  // kaddish — kaddish prayer (crown — exalts the divine Name)
+  kaddish: makeSvg(
+    <>
+      <path d="M5 20h14" />
+      <path d="M5 20v-8l7-8 7 8v8" />
+      <path d="M5 12l3.5-4M19 12l-3.5-4M12 4v5" />
+      <circle cx="12" cy="13.5" r="2" />
+    </>
+  ),
+
+  // blessing_hands — brachos (two open hands raised upward)
+  blessing_hands: makeSvg(
+    <>
+      <path d="M8 16V10c0-.7.5-1.2 1.2-1.2.7 0 1.3.5 1.3 1.2v6" />
+      <path d="M10.5 16V9c0-.7.5-1.2 1.2-1.2.7 0 1.3.5 1.3 1.2v7" />
+      <path d="M13 16v-6c0-.7.5-1.2 1.2-1.2.7 0 1.3.5 1.3 1.2v6" />
+      <path d="M6 16v-3c0-.7-.5-1.2-1.2-1.2-.7 0-1.3.5-1.3 1.2v3" />
+      <path d="M16 16v-2.5c0-.7.5-1.2 1.2-1.2.7 0 1.3.5 1.3 1.2v2.5" />
+      <path d="M5 20h14l-1-4H6z" />
+    </>
+  ),
+
+  // kavvanah — intention in prayer (heart with focused center dot)
+  kavvanah: makeSvg(
+    <>
+      <path d="M12 20C7 17 3 13 3 9a5 5 0 019-3 5 5 0 019 3c0 4-4 8-9 11z" />
+      <circle cx="12" cy="10" r="2.5" />
+      <circle cx="12" cy="10" r="0.8" fill="currentColor" />
+    </>
+  ),
+
+  // tehillim — psalms of David (lyre / harp)
+  tehillim: makeSvg(
+    <>
+      <path d="M6 19V8a6 6 0 0112 0v11" />
+      <path d="M6 19h12" />
+      <path d="M9 19V9.5M12 19V8M15 19V9.5" />
+      <path d="M6 14h12" />
+    </>
+  ),
+
+  // melachot — 39 melachot / creative work (hammer)
+  melachot: makeSvg(
+    <>
+      <path d="M14.5 3l4 4L8 17.5l-4-4z" />
+      <path d="M14.5 3c1.5-1.5 4-1.5 5.5 0 0 1.5 0 3-1.5 4" />
+      <path d="M4 17.5L3 21l3.5-1.5z" fill="currentColor" />
+    </>
+  ),
+
+  // shabbat_home — shabbat in practice (house with candle inside)
+  shabbat_home: makeSvg(
+    <>
+      <path d="M3 12l9-8 9 8" />
+      <path d="M5 11v10h14V11" />
+      <path d="M10 21v-6h4v6" />
+      <path d="M14 9v3" />
+      <path d="M14 9c-.8-.8-.3-2.2 0-2.8.3.9 1.2.9 0 2.8z" fill="currentColor" />
+    </>
+  ),
+
+  // shabbat_table — shabbat table & zemiros (table with two candles)
+  shabbat_table: makeSvg(
+    <>
+      <path d="M3 14h18" />
+      <path d="M5 14v6M19 14v6" />
+      <path d="M8 14v-4c0-1 1.5-1.5 4-1.5s4 .5 4 1.5v4" />
+      <path d="M9 10v-1" />
+      <path d="M9 10c-.7-.7-.3-2 0-2.5.3.9 1.2.9 0 2.5z" fill="currentColor" />
+      <path d="M15 10v-1" />
+      <path d="M15 10c-.7-.7-.3-2 0-2.5.3.9 1.2.9 0 2.5z" fill="currentColor" />
+    </>
+  ),
+
+  // oneg_shabbat — joy of shabbat (overflowing cup with sparkles)
+  oneg_shabbat: makeSvg(
+    <>
+      <path d="M8 8h8l-1 9a4 4 0 01-6 0z" />
+      <path d="M12 8V5" />
+      <path d="M12 5c-1-1.2-.5-2.8 0-3.5.5 1.5 1.5 1.5 0 3.5z" fill="currentColor" />
+      <path d="M7 6l-2-2M17 6l2-2M10 21h4" />
+    </>
+  ),
+
+  // shabbat_history — shabbat in history and thought (clock face)
+  shabbat_history: makeSvg(
+    <>
+      <circle cx="12" cy="13" r="8" />
+      <path d="M12 9v4l3 2" />
+      <path d="M10 3h4M12 3v2" />
+    </>
+  ),
+
+  // teshuva_return — ten days of teshuva (circular return arrow)
+  teshuva_return: makeSvg(
+    <>
+      <path d="M20 12a8 8 0 11-2-5.3" />
+      <path d="M20 3v6h-6" />
+    </>
+  ),
+
+  // sukkah — sukkot dwelling (open-roofed booth with stars)
+  sukkah: makeSvg(
+    <>
+      <path d="M3 10h18v11H3z" />
+      <path d="M1 10h22" />
+      <path d="M6 10V5M11 10V4M16 10V6" />
+      <circle cx="7" cy="15" r="0.8" fill="currentColor" />
+      <circle cx="12" cy="13.5" r="0.8" fill="currentColor" />
+      <circle cx="17" cy="15.5" r="0.8" fill="currentColor" />
+    </>
+  ),
+
+  // seder_plate — pesach seder (round plate with sections)
+  seder_plate: makeSvg(
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="3.5" />
+      <path d="M12 3v5.5M12 15.5v5.5M3 12h5.5M15.5 12H21" />
+    </>
+  ),
+
+  // omer_wheat — counting the omer (wheat sheaf)
+  omer_wheat: makeSvg(
+    <>
+      <path d="M12 20V10" />
+      <path d="M12 10c-1-3-4-4-6-3 .5 2 3 4 6 3z" />
+      <path d="M12 10c1-3 4-4 6-3-.5 2-3 4-6 3z" />
+      <path d="M12 13.5c-1-2-3-3-4.5-2 .5 1.5 2.5 3 4.5 2z" />
+      <path d="M12 13.5c1-2 3-3 4.5-2-.5 1.5-2.5 3-4.5 2z" />
+      <path d="M10 21h4M9.5 20.5l2.5-.5 2.5.5" />
+    </>
+  ),
+
+  // sinai_fire — shavuot / mount sinai (mountain with flame)
+  sinai_fire: makeSvg(
+    <>
+      <path d="M2 21l10-14 10 14z" />
+      <path d="M12 7V4" />
+      <path d="M12 4c-1.2-1.5-.5-3.5 0-4.5.5 2 2 2 0 4.5z" fill="currentColor" />
+      <path d="M9.5 5.5L8 3M14.5 5.5L16 3" />
+    </>
+  ),
+
+  // megillah_scroll — purim / megillat esther (half-unrolled scroll)
+  megillah_scroll: makeSvg(
+    <>
+      <path d="M8 4h10a1 1 0 011 1v14a1 1 0 01-1 1H8" />
+      <circle cx="6" cy="12" r="3" />
+      <path d="M11 8h5M11 11h5M11 14h3" />
+    </>
+  ),
+
+  // broken_wall — tisha b'av (cracked stone wall)
+  broken_wall: makeSvg(
+    <>
+      <rect x="3" y="7" width="18" height="4" rx="0.5" />
+      <rect x="3" y="14" width="18" height="4" rx="0.5" />
+      <path d="M7 7V4M14 7V4M10 14V11M17 14V11" />
+      <path d="M10 10l2-3 1.5 3" />
+    </>
+  ),
+
+  // oral_torah_chain — oral torah / mishnah & talmud (chain of tradition)
+  oral_torah_chain: makeSvg(
+    <>
+      <path d="M9 8H6a4 4 0 000 8h3" />
+      <path d="M15 8h3a4 4 0 010 8h-3" />
+      <path d="M9 12h6" />
+    </>
+  ),
+
+  // shechita_knife — shechita / kosher slaughter (long smooth blade)
+  shechita_knife: makeSvg(
+    <>
+      <path d="M4 13.5l16-1.5 1.5-2.5-1.5-1.5-16 1.5z" />
+      <path d="M4 13.5L2 12l2-1.5v3z" fill="currentColor" />
+    </>
+  ),
+
+  // ── Shared across all unit quizzes ─────────────────────
   quiz_checklist: makeSvg(
     <>
       <rect x="4" y="3.5" width="16" height="17" rx="2" />
