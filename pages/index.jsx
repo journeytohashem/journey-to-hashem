@@ -1241,13 +1241,13 @@ function getLevel(xp){
 
 const ALL_BADGES = [
   { id:'first_step',    icon:'🌱', name:'First Step',       desc:'Complete your first lesson',       check:(s)=>s.completedLessons.length>=1 },
-  { id:'shabbat_soul',  icon:'🕯️', name:'Shabbat Soul',     desc:'Complete the Shabbat unit',        check:(s)=>['u2l1','u2l2','u2l3','u2l4','u2l5'].every(id=>s.completedLessons.includes(id)) },
+  { id:'shabbat_soul',  icon:'🕯️', name:'Shabbat Soul',     desc:'Complete the Shabbat unit',        check:(s)=>['u5l1','u5l2','u5l3','u5l4','u5l5'].every(id=>s.completedLessons.includes(id)) },
   { id:'streak_3',      icon:'🔥', name:'On Fire',          desc:'3-day learning streak',            check:(s)=>s.currentStreak>=3 },
   { id:'streak_7',      icon:'⚡', name:'Lightning Streak', desc:'7-day learning streak',            check:(s)=>s.currentStreak>=7 },
   { id:'scholar_50',    icon:'⭐', name:'50 XP',            desc:'Earn 50 XP',                       check:(s)=>s.totalXP>=50 },
   { id:'scholar_100',   icon:'💫', name:'100 XP',           desc:'Earn 100 XP',                      check:(s)=>s.totalXP>=100 },
-  { id:'half_path',     icon:'📚', name:'Halfway There',    desc:'Complete 20 lessons',              check:(s)=>s.completedLessons.length>=20 },
-  { id:'full_path',     icon:'🏆', name:'Path Complete',    desc:'Complete all 40 lessons',          check:(s)=>s.completedLessons.length>=40 },
+  { id:'half_path',     icon:'📚', name:'Halfway There',    desc:`Complete ${Math.floor(LEARNING_PATH.flatMap(u=>u.lessons).length/2)} lessons`, check:(s)=>s.completedLessons.length>=Math.floor(LEARNING_PATH.flatMap(u=>u.lessons).length/2) },
+  { id:'full_path',     icon:'🏆', name:'Path Complete',    desc:`Complete all ${LEARNING_PATH.flatMap(u=>u.lessons).length} lessons`, check:(s)=>s.completedLessons.length>=LEARNING_PATH.flatMap(u=>u.lessons).length },
   { id:'bookmarker',    icon:'🔖', name:'Bookworm',         desc:'Bookmark 3 lessons',               check:(s)=>(s.bookmarks||[]).length>=3 },
   { id:'foundations',   icon:'✡️', name:'Foundation Stone', desc:'Complete Foundations of Faith',    check:(s)=>['u1l1','u1l2','u1l3','u1l4','u1l5'].every(id=>s.completedLessons.includes(id)) },
   { id:'daily_3',       icon:'📅', name:'Daily 3',          desc:'Complete 3 lessons in one day',    check:(s)=>s.dailyLessonsCompleted>=3 },
