@@ -112,6 +112,126 @@ const unit7 = {
 
     {
       id: 'u3l2',
+      title: 'What\'s in a Name — Jewish Naming Traditions',
+      iconName: 'jewish_name',
+      hook: {
+        title: 'What\'s in a Name?',
+        body: `<p>In Jewish tradition, your name is not just what people call you — it is bound to your soul. The name a parent chooses at birth echoes through a person's entire life.</p>`,
+      },
+      teachSlides: [
+        {
+          title: 'The Power of a Jewish Name',
+          hebrew: 'שֵׁם',
+          transliteration: 'Shem',
+          translation: 'Name',
+          body: `<p>The Talmud (Yoma 83b) teaches that names contain spiritual essence — a person's name reflects their soul (Zohar, Bereishit 59b). The Midrash (Tanchuma, Ha'azinu 7) says a person's name is called out each day by Heaven. Names are typically given after a deceased relative (Ashkenaz tradition) to preserve their memory, or after a living elder (Sephardic tradition) to honor them and invoke blessing.</p>`,
+        },
+        {
+          title: 'Hebrew Names — Meaning and Structure',
+          body: `<p>Each Jewish name carries meaning: Moshe (drawn from water), Devorah (bee), Yitzchak (he will laugh). Names often include divine attributes: Eliyahu (my God is Hashem), Yisrael (he struggled with God). Most Jews have two names: a Hebrew/Jewish name used in prayer, Torah readings, and marriage documents (<em>ketubot</em>), and a secular name for daily life. The Talmud (Gittin 11b) records that Jews in Egypt were redeemed in part because they "did not change their names."</p>`,
+        },
+      ],
+      questions: [
+        {
+          type: 'multiple_choice',
+          prompt: 'What do Ashkenazic Jews typically do when naming a child?',
+          options: [
+            'Name after a living grandparent to honor them',
+            'Name after a deceased relative to preserve their memory',
+            'Choose a name from Tehillim (Psalms)',
+            'Name after the week\'s Torah portion',
+          ],
+          correct: 1,
+          explanation: 'Ashkenazic tradition names children after deceased relatives — to honor their memory and forge a spiritual connection between the generations. Sephardic tradition typically names after living elders.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'According to the Talmud (Gittin 11b), one reason the Jews merited redemption from Egypt was:',
+          options: [
+            'They kept Shabbat in secret',
+            'They circumcised their sons',
+            'They did not change their names',
+            'They spoke Hebrew among themselves',
+          ],
+          correct: 2,
+          explanation: 'The Talmud lists "they did not change their names" as one of the virtues that distinguished the Jewish people in Egypt and merited their redemption.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'A Jewish person\'s Hebrew name is used in which of the following contexts?',
+          options: [
+            'Job applications and government documents',
+            'Prayer, Torah readings, and marriage documents',
+            'Only on Shabbat and holidays',
+            'Only in Israel',
+          ],
+          correct: 1,
+          explanation: 'The Hebrew name is the name of the soul — used in prayer (e.g., Mi Sheberach for healing), when called to the Torah (aliyah), and in all Jewish legal documents including the ketubah.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'What does the name "Yisrael" literally mean?',
+          options: [
+            'Beloved of God',
+            'He who walks with God',
+            'He struggled with God / Prince of God',
+            'Gift of God',
+          ],
+          correct: 2,
+          explanation: 'Yisrael derives from "sarah" (to struggle/prevail) and "El" (God) — "he who struggled with God and prevailed," the name Hashem gave Yaakov after his wrestling match (Bereishit 32:29).',
+        },
+        {
+          type: 'true_false',
+          prompt: 'A person\'s Hebrew name has no spiritual significance — it is simply a cultural tradition.',
+          correct: false,
+          explanation: 'According to the Zohar (Bereishit 59b) and Talmudic tradition, a person\'s name is connected to their soul and is called out each day by Heaven. Names carry spiritual weight and meaning in Jewish thought.',
+        },
+        {
+          type: 'fill_blank',
+          prompt: 'In Sephardic tradition, children are typically named after ___ relatives.',
+          answer_variants: ['living', 'living elders', 'living grandparents'],
+          explanation: 'Sephardic Jews name after living relatives — typically grandparents — to honor them and invoke blessing. This differs from Ashkenazic practice, which names after the deceased.',
+        },
+        {
+          type: 'typed_translation',
+          prompt: 'Type the Hebrew word for "name."',
+          answer_variants: ['shem', 'שֵׁם'],
+          explanation: '"Shem" — name. In Hebrew, <em>shem</em> shares a root with <em>shamayim</em> (heaven) and <em>neshamah</em> (soul), hinting at the spiritual depth behind a name.',
+        },
+        {
+          type: 'match_pairs',
+          prompt: 'Match each name to its meaning.',
+          left: [
+            { id: 'a', text: 'Moshe' },
+            { id: 'b', text: 'Devorah' },
+            { id: 'c', text: 'Eliyahu' },
+          ],
+          right: [
+            { id: '1', text: 'My God is Hashem' },
+            { id: '2', text: 'Bee' },
+            { id: '3', text: 'Drawn from the water' },
+          ],
+          correct: { a: '3', b: '2', c: '1' },
+          explanation: 'Moshe = drawn from water (Shemot 2:10); Devorah = bee (the prophetess and judge); Eliyahu = my God is Hashem (Eli = my God, Yahu = Hashem).',
+        },
+      ],
+      wrap: {
+        title: 'In summary',
+        body: `<p>Your Hebrew name is a window into your soul — chosen with intention, carried for life, spoken at the holiest moments. It connects you to the generations before you and the life you're building now.</p>`,
+      },
+      sources: [
+        'Bereishit 32:29',
+        'Shemot 2:10',
+        'Talmud Yoma 83b',
+        'Talmud Gittin 11b',
+        'Zohar, Bereishit 59b',
+        'Midrash Tanchuma, Ha\'azinu 7',
+      ],
+      readMore: `<p>The Arizal (Rabbi Yitzchak Luria, 16th c.) taught that parents receive a moment of divine inspiration when naming their child — a form of prophecy that reveals something true about the child's soul. This is why, in Kabbalistic tradition, the name is treated not as arbitrary but as destiny. The Sefat Emet adds: your name is the handle by which your soul is grasped — by the world, and by Hashem.</p>`,
+    },
+
+    {
+      id: 'u3l3',
       title: 'Bar and Bat Mitzvah',
       iconName: 'bar_mitzvah',
       hook: {
@@ -220,7 +340,7 @@ const unit7 = {
     },
 
     {
-      id: 'u3l3',
+      id: 'u3l4',
       title: 'Kiddushin — Jewish Marriage',
       iconName: 'chuppah',
       hook: {
@@ -331,7 +451,121 @@ const unit7 = {
     },
 
     {
-      id: 'u3l4',
+      id: 'u3l5',
+      title: 'Giyur — The Path of the Convert',
+      iconName: 'giyur',
+      hook: {
+        title: 'Giyur — The Path of the Convert',
+        body: `<p>Judaism does not seek converts — but when someone chooses to join the Jewish people, the Torah commands: "You shall love the stranger, for you were strangers in the land of Egypt." Welcome is a mitzvah.</p>`,
+      },
+      teachSlides: [
+        {
+          title: 'Giyur — Conversion',
+          hebrew: 'גִּיּוּר',
+          transliteration: 'Giyur',
+          translation: 'Conversion / Joining the Jewish People',
+          body: `<p>Conversion to Judaism involves three elements: <em>kabbalat ol mitzvot</em> (acceptance of the commandments), immersion in a <em>mikveh</em> (ritual bath), and for men, <em>brit milah</em> (circumcision). The process is overseen by a <em>beit din</em> (rabbinic court) of three. After conversion, the ger (convert) is considered fully Jewish in every respect (Talmud Yevamot 47b).</p>`,
+        },
+        {
+          title: "The Ger — Beloved by Hashem",
+          hebrew: 'גֵּר',
+          transliteration: 'Ger',
+          translation: 'Convert / Stranger',
+          body: `<p>The Torah commands love of the <em>ger</em> 36 times — more than any other mitzvah (Talmud Bava Metzia 59b). Ruth is the paradigm: "Your people shall be my people, and your God my God" (Ruth 1:16) — a declaration of complete identification. The Talmud (Sanhedrin 99b) teaches that a sincere convert is beloved by Hashem, who praises those who join the Jewish people of their own free will.</p>`,
+        },
+      ],
+      questions: [
+        {
+          type: 'multiple_choice',
+          prompt: 'What are the three required elements of halachic conversion?',
+          options: [
+            'Prayer, fasting, and Torah study',
+            'Kabbalat ol mitzvot, mikveh, and brit milah (for men)',
+            'Mikveh, Shabbat observance, and a Hebrew name',
+            'Beit din approval, Torah study, and marriage to a Jewish spouse',
+          ],
+          correct: 1,
+          explanation: 'Halachic conversion requires: acceptance of the commandments (kabbalat ol mitzvot), immersion in a mikveh, and circumcision for men. All three are required for conversion to be valid.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'According to the Talmud (Bava Metzia 59b), how many times does the Torah command loving the ger (convert/stranger)?',
+          options: ['7 times', '18 times', '36 times', '613 times'],
+          correct: 2,
+          explanation: 'The Torah commands love of the ger 36 times — making it the most frequently repeated commandment in the Torah, more than any other mitzvah.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'Which biblical figure is the paradigm of sincere conversion?',
+          options: ['Tamar', 'Ruth', 'Rachav', 'Yitro'],
+          correct: 1,
+          explanation: 'Ruth the Moabite declared "your people shall be my people, and your God my God" (Ruth 1:16) — a total identification with the Jewish people. She is the model convert, and from her line came King David.',
+        },
+        {
+          type: 'multiple_choice',
+          prompt: 'After completing giyur, a convert is considered:',
+          options: [
+            'Jewish but with some restrictions for one generation',
+            'Fully Jewish in every halachic respect',
+            'Jewish for most purposes but not permitted to marry a kohein',
+            'A righteous gentile (ger tzedek) rather than a full Jew',
+          ],
+          correct: 1,
+          explanation: 'Once conversion is complete, the ger is Jewish in every respect — they have the same rights, obligations, and status as any born Jew. The Talmud (Yevamot 47b) says they are like a newborn.',
+        },
+        {
+          type: 'true_false',
+          prompt: 'Judaism actively seeks converts and runs outreach programs to bring non-Jews into the faith.',
+          correct: false,
+          explanation: 'Judaism historically does not seek converts — a prospective convert is turned away three times to test sincerity. But once someone sincerely wishes to convert, the community is obligated to welcome and love them. The door is closed to the casual but open to the sincere.',
+        },
+        {
+          type: 'fill_blank',
+          prompt: 'The rabbinic court of three that oversees conversion is called a ___ in Hebrew.',
+          answer_variants: ['beit din', 'bet din', 'beis din'],
+          explanation: 'A beit din — literally "house of judgment" — of three rabbis oversees the conversion process, examines the candidate, and accepts the kabbalat ol mitzvot (acceptance of commandments).',
+        },
+        {
+          type: 'typed_translation',
+          prompt: 'Type the English meaning of "giyur."',
+          answer_variants: ['conversion', 'joining the jewish people', 'conversion to judaism'],
+          explanation: '"Giyur" — conversion — is the process by which a non-Jew joins the Jewish people, accepting Torah and mitzvot as their own.',
+        },
+        {
+          type: 'match_pairs',
+          prompt: 'Match each term to its definition.',
+          left: [
+            { id: 'a', text: 'Ger' },
+            { id: 'b', text: 'Mikveh' },
+            { id: 'c', text: 'Kabbalat ol mitzvot' },
+          ],
+          right: [
+            { id: '1', text: 'Acceptance of the commandments — required for conversion' },
+            { id: '2', text: 'Convert / stranger — beloved by Hashem' },
+            { id: '3', text: 'Ritual immersion pool — required for conversion' },
+          ],
+          correct: { a: '2', b: '3', c: '1' },
+          explanation: 'Ger = convert; mikveh = the pool of immersion; kabbalat ol mitzvot = sincere acceptance of the commandments. All three are essential to the conversion process.',
+        },
+      ],
+      wrap: {
+        title: 'In summary',
+        body: `<p>Choosing to be Jewish is among the most profound things a person can do. The Torah commands us to love the ger 36 times — more than any other mitzvah. When someone chooses our people, we choose them back.</p>`,
+      },
+      sources: [
+        'Devarim 10:19',
+        'Ruth 1:16',
+        'Talmud Yevamot 47b',
+        'Talmud Bava Metzia 59b',
+        'Talmud Sanhedrin 99b',
+        "Rambam, Hilchot Issurei Bi'ah 13:1–4",
+        "Shulchan Aruch, Yoreh De'ah 268",
+      ],
+      readMore: `<p>The Talmud (Niddah 13b) records that converts are dear to Hashem because they came on their own — no Sinai, no miracles, no family pressure. They chose. The Rambam writes (Hilchot De'ot 6:4): "You shall love the ger who converted and came beneath the wings of the Shechina." In Jewish law, reminding a convert of their origins as a non-Jew is a Torah violation. Their past is their past. Their present is fully Jewish.</p>`,
+    },
+
+    {
+      id: 'u3l6',
       title: 'Mourning, Shiva, and Kaddish',
       iconName: 'yahrzeit',
       hook: {
@@ -440,7 +674,7 @@ const unit7 = {
     },
 
     {
-      id: 'u3l5',
+      id: 'u3l7',
       title: 'Jewish Lifecycle Quiz',
       iconName: 'quiz_checklist',
       isQuiz: true,
