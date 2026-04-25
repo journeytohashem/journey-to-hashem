@@ -249,6 +249,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
       const data=await res.json();
       if(!res.ok) throw new Error(data.error||'Submission failed');
       setTeacherDone(true);
+      try{window.posthog?.capture('rabbi_interest',{name:teacherForm.name});}catch{}
     }catch(e){
       setTeacherError(e.message||'Something went wrong. Please try again.');
     }finally{setTeacherLoading(false);}
@@ -266,6 +267,7 @@ function Welcome({onBegin, onSkip, onTryDemo}){
       const data=await res.json();
       if(!res.ok) throw new Error(data.error||'Submission failed');
       setLearnerDone(true);
+      try{window.posthog?.capture('waitlist_signup',{name:learnerForm.name});}catch{}
     }catch(e){
       setLearnerError(e.message||'Something went wrong. Please try again.');
     }finally{setLearnerLoading(false);}
@@ -396,7 +398,7 @@ function Quiz({onComplete}){
     if(selected===null)return;
     const newAns=[...answers,selected];
     setAnimDir('right');
-    if(isLast){onComplete(newAns);}
+    if(isLast){try{window.posthog?.capture('quiz_completed',{answers:newAns});}catch{}onComplete(newAns);}
     else{setAnswers(newAns);setCurrent(c=>c+1);setSelected(null);}
   };
 
@@ -1346,6 +1348,8 @@ function App(){
   const [currentView,setCurrentView]=useState(null);
   const [showSearch,setShowSearch]=useState(false);
   const openRabbiPage=()=>window.open('/for-rabbis','_blank');
+  const capture=(event,props={})=>{try{if(typeof window!=='undefined'&&window.posthog)window.posthog.capture(event,props);}catch{}};
+  const openLesson=(l,u)=>{capture('lesson_started',{lesson_id:l.id,lesson_title:l.title,unit:u?.title});setCurrentView({type:'lesson',lesson:l,unit:u});};
   const [badgeToast,setBadgeToast]=useState(null);
   const [showReturning,setShowReturning]=useState(false);
 
@@ -1482,6 +1486,7 @@ function App(){
       hearts: heartsAfter,
       perfectLessons: newPerfect,
     };
+    capture('lesson_completed',{lesson_id:lesson.id,lesson_title:lesson.title,xp:xpEarned,perfect:wrongAnswers===0&&!ranOutOfHearts,streak:newStreak});
     updateWithBadgeCheck(updates);
     const nextState = { ...state, ...updates };
     const newBadges = getNewBadges(state, nextState);
@@ -1516,7 +1521,7 @@ function App(){
     <div className="app-container">
       <SearchOverlay
         onClose={()=>setShowSearch(false)}
-        onOpenLesson={(l,u)=>{setShowSearch(false);setCurrentView({type:'lesson',lesson:l,unit:u});}}
+        onOpenLesson={(l,u)=>{setShowSearch(false);openLesson(l,u);}}
       />
     </div>
   );
@@ -1593,8 +1598,8 @@ function App(){
       )}
       <div className="tab-content">
         <div key={state.activeTab} className="tab-view">
-          {state.activeTab==='home'&&<HomeTab state={state} onOpenLesson={(l,u)=>setCurrentView({type:'lesson',lesson:l,unit:u})} onGoTab={t=>update({activeTab:t})} onSearch={()=>setShowSearch(true)} onOpenPitch={openRabbiPage}/>}
-          {state.activeTab==='learn'&&<LearnTab state={state} onOpenLesson={(l,u)=>setCurrentView({type:'lesson',lesson:l,unit:u})}/>}
+          {state.activeTab==='home'&&<HomeTab state={state} onOpenLesson={openLesson} onGoTab={t=>update({activeTab:t})} onSearch={()=>setShowSearch(true)} onOpenPitch={openRabbiPage}/>}
+          {state.activeTab==='learn'&&<LearnTab state={state} onOpenLesson={openLesson}/>}
           {state.activeTab==='community'&&<CommunityTab state={state}/>}
           {state.activeTab==='profile'&&<ProfileTab state={state} onReset={handleReset} onOpenPitch={openRabbiPage} onUpdateName={handleUpdateName}/>}
         </div>
