@@ -74,9 +74,10 @@ export default function ForRabbis() {
             <p className="pitch-hero-sub">Journey to Hashem is building the world's most accessible Jewish learning platform — and we're looking for founding rabbi partners to shape it.</p>
             <div className="pitch-hero-stats">
               <div className="pitch-stat"><span className="pitch-stat-value">3.2M</span><span className="pitch-stat-label">Unaffiliated US Jews</span></div>
-              <div className="pitch-stat"><span className="pitch-stat-value">85%</span><span className="pitch-stat-label">Never attended a shiur</span></div>
+              <div className="pitch-stat"><span className="pitch-stat-value">71%</span><span className="pitch-stat-label">Say religion not central to their life*</span></div>
               <div className="pitch-stat"><span className="pitch-stat-value">1</span><span className="pitch-stat-label">App to change that</span></div>
             </div>
+            <p style={{fontSize:11,color:'var(--text-dim)',marginTop:8,textAlign:'center'}}>* Pew Research Center, Jewish Americans in 2020</p>
           </div>
 
           {/* The Problem */}
@@ -85,7 +86,7 @@ export default function ForRabbis() {
             <p className="pitch-section-sub">Millions of Jews want to connect with their heritage — but synagogue attendance is declining, access to qualified rabbis is limited, and existing apps are either too dry or too basic.</p>
             <div className="pitch-value-grid">
               {[
-                {icon:'📉', title:'Declining Engagement', desc:'Synagogue attendance has dropped 30% in a generation'},
+                {icon:'📉', title:'Declining Engagement', desc:'Synagogue attendance has dropped sharply in a generation'},
                 {icon:'🌍', title:'Global Disconnect', desc:'Most diaspora Jews have no connection to Jewish learning'},
                 {icon:'📱', title:'Mobile-First World', desc:'People learn on phones — Jewish content hasn\'t caught up'},
                 {icon:'🚪', title:'High Barrier', desc:'Finding a rabbi, scheduling a class — most never start'},
@@ -104,13 +105,19 @@ export default function ForRabbis() {
             <h2 className="pitch-section-title">The Solution</h2>
             <p className="pitch-section-sub">A beautifully designed learning platform that makes daily Jewish learning as easy as checking Instagram — sourced from primary texts, built with real rabbis at the center.</p>
             {[
-              {icon:'📚', title:'Structured Learning Path', body:`${LEARNING_PATH.flatMap(u=>u.lessons).length}+ lessons across ${LEARNING_PATH.length} units — foundations of faith, Shabbat, prayer, holidays, Torah study, Kashrut, lifecycle, and ethics — with XP, streaks, and badges to keep learners engaged.`},
-              {icon:'🎙️', title:'Rabbi Audio Integration', body:'Every lesson includes a rabbi voice commentary. Your shiurim become permanent, searchable, shareable assets — not one-time Saturday morning talks.'},
-              {icon:'💬', title:'Community & Q&A', body:'A moderated community feed where learners ask questions and rabbis answer — building real relationships at scale.'},
-              {icon:'📊', title:'Analytics Dashboard', body:'See exactly which topics resonate, where learners drop off, and which of your congregants are engaging — data you\'ve never had before.'},
+              {icon:'📚', title:'Structured Learning Path', body:`${LEARNING_PATH.flatMap(u=>u.lessons).length}+ lessons across ${LEARNING_PATH.length} units — foundations of faith, Shabbat, prayer, holidays, Torah study, Kashrut, lifecycle, and ethics — with XP, streaks, and badges to keep learners engaged.`, live:true},
+              {icon:'🎙️', title:'Rabbi Audio Integration', body:'Every lesson includes a rabbi voice commentary. Your shiurim become permanent, searchable, shareable assets — not one-time Saturday morning talks.', live:false},
+              {icon:'💬', title:'Community & Q&A', body:'A moderated community feed where learners ask questions and rabbis answer — building real relationships at scale.', live:false},
+              {icon:'📊', title:'Analytics Dashboard', body:'See exactly which topics resonate, where learners drop off, and which of your congregants are engaging — data you\'ve never had before.', live:false},
             ].map((c,i)=>(
               <div key={i} className="pitch-card pitch-card-gold">
-                <div className="pitch-card-icon">{c.icon}</div>
+                <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4}}>
+                  <div className="pitch-card-icon" style={{marginBottom:0}}>{c.icon}</div>
+                  {c.live
+                    ? <span style={{fontSize:11,background:'#1a3a1a',color:'#5cb85c',borderRadius:4,padding:'2px 7px',fontWeight:600,letterSpacing:0.3}}>LIVE</span>
+                    : <span style={{fontSize:11,background:'rgba(180,140,60,0.15)',color:'var(--gold)',borderRadius:4,padding:'2px 7px',fontWeight:600,letterSpacing:0.3}}>ROADMAP</span>
+                  }
+                </div>
                 <div className="pitch-card-title">{c.title}</div>
                 <div className="pitch-card-body">{c.body}</div>
               </div>
@@ -165,27 +172,25 @@ export default function ForRabbis() {
             </div>
           </div>
 
-          {/* Social Proof */}
+          {/* Founding Partner */}
           <div className="pitch-section" style={{paddingTop:28}}>
-            <h2 className="pitch-section-title">What People Are Saying</h2>
-            <p className="pitch-section-sub">Early feedback from beta users and advisors.</p>
-            {[
-              {initials:'RD',name:'Rabbi Daniel Feldman',role:'Educator · Teaneck, NJ',quote:"This is exactly what our community's young adults need. Most of them aren't coming to shul — but they ARE on their phones. Meet them where they are."},
-              {initials:'SA',name:'Sarah A.',role:'Beta User · Miami, FL',quote:"I grew up culturally Jewish but knew almost nothing about actual practice. I've completed 8 lessons in two weeks and finally feel connected to my heritage."},
-              {initials:'MB',name:'Michael B.',role:'Beta User · New York, NY',quote:"The daily structure got me from zero to actually understanding what I'm saying in services. For the first time in my life, it feels like mine."},
-            ].map((t,i)=>(
-              <div key={i} className="testimonial-card">
-                <div className="stars">★★★★★</div>
-                <div className="testimonial-quote">"{t.quote}"</div>
-                <div className="testimonial-author">
-                  <div className="testimonial-avatar">{t.initials}</div>
+            <h2 className="pitch-section-title">Why Now</h2>
+            <p className="pitch-section-sub">We're at the earliest stage — which is exactly when founding partners matter most.</p>
+            <div className="pitch-card">
+              {[
+                {icon:'🏗️', title:'Shape the product', body:'Founding rabbis decide which lessons get built next, how audio shiurim are structured, and what the community experience looks like. This influence goes away as we grow.'},
+                {icon:'🏅', title:'Founding partner credit', body:'Your name and synagogue are recognized on the platform permanently. You\'re not a vendor — you\'re a co-creator.'},
+                {icon:'📣', title:'First-mover advantage', body:'Rabbis who join now will have the deepest integration, the most visibility, and the strongest relationship with our growing user base.'},
+              ].map((c,i)=>(
+                <div key={i} style={{display:'flex',gap:12,padding:'12px 0',borderBottom: i<2 ? '1px solid rgba(255,255,255,0.07)' : 'none'}}>
+                  <div style={{fontSize:22,flexShrink:0}}>{c.icon}</div>
                   <div>
-                    <div className="testimonial-name">{t.name}</div>
-                    <div className="testimonial-role">{t.role}</div>
+                    <div style={{fontWeight:600,marginBottom:4,fontSize:15}}>{c.title}</div>
+                    <div style={{fontSize:13,color:'var(--text-dim)',lineHeight:1.6}}>{c.body}</div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* The Ask */}

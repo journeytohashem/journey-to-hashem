@@ -663,10 +663,14 @@ function HomeTab({state,onOpenLesson,onGoTab,onSearch,onOpenPitch}){
 const NODE_OFFSETS=[0,1,0,-1,0,1,0,-1,0,1,0,-1,0,1,0];
 function PathMap({completedLessons,bookmarks,onLessonTap}){
   const completedSet=new Set(completedLessons);
-  const allLessons=LEARNING_PATH.flatMap(u=>u.lessons);
-  const curIdx=allLessons.findIndex(l=>!completedSet.has(l.id));
-  const curId=curIdx>=0?allLessons[curIdx].id:null;
-  const getState=id=>completedSet.has(id)?'completed':id===curId?'current':'locked';
+  // Module unlock: sequential within each unit, free navigation between units.
+  // A lesson is accessible if it's the first in its unit OR the previous lesson in the same unit is completed.
+  const getState=(lesson,unit)=>{
+    if(completedSet.has(lesson.id)) return 'completed';
+    const idx=unit.lessons.findIndex(l=>l.id===lesson.id);
+    if(idx===0) return 'current';
+    return completedSet.has(unit.lessons[idx-1].id)?'current':'locked';
+  };
   return(
     <div className="path-map">
       {LEARNING_PATH.map(unit=>(
@@ -682,7 +686,7 @@ function PathMap({completedLessons,bookmarks,onLessonTap}){
           <div className="unit-nodes">
             <div className="unit-nodes-track"/>
             {unit.lessons.map((lesson,i)=>{
-              const st=getState(lesson.id);
+              const st=getState(lesson,unit);
               const shift=(NODE_OFFSETS[i%NODE_OFFSETS.length]??0)*56;
               const isBookmarked=bookmarks&&bookmarks.includes(lesson.id);
               return(
