@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { LEARNING_PATH } from '../data/lessons';
+import { GUIDES } from '../data/guides';
 import LessonPlayer from '../components/LessonPlayer';
+import GuidePlayer from '../components/GuidePlayer';
 import { migrate, CURRENT_SCHEMA, DEFAULT_V4_STATE } from '../lib/migrate';
 import {
   MAX_HEARTS, regenerateHearts, consumeHeart, computeLessonXP,
@@ -708,7 +710,45 @@ function PathMap({completedLessons,bookmarks,onLessonTap}){
     </div>
   );
 }
-function LearnTab({state,onOpenLesson}){
+function GuidesSection({ onOpenGuide }) {
+  return (
+    <div className="section section-top">
+      <h3 className="section-title">Quick Guides</h3>
+      <p className="section-subtitle">Practical prep before you go</p>
+      <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 4 }}>
+        {GUIDES.map(guide => (
+          <button
+            key={guide.id}
+            onClick={() => onOpenGuide(guide)}
+            style={{
+              flexShrink: 0,
+              width: 160,
+              background: 'rgba(201,168,76,0.07)',
+              border: '1px solid rgba(201,168,76,0.25)',
+              borderRadius: 'var(--radius-lg)',
+              padding: '16px 14px',
+              textAlign: 'left',
+              cursor: 'pointer',
+            }}
+          >
+            <div style={{ fontSize: 28, marginBottom: 10 }}>🕯️</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-body)', marginBottom: 4, lineHeight: 1.3 }}>
+              {guide.title}
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--text-dim)', lineHeight: 1.4 }}>
+              {guide.subtitle}
+            </div>
+            <div style={{ marginTop: 10, fontSize: 11, color: 'var(--gold)', fontWeight: 600 }}>
+              {guide.slides.length} slides →
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function LearnTab({state,onOpenLesson,onOpenGuide}){
   const {completedLessons,currentStreak,dailyLessonsCompleted,totalXP,pathName,bookmarks}=state;
   const DAILY_GOAL=3;
   const allLessons=LEARNING_PATH.flatMap(u=>u.lessons);
@@ -752,6 +792,7 @@ function LearnTab({state,onOpenLesson}){
           </div>
         </div>
       )}
+      <GuidesSection onOpenGuide={onOpenGuide}/>
       <div className="section">
         <h3 className="section-title">Your Learning Path</h3>
         <p className="section-subtitle">{pathName}</p>
@@ -1350,6 +1391,7 @@ function App(){
   const [hydrated,setHydrated]=useState(false);
   const [previewMode,setPreviewMode]=useState(false);
   const [currentView,setCurrentView]=useState(null);
+  const [activeGuide,setActiveGuide]=useState(null);
   const [showSearch,setShowSearch]=useState(false);
   const openRabbiPage=()=>window.open('/for-rabbis','_blank');
   const capture=(event,props={})=>{try{if(typeof window!=='undefined'&&window.posthog)window.posthog.capture(event,props);}catch{}};
@@ -1530,6 +1572,12 @@ function App(){
     </div>
   );
 
+  if(activeGuide) return(
+    <div className="app-container">
+      <GuidePlayer guide={activeGuide} onClose={()=>setActiveGuide(null)}/>
+    </div>
+  );
+
   if(currentView){
     if(currentView.type==='lesson') return(
       <div className="app-container">
@@ -1603,7 +1651,7 @@ function App(){
       <div className="tab-content">
         <div key={state.activeTab} className="tab-view">
           {state.activeTab==='home'&&<HomeTab state={state} onOpenLesson={openLesson} onGoTab={t=>update({activeTab:t})} onSearch={()=>setShowSearch(true)} onOpenPitch={openRabbiPage}/>}
-          {state.activeTab==='learn'&&<LearnTab state={state} onOpenLesson={openLesson}/>}
+          {state.activeTab==='learn'&&<LearnTab state={state} onOpenLesson={openLesson} onOpenGuide={setActiveGuide}/>}
           {state.activeTab==='community'&&<CommunityTab state={state}/>}
           {state.activeTab==='profile'&&<ProfileTab state={state} onReset={handleReset} onOpenPitch={openRabbiPage} onUpdateName={handleUpdateName}/>}
         </div>

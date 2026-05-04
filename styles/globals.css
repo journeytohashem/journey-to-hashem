@@ -650,3 +650,25 @@ input,textarea,select{font-size:16px!important;}
 .hearts-row { display: inline-flex; align-items: center; gap: 3px; font-size: 16px; line-height: 1; }
 .hearts-row .heart-slot { width: 16px; display: inline-block; }
 .hearts-row .heart-slot.empty { opacity: 0.3; filter: grayscale(1); }
+
+/* ── GUIDE TIP ─────────────────────────────────────────── */
+.guide-tip {
+  margin-top: 20px;
+  padding: 12px 14px;
+  background: rgba(201,168,76,0.07);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: var(--radius-lg);
+}
+.guide-tip-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.guide-tip-text {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
